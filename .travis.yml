@@ -1,0 +1,16 @@
+language: java
+sudo: false
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode10.1
+script:
+  - ./gradlew spotlessCheck check assemble
+after_success:
+  - wget $TRAVIS_DISCORD_WEBHOOK_SCRIPT_URL
+  - chmod +x send.sh
+  - ./send.sh success $DISCORD_URL
+after_failure:
+  - wget $TRAVIS_DISCORD_WEBHOOK_SCRIPT_URL
+  - chmod +x send.sh
+  - ./send.sh failure $DISCORD_URL

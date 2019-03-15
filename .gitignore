@@ -1,0 +1,44 @@
+.gradle/
+build/
+/bin/
+.gradletasknamecache
+
+# OS generated files
+################################################################################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+
+# Others
+################################################################################
+*.log
+*~
+target/
+out/
+
+
+# IDEs
+################################################################################
+*.iml
+.idea/
+.*.sw[p0-9]
+.sw[p0-9]
+.project
+.settings/
+.classpath
+.history
+
+
+# Keystore
+build-resources/rptools-keystore
+
+# Generated
+build-resources/jWrapper/
+#build-resources/jWrapper/JWrapperLaunchTemp
+#build-resources/jWrapper/jwrapper.xml
