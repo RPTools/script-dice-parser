@@ -35,6 +35,10 @@ out/
 .history
 
 
+# ANTL Generated files
+*.tokens
+
+
 # Keystore
 build-resources/rptools-keystore
 
