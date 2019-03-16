@@ -34,6 +34,10 @@ ROLL_PROPERTY_VARIABLE              : ROLL_PROPERTY_VAR_LEADER ROLL_LETTER ( ROL
                                     | ROLL_PROPERTY_VAR_LEADER ROLL_STRING
                                     ;
 
+ROLL_DOT                            : '.' ;
+
+ROLL_EXT_PROP_PREFIX                : '#';
+
 
 
 ROLL_SEMI                   : ';';
@@ -193,6 +197,8 @@ SCRIPT_AND_ASSIGN  : '&=';
 SCRIPT_OR_ASSIGN   : '|=';
 SCRIPT_XOR_ASSIGN  : '^=';
 SCRIPT_MOD_ASSIGN  : '%=';
+
+SCRIPT_EXT_PROP_PREFIX : '#';
 
 // Whitespace and comments
 SCRIPT_WS              : [ \t\r\n\u000C]+  -> channel(HIDDEN);

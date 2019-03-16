@@ -54,6 +54,10 @@ expr                                      : left=expr op=ROLL_POWER right=expr  
                                           | integerValue                                  # integerVal
                                           | doubleValue                                   # doubleVal
                                           | ROLL_STRING                                   # string
+                                          | ROLL_EXT_PROP_PREFIX	extPropName             # externalProperty
+                                          ;
+
+extPropName                               : (ROLL_WORD ROLL_DOT)* ROLL_WORD
                                           ;
 
 group                                     : ROLL_LPAREN val=diceExpr ROLL_RPAREN                          # parenGroup
@@ -214,6 +218,10 @@ expression                                : SCRIPT_LPAREN expression SCRIPT_RPAR
                                           | expression bop=SCRIPT_QUESTION expression ':' expression
                                           | expression postfix=(SCRIPT_INC | SCRIPT_DEC)
                                           | <assoc=right> expression bop=(SCRIPT_ASSIGN | SCRIPT_ADD_ASSIGN | SCRIPT_SUB_ASSIGN | SCRIPT_MUL_ASSIGN | SCRIPT_DIV_ASSIGN | SCRIPT_AND_ASSIGN | SCRIPT_OR_ASSIGN | SCRIPT_XOR_ASSIGN | SCRIPT_MOD_ASSIGN ) expression
+                                          | SCRIPT_EXT_PROP_PREFIX externalPropertyName
+                                          ;
+
+externalPropertyName                      : (SCRIPT_IDENTIFIER SCRIPT_DOT)* SCRIPT_IDENTIFIER
                                           ;
 
 fieldDeclaration                          : type variableDeclarators SCRIPT_SEMI;
