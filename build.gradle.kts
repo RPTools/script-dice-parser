@@ -1,13 +1,13 @@
 
 plugins {
     antlr
-    java-library
+    `java-library`
     eclipse
     jacoco
     id("com.diffplug.gradle.spotless") version "3.18.0"
 }
 
-group = "net.rptools."
+group = "net.rptools.scriptparser"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -24,10 +24,6 @@ dependencies {
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_11
-}
-
-application {
-    mainClassName = "net.rptools.dice.DiceTest"
 }
 
 
@@ -58,16 +54,6 @@ spotless {
     }
 }
 
-tasks.jar {
-    manifest {
-        attributes(
-                "Implementation-Title" to "Dice",
-                "Implementation-Version" to version,
-                "Main-Class" to "net.rptools.dice.DiceTest"
-        )
-    }
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
@@ -75,27 +61,6 @@ tasks.withType<Test> {
     }
 }
 
-task<Jar>("uberJar") {
-    appendix = "uber"
-
-
-
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from(Callable {
-        configurations.runtimeClasspath.filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
-    exclude("META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA")
-    manifest {
-        attributes(
-                "Implementation-Title" to "Dice",
-                "Implementation-Version" to version,
-                "Main-Class" to "net.rptools.dice.DiceTest"
-        )
-    }
-
-}
 
 jacoco {
     toolVersion = "0.8.3"
