@@ -64,7 +64,7 @@ fragment ROLL_DIGIT              : [0-9];
 fragment ROLL_SINGLE_QUOTE       : '\'';
 fragment ROLL_DOUBLE_QUOTE       : '"';
 fragment ROLL_LOCAL_VAR_LEADER   : '$';
-fragment ROLL_GLOBAL_VAR_LEADER  : '#';
+fragment ROLL_GLOBAL_VAR_LEADER  : '$$';
 fragment ROLL_PROPERTY_VAR_LEADER: '@';
 
 
