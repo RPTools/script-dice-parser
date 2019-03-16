@@ -135,6 +135,15 @@ SCRIPT_CATCH	: 'catch';
 SCRIPT_FINALLY	: 'finally';
 SCRIPT_THROW	: 'throw';
 SCRIPT_INSTANCEOF	: 'instanceof';
+SCRIPT_MODULE   : 'module';
+SCRIPT_USE      : 'use';
+SCRIPT_AS       : 'as';
+SCRIPT_EXPORT   : 'export';
+SCRIPT_INTERNAL : 'internal';
+SCRIPT_CHAT     : 'chat';
+SCRIPT_GM       : 'gm';
+SCRIPT_TRUSTED  : 'trusted';
+
 
 SCRIPT_INTEGER : 'integer';
 SCRIPT_NUMBER  : 'number';
@@ -142,6 +151,8 @@ SCRIPT_STRING  : 'string';
 SCRIPT_ROLL    : 'roll';
 SCRIPT_BOOLEAN : 'bool';
 SCRIPT_DICT    : 'dict';
+
+SCRIPT_OPEN_INLINE_ROLL                    : '[[' -> pushMode(INLINE_ROLL);
 
 // Literals
 SCRIPT_DECIMAL_LITERAL : ( '0' | [1-9] (Digits? | '_' + Digits) ) ;
