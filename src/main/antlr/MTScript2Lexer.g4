@@ -34,6 +34,10 @@ ROLL_PROPERTY_VARIABLE              : ROLL_PROPERTY_VAR_LEADER ROLL_LETTER ( ROL
                                     | ROLL_PROPERTY_VAR_LEADER ROLL_STRING
                                     ;
 
+ROLL_DOT                            : '.' ;
+
+ROLL_EXT_PROP_PREFIX                : '#';
+
 
 
 ROLL_SEMI                   : ';';
@@ -64,7 +68,7 @@ fragment ROLL_DIGIT              : [0-9];
 fragment ROLL_SINGLE_QUOTE       : '\'';
 fragment ROLL_DOUBLE_QUOTE       : '"';
 fragment ROLL_LOCAL_VAR_LEADER   : '$';
-fragment ROLL_GLOBAL_VAR_LEADER  : '#';
+fragment ROLL_GLOBAL_VAR_LEADER  : '$$';
 fragment ROLL_PROPERTY_VAR_LEADER: '@';
 
 
@@ -131,6 +135,15 @@ SCRIPT_CATCH	: 'catch';
 SCRIPT_FINALLY	: 'finally';
 SCRIPT_THROW	: 'throw';
 SCRIPT_INSTANCEOF	: 'instanceof';
+SCRIPT_MODULE   : 'module';
+SCRIPT_USE      : 'use';
+SCRIPT_AS       : 'as';
+SCRIPT_EXPORT   : 'export';
+SCRIPT_INTERNAL : 'internal';
+SCRIPT_CHAT     : 'chat';
+SCRIPT_GM       : 'gm';
+SCRIPT_TRUSTED  : 'trusted';
+
 
 SCRIPT_INTEGER : 'integer';
 SCRIPT_NUMBER  : 'number';
@@ -138,6 +151,8 @@ SCRIPT_STRING  : 'string';
 SCRIPT_ROLL    : 'roll';
 SCRIPT_BOOLEAN : 'bool';
 SCRIPT_DICT    : 'dict';
+
+SCRIPT_OPEN_INLINE_ROLL                    : '[[' -> pushMode(INLINE_ROLL);
 
 // Literals
 SCRIPT_DECIMAL_LITERAL : ( '0' | [1-9] (Digits? | '_' + Digits) ) ;
@@ -193,6 +208,8 @@ SCRIPT_AND_ASSIGN  : '&=';
 SCRIPT_OR_ASSIGN   : '|=';
 SCRIPT_XOR_ASSIGN  : '^=';
 SCRIPT_MOD_ASSIGN  : '%=';
+
+SCRIPT_EXT_PROP_PREFIX : '#';
 
 // Whitespace and comments
 SCRIPT_WS              : [ \t\r\n\u000C]+  -> channel(HIDDEN);
