@@ -2,7 +2,7 @@ parser grammar MTScript2Parser;
 
 
 @header {
-  package net.rptools.maptool.mtscript;
+  package net.rptools.mtscript.parser;
 }
 
 options { tokenVocab=MTScript2Lexer; }
@@ -124,15 +124,21 @@ diceName                                  : ROLL_WORD
 identifier                                :  ROLL_WORD ( integerValue | ROLL_WORD)*
                                           ;
 ////////////////////////////////////////////////////////////////////////////////
-scriptModule                              : scriptModuleDefinition scriptImports scriptModuleBody scriptExports;
+startModule                               : OPEN_MODULE scriptModule;
 
-scriptModuleDefinition                    : SCRIPT_MODULE name=SCRIPT_IDENTIFIER version=SCRIPT_NUMBER_LITERAL desc=SCRIPT_STRING_LITERAL SCRIPT_SEMI;
+scriptModule                              : scriptModuleDefinition scriptImports scriptModuleBody* scriptExports*;
+
+scriptModuleDefinition                    : name=SCRIPT_IDENTIFIER version=SCRIPT_NUMBER_LITERAL desc=SCRIPT_STRING_LITERAL SCRIPT_SEMI;
 
 scriptImports                             : scriptUses*;
 
-scriptUses                                : SCRIPT_USE name=SCRIPT_IDENTIFIER scriptVersion (SCRIPT_AS SCRIPT_IDENTIFIER)?;
+scriptUses                                : SCRIPT_USE name=SCRIPT_IDENTIFIER scriptVersion (SCRIPT_AS SCRIPT_IDENTIFIER)? SCRIPT_SEMI;
 
-scriptModuleBody                          : methodDeclaration*;
+scriptModuleBody                          :  constantDeclaration
+                                          | fieldDeclaration
+                                          | methodDeclaration
+                                          ;
+
 
 scriptVersion                             : SCRIPT_NUMBER_LITERAL
                                           | SCRIPT_STRING_LITERAL
@@ -148,7 +154,7 @@ exportDest                                : SCRIPT_INTERNAL
                                             SCRIPT_ROLL SCRIPT_ASSIGN rollName=SCRIPT_IDENTIFIER
                                           ;
 
-scriptBody                                : statement* ;
+scriptBody                                : (statement | fieldDeclaration | constantDeclaration)* ;
 
 literal			                              : integerLiteral
 				                                  | SCRIPT_NUMBER_LITERAL
