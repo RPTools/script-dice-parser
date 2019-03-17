@@ -2,7 +2,7 @@ parser grammar MTScript2Parser;
 
 
 @header {
-  package net.rptools.maptool.mtscript;
+  package net.rptools.mtscript.parser;
 }
 
 options { tokenVocab=MTScript2Lexer; }
@@ -149,7 +149,7 @@ exportDest                                : SCRIPT_INTERNAL
                                             SCRIPT_ROLL SCRIPT_ASSIGN rollName=SCRIPT_IDENTIFIER
                                           ;
 
-scriptBody                                : statement* ;
+scriptBody                                : (statement | fieldDeclaration | constantDeclaration)* ;
 
 literal			                              : integerLiteral
 				                                  | SCRIPT_NUMBER_LITERAL

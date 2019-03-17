@@ -1,7 +1,7 @@
 lexer grammar MTScript2Lexer;
 
 @header {
-  package net.rptools.maptool.mtscript;
+  package net.rptools.mtscript.parser;
 }
 
 
