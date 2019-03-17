@@ -132,7 +132,8 @@ scriptImports                             : scriptUses*;
 
 scriptUses                                : SCRIPT_USE name=SCRIPT_IDENTIFIER scriptVersion (SCRIPT_AS SCRIPT_IDENTIFIER)?;
 
-scriptModuleBody                          : methodDeclaration*;
+scriptModuleBody                          : ( constantDeclaration | fieldDeclaration | methodDeclaration)+;
+
 
 scriptVersion                             : SCRIPT_NUMBER_LITERAL
                                           | SCRIPT_STRING_LITERAL

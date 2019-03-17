@@ -145,6 +145,7 @@ SCRIPT_GM       : 'gm';
 SCRIPT_TRUSTED  : 'trusted';
 
 
+SCRIPT_CONSTANT: 'constant';
 SCRIPT_INTEGER : 'integer';
 SCRIPT_NUMBER  : 'number';
 SCRIPT_STRING  : 'string';
