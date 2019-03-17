@@ -4,12 +4,17 @@ lexer grammar MTScript2Lexer;
   package net.rptools.mtscript.parser;
 }
 
+@lexer::members {
+  public boolean parsingModule = false;
+}
+
 
 
 // Default Mode
 OPEN_INLINE_ROLL                    : '[[' -> pushMode(INLINE_ROLL);
 OPEN_INLINE_SCRIPT                  : '[[[' -> pushMode(INLINE_SCRIPT);
-TEXT                                : .+?;
+OPEN_MODULE                         : 'module' { parsingModule }? -> pushMode(INLINE_SCRIPT);
+TEXT                                : .+? { !parsingModule }?;
 
 
 
@@ -135,8 +140,8 @@ SCRIPT_CATCH	: 'catch';
 SCRIPT_FINALLY	: 'finally';
 SCRIPT_THROW	: 'throw';
 SCRIPT_INSTANCEOF	: 'instanceof';
-SCRIPT_MODULE   : 'module';
-SCRIPT_USE      : 'use';
+//SCRIPT_MODULE   : 'module';
+SCRIPT_USE      : 'uses';
 SCRIPT_AS       : 'as';
 SCRIPT_EXPORT   : 'export';
 SCRIPT_INTERNAL : 'internal';
