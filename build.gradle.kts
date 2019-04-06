@@ -20,6 +20,8 @@ dependencies {
     compile("org.reflections", "reflections", "0.9.11")
     compile("org.apache.commons", "commons-text", "1.6")
     compile("com.github.jknack:handlebars:4.1.2")
+    implementation("org.apache.logging.log4j", "log4j-api", "2.11.0");
+    implementation("org.apache.logging.log4j", "log4j-1.2-api", "2.11.0");
 }
 
 configure<JavaPluginConvention> {
