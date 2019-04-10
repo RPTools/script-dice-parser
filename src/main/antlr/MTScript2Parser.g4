@@ -2,7 +2,7 @@ parser grammar MTScript2Parser;
 
 
 @header {
-  package net.rptools.mtscript.parser;
+package net.rptools.mtscript.parser;
 }
 
 options { tokenVocab=MTScript2Lexer; }

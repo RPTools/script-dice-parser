@@ -32,6 +32,7 @@ configure<JavaPluginConvention> {
 tasks.generateGrammarSource {
     maxHeapSize = "64m"
     arguments = arguments + listOf("-visitor", "-long-messages")
+    outputDirectory = file("${project.buildDir}/generated-src/antlr/main/net/rptools/mtscript/parser".toString());
 }
 
 spotless {
