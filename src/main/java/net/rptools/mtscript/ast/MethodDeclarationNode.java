@@ -14,17 +14,31 @@
  */
 package net.rptools.mtscript.ast;
 
-/** Represents an abstract tree node for bit wise negation. */
-public class BitWiseNotNode implements BooleanExpressionNode {
+import java.util.Map;
 
-  private final ASTNode child;
+public class MethodDeclarationNode extends DeclarationNode {
 
-  /**
-   * Creates AST node to represent bit wise negation.
-   *
-   * @param childValue the value to negate.
-   */
-  public BitWiseNotNode(ASTNode childValue) {
-    child = childValue;
+  private final String name;
+  private final Map<String, String> parameters; // If we do make type an
+  // enum, we'll need to
+  // update this.
+  private final ASTNode body;
+
+  MethodDeclarationNode(String name, Map<String, String> parameters, ASTNode body) {
+    this.name = name;
+    this.parameters = parameters;
+    this.body = body;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public Map<String, String> getParameters() {
+    return parameters;
+  }
+
+  public ASTNode getBody() {
+    return body;
   }
 }

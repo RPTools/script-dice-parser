@@ -14,17 +14,13 @@
  */
 package net.rptools.mtscript.ast;
 
-/** Represents an abstract tree node for bit wise negation. */
-public class BitWiseNotNode implements BooleanExpressionNode {
+public class ExportNode implements ASTNode {
 
-  private final ASTNode child;
+  // TODO: Revisit this class, the parser rule may need to be reworked.
+  private final String as;
 
-  /**
-   * Creates AST node to represent bit wise negation.
-   *
-   * @param childValue the value to negate.
-   */
-  public BitWiseNotNode(ASTNode childValue) {
-    child = childValue;
+  ExportNode(String as) {
+    this.as = as;
+    throw new UnsupportedOperationException("This node type is not implemented yet");
   }
 }
