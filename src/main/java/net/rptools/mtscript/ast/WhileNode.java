@@ -14,9 +14,9 @@
  */
 package net.rptools.mtscript.ast;
 
-public class WhileNode implements ASTNode {
+public class WhileNode implements StatementNode {
 
-  private final ASTNode conditionalNode;
+  private final BooleanExpressionNode conditionalNode;
   private final ASTNode bodyNode;
 
   /**
@@ -25,7 +25,7 @@ public class WhileNode implements ASTNode {
    * @param conditionalNode The condtion for this if statement.
    * @param bodyNode The body to execute if condition while true.
    */
-  WhileNode(ASTNode conditionalNode, ASTNode bodyNode) {
+  WhileNode(BooleanExpressionNode conditionalNode, ASTNode bodyNode) {
     this.conditionalNode = conditionalNode; // TODO Should we requireNonNull here?
     this.bodyNode = bodyNode;
   }
@@ -35,7 +35,7 @@ public class WhileNode implements ASTNode {
    *
    * @return the conditional node.
    */
-  public ASTNode getConditionalNode() {
+  public BooleanExpressionNode getConditionalNode() {
     return conditionalNode;
   }
 

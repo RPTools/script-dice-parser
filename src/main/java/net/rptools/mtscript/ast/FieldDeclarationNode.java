@@ -14,23 +14,33 @@
  */
 package net.rptools.mtscript.ast;
 
-import java.util.Map;
-
-/** An AST Node for declaration of one or more fields. */
+/** An AST Node for declaration of a fields. */
 public class FieldDeclarationNode extends DeclarationNode {
 
-  private final String type; // TODO Replace this with a type enum, perhaps
-  private final Map<String, ASTNode> fields;
+  private final String name;
+  private final Type type;
+  private final ASTNode value;
 
   /**
    * Creates a FieldDeclarationNode for the declaration of one or more fields.
    *
+   * @param name the name.
    * @param type the type.
-   * @param fields the fields.
+   * @param value the value.
    */
-  FieldDeclarationNode(String type, Map<String, ASTNode> fields) {
+  FieldDeclarationNode(String name, Type type, ASTNode value) {
+    this.name = name;
     this.type = type;
-    this.fields = fields;
+    this.value = value;
+  }
+
+  /**
+   * Returns the field name.
+   *
+   * @return the field name.
+   */
+  public String getName() {
+    return name;
   }
 
   /**
@@ -38,16 +48,16 @@ public class FieldDeclarationNode extends DeclarationNode {
    *
    * @return the type.
    */
-  public String getType() {
+  public Type getType() {
     return type;
   }
 
   /**
-   * Returns the fields.
+   * Returns the value.
    *
-   * @return the fields.
+   * @return the value.
    */
-  public Map<String, ASTNode> getFields() {
-    return fields;
+  public ASTNode getValue() {
+    return value;
   }
 }

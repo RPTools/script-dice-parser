@@ -16,7 +16,7 @@ package net.rptools.mtscript.ast;
 
 import java.util.List;
 
-public class IfNode implements ASTNode {
+public class IfNode implements StatementNode {
 
   private final List<ConditionalPair> conditionalPairs;
   private final ASTNode elseNode;
@@ -55,15 +55,15 @@ public class IfNode implements ASTNode {
 
   /** Class to represent a pair of a conditional with a block. */
   public static class ConditionalPair {
-    private final ASTNode conditionalNode;
+    private final BooleanExpressionNode conditionalNode;
     private final ASTNode blockNode;
 
-    public ConditionalPair(ASTNode conditionalNode, ASTNode blockNode) {
+    public ConditionalPair(BooleanExpressionNode conditionalNode, ASTNode blockNode) {
       this.conditionalNode = conditionalNode;
       this.blockNode = blockNode;
     }
 
-    public ASTNode getConditionalNode() {
+    public BooleanExpressionNode getConditionalNode() {
       return conditionalNode;
     }
 

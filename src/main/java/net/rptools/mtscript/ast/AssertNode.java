@@ -14,10 +14,10 @@
  */
 package net.rptools.mtscript.ast;
 
-public class AssertNode implements ASTNode {
+public class AssertNode implements StatementNode {
 
-  private final ASTNode conditionalNode;
-  private final ASTNode valueNode;
+  private final ExpressionNode conditionalNode;
+  private final ExpressionNode valueNode;
 
   /**
    * Creates a new AssertNode with a provided conditional and optional value nodes.
@@ -25,7 +25,7 @@ public class AssertNode implements ASTNode {
    * @param conditionalNode The conditional node.
    * @param valueNode The optional value node.
    */
-  AssertNode(ASTNode conditionalNode, ASTNode valueNode) {
+  AssertNode(ExpressionNode conditionalNode, ExpressionNode valueNode) {
     this.conditionalNode = conditionalNode;
     this.valueNode = valueNode;
   }
@@ -35,7 +35,7 @@ public class AssertNode implements ASTNode {
    *
    * @return the conditional node.
    */
-  public ASTNode getConditionalNode() {
+  public ExpressionNode getConditionalNode() {
     return conditionalNode;
   }
 
@@ -44,7 +44,7 @@ public class AssertNode implements ASTNode {
    *
    * @return the value node or null.
    */
-  public ASTNode getValueNode() {
+  public ExpressionNode getValueNode() {
     return valueNode;
   }
 }

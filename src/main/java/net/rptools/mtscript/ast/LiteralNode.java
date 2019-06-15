@@ -14,29 +14,15 @@
  */
 package net.rptools.mtscript.ast;
 
-import java.util.Map;
+public class LiteralNode<T> implements ExpressionNode {
 
-public class MethodDeclarationNode extends DeclarationNode {
+  private final T value;
 
-  private final String name;
-  private final Map<String, Type> parameters;
-  private final ASTNode body;
-
-  MethodDeclarationNode(String name, Map<String, Type> parameters, ASTNode body) {
-    this.name = name;
-    this.parameters = parameters;
-    this.body = body;
+  LiteralNode(T value) {
+    this.value = value;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public Map<String, Type> getParameters() {
-    return parameters;
-  }
-
-  public ASTNode getBody() {
-    return body;
+  public T getValue() {
+    return value;
   }
 }

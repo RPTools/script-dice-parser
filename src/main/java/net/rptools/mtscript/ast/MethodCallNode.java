@@ -16,12 +16,12 @@ package net.rptools.mtscript.ast;
 
 import java.util.List;
 
-public class MethodCallNode implements ASTNode {
+public class MethodCallNode implements ExpressionNode {
 
   private final String identifier;
-  private final List<ASTNode> parameters;
+  private final List<ExpressionNode> parameters;
 
-  MethodCallNode(String identifier, List<ASTNode> parameters) {
+  MethodCallNode(String identifier, List<ExpressionNode> parameters) {
     this.identifier = identifier;
     this.parameters = parameters;
   }
@@ -30,7 +30,7 @@ public class MethodCallNode implements ASTNode {
     return identifier;
   }
 
-  public List<ASTNode> getParameters() {
+  public List<ExpressionNode> getParameters() {
     return parameters;
   }
 }

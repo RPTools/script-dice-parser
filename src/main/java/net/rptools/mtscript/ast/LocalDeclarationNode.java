@@ -14,29 +14,50 @@
  */
 package net.rptools.mtscript.ast;
 
-import java.util.Map;
-
-public class MethodDeclarationNode extends DeclarationNode {
+/** An AST Node for declaration of a local variable. */
+public class LocalDeclarationNode extends DeclarationNode {
 
   private final String name;
-  private final Map<String, Type> parameters;
-  private final ASTNode body;
+  private final Type type;
+  private final ASTNode value;
 
-  MethodDeclarationNode(String name, Map<String, Type> parameters, ASTNode body) {
+  /**
+   * Creates a LocalDeclarationNode for the declaration of one or more fields.
+   *
+   * @param name the variable name.
+   * @param type the type.
+   * @param value the value.
+   */
+  LocalDeclarationNode(String name, Type type, ASTNode value) {
     this.name = name;
-    this.parameters = parameters;
-    this.body = body;
+    this.type = type;
+    this.value = value;
   }
 
+  /**
+   * Returns the name.
+   *
+   * @return the name.
+   */
   public String getName() {
     return name;
   }
 
-  public Map<String, Type> getParameters() {
-    return parameters;
+  /**
+   * Returns the type.
+   *
+   * @return the type.
+   */
+  public Type getType() {
+    return type;
   }
 
-  public ASTNode getBody() {
-    return body;
+  /**
+   * Returns the value.
+   *
+   * @return the value.
+   */
+  public ASTNode getValue() {
+    return value;
   }
 }

@@ -14,29 +14,16 @@
  */
 package net.rptools.mtscript.ast;
 
-import java.util.Map;
+import java.util.List;
 
-public class MethodDeclarationNode extends DeclarationNode {
+public class ChatNode implements ASTNode {
+  public final List<ASTNode> children;
 
-  private final String name;
-  private final Map<String, Type> parameters;
-  private final ASTNode body;
-
-  MethodDeclarationNode(String name, Map<String, Type> parameters, ASTNode body) {
-    this.name = name;
-    this.parameters = parameters;
-    this.body = body;
+  public ChatNode(List<ASTNode> children) {
+    this.children = children;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public Map<String, Type> getParameters() {
-    return parameters;
-  }
-
-  public ASTNode getBody() {
-    return body;
+  public List<ASTNode> getChildren() {
+    return children;
   }
 }

@@ -1,0 +1,7 @@
+[[[
+  function helloworld() {
+    return 1+2;
+  }
+
+  helloworld();
+]]]
