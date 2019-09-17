@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
 public class WhileNode implements StatementNode {
 
   private final BooleanExpressionNode conditionalNode;
@@ -27,7 +29,7 @@ public class WhileNode implements StatementNode {
    */
   WhileNode(BooleanExpressionNode conditionalNode, ASTNode bodyNode) {
     this.conditionalNode = conditionalNode; // TODO Should we requireNonNull here?
-    this.bodyNode = bodyNode;
+    this.bodyNode = requireNonNull(bodyNode, "body");
   }
 
   /**

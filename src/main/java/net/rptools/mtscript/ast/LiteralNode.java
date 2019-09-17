@@ -14,12 +14,14 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
 public class LiteralNode<T> implements ExpressionNode {
 
   private final T value;
 
   LiteralNode(T value) {
-    this.value = value;
+    this.value = requireNonNull(value);
   }
 
   public T getValue() {

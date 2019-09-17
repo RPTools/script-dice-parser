@@ -14,150 +14,53 @@
  */
 package net.rptools.mtscript;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.List;
-import java.io.InputStream;
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import net.rptools.mtscript.listener.MTScript2TestListener;
-import net.rptools.mtscript.parser.MTScript2Lexer;
-import net.rptools.mtscript.parser.MTScript2Parser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.ChatNode;
+import net.rptools.mtscript.ast.ExpressionNode;
+import net.rptools.mtscript.ast.MethodCallNode;
+import net.rptools.mtscript.ast.ScriptNode;
+import net.rptools.mtscript.ast.StringLiteralNode;
+import net.rptools.mtscript.parser.MTScript2Lexer;
+import net.rptools.mtscript.parser.MTScript2Parser;
+import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
 
 class ScriptParseTest {
 
   @Test
-  @DisplayName("Simple Inline Script Parse.")
+  @DisplayName("Simple In-line Script Parse.")
   void parseSimpleHelloWorld() {
     String script = getResourceAsString("scriptsamples/hello_world.mts2");
     MTScript2Parser parser = createParser(script);
     ParseTree parseTree = parser.chat();
-    ParseTreeWalker walker = new ParseTreeWalker();
-  }
-
-  @Test
-  @DisplayName("Simple Inline Script Parse Test.")
-  void parseSimpleInlineScriptParse() {
-    final List<String> testText = List.of("This is a test! ", ", test one two");
-    final List<String> testScript = List.of("integer a;  a = 5;", "a = someFunc(); anotherFunc();");
-
-    // Create a lexer that feeds off of input CharStream
-    MTScript2Lexer lexer =
-        new MTScript2Lexer(
-            CharStreams.fromString(
-                testText.get(0)
-                    + "[[["
-                    + testScript.get(0)
-                    + "]]]"
-                    + testText.get(1)
-                    + "[[["
-                    + testScript.get(1)
-                    + "]]]"));
-
-    // create a buffer of tokens pulled from the lexer
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-    // create a parser that feeds off the tokens buffer
-    MTScript2Parser parser = new MTScript2Parser(tokens);
-
-    ParseTree parseTree = parser.chat();
-    ParseTreeWalker walker = new ParseTreeWalker();
-
-    MTScript2TestListener listener = new MTScript2TestListener();
-
-    walker.walk(listener, parseTree);
-
-    assertEquals(testText.size(), listener.getTextStrings().size());
-    for (int i = 0; i < testText.size(); i++) {
-      assertEquals(testText.get(i), listener.getTextStrings().get(i));
-    }
-
-    assertEquals(testScript.size(), listener.getInlineScriptStrings().size());
-    for (int i = 0; i < testScript.size(); i++) {
-      assertEquals(
-          testScript.get(i).replaceAll("\\s+", ""), listener.getInlineScriptStrings().get(i));
-    }
-  }
-
-  @Test
-  @DisplayName("Simple Script Module test.")
-  void parseSimpleScriptParse() {
-
-    // Create a lexer that feeds off of input CharStream
-    MTScript2Lexer lexer =
-        new MTScript2Lexer(
-            CharStreams.fromString(
-                "module my_module 1.4 'test mod'; uses other_mod 1.5; integer a = 43; number b = 4;"));
-
-    // TODO need to fix this...
-    lexer.parsingModule = true;
-    // create a buffer of tokens pulled from the lexer
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-    // create a parser that feeds off the tokens buffer
-    MTScript2Parser parser = new MTScript2Parser(tokens);
-
-    ParseTree parseTree = parser.startModule();
-    ParseTreeWalker walker = new ParseTreeWalker();
-
-    MTScript2TestListener listener = new MTScript2TestListener();
-
-    walker.walk(listener, parseTree);
-
-    assertEquals("my_module", listener.getModuleName());
-    assertEquals("1.4", listener.getModuleVersion());
-    assertEquals("'test mod'", listener.getModuleDescription());
-  }
-
-  @Test
-  @DisplayName("Test 'module' is not picked up incorrectly.")
-  void parseSModuleInChatTest() {
-    final List<String> testText = List.of("module This is a test! ", ", test one two");
-    final List<String> testRolls = List.of("1d6", "2d10");
-
-    // Create a lexer that feeds off of input CharStream
-    MTScript2Lexer lexer =
-        new MTScript2Lexer(
-            CharStreams.fromString(
-                testText.get(0)
-                    + "[["
-                    + testRolls.get(0)
-                    + "]]"
-                    + testText.get(1)
-                    + "[["
-                    + testRolls.get(1)
-                    + "]]"));
-
-    // create a buffer of tokens pulled from the lexer
-    CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-    // create a parser that feeds off the tokens buffer
-    MTScript2Parser parser = new MTScript2Parser(tokens);
-
-    ParseTree parseTree = parser.chat();
-    ParseTreeWalker walker = new ParseTreeWalker();
-
-    MTScript2TestListener listener = new MTScript2TestListener();
-
-    walker.walk(listener, parseTree);
-
-    assertEquals(testText.size(), listener.getTextStrings().size());
-    for (int i = 0; i < testText.size(); i++) {
-      assertEquals(testText.get(i), listener.getTextStrings().get(i));
-    }
-
-    assertEquals(testRolls.size(), listener.getInlineRollStrings().size());
-    for (int i = 0; i < testRolls.size(); i++) {
-      assertEquals(testRolls.get(i), listener.getInlineRollStrings().get(i));
-    }
+    BuildASTVisitor visitor = new BuildASTVisitor();
+    ASTNode root = parseTree.accept(visitor);
+    assertNotNull(root);
+    ChatNode chatNode = ChatNode.class.cast(root);
+    assertEquals(chatNode.getChildren().size(), 1, "Should be 1 node");
+    ScriptNode scriptNode = ScriptNode.class.cast(chatNode.getChildren().get(0));
+    assertEquals(scriptNode.getChildren().size(), 1, "Script node should contain one node");
+    MethodCallNode methodCallNode = MethodCallNode.class.cast(scriptNode.getChildren().get(0));
+    assertEquals(methodCallNode.getIdentifier(), "print");
+    List<ExpressionNode> args = methodCallNode.getParameters();
+    assertNotNull(args);
+    assertEquals(args.size(), 1);
+    StringLiteralNode str = StringLiteralNode.class.cast(args.get(0));
+    assertEquals(str.getValue(), "Hello world");
   }
 
   private MTScript2Parser createParser(String input) {

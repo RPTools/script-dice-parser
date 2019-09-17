@@ -14,13 +14,16 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 
 public class ChatNode implements ASTNode {
   public final List<ASTNode> children;
 
   public ChatNode(List<ASTNode> children) {
-    this.children = children;
+    this.children = requireNonNull(children);
+    children.forEach(c -> requireNonNull(c));
   }
 
   public List<ASTNode> getChildren() {

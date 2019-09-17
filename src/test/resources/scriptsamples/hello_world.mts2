@@ -1,7 +1,3 @@
 [[[
-  function helloworld() {
-    return 1+2;
-  }
-
-  helloworld();
+  print("Hello world");
 ]]]

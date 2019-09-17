@@ -12,9 +12,29 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser;
+package net.rptools.mtscript.parser.visitor;
 
-import net.rptools.mtscript.ast.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.BooleanLiteralNode;
+import net.rptools.mtscript.ast.ChatNode;
+import net.rptools.mtscript.ast.DiceExprNode;
+import net.rptools.mtscript.ast.ExpressionNode;
+import net.rptools.mtscript.ast.InlineRollNode;
+import net.rptools.mtscript.ast.IntegerLiteralNode;
+import net.rptools.mtscript.ast.MethodCallNode;
+import net.rptools.mtscript.ast.NullLiteralNode;
+import net.rptools.mtscript.ast.NumberLiteralNode;
+import net.rptools.mtscript.ast.ScriptNode;
+import net.rptools.mtscript.ast.StringLiteralNode;
+import net.rptools.mtscript.ast.TextNode;
+import net.rptools.mtscript.parser.MTScript2Parser;
+import net.rptools.mtscript.parser.MTScript2ParserBaseVisitor;
+import net.rptools.mtscript.parser.MTScript2ParserVisitor;
 
 /**
  * This class provides an empty implementation of {@link MTScript2ParserVisitor}, which can be
@@ -23,7 +43,7 @@ import net.rptools.mtscript.ast.*;
  * @param <T> The return type of the visit operation. Use {@link Void} for operations with no return
  *     type.
  */
-public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
+public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
   /**
    * {@inheritDoc}
    *
@@ -32,7 +52,10 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitChat(MTScript2Parser.ChatContext ctx) {
-    return visitChildren(ctx);
+    List<ASTNode> children = ctx.children.stream()
+      .map(c -> c.accept(this))
+      .collect(Collectors.toList());
+    return new ChatNode(children);
   }
   /**
    * {@inheritDoc}
@@ -42,7 +65,15 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitInlineRoll(MTScript2Parser.InlineRollContext ctx) {
-    return visitChildren(ctx);
+    try {
+      List<DiceExprNode> rollExprs = ctx.diceRolls().diceExprTopLevel().stream()
+        .map(d -> d.accept(this))
+        .map(DiceExprNode.class::cast)
+        .collect(Collectors.toList());
+      return new InlineRollNode(rollExprs);
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException("Unexpected non-DiceExprNode encountered", e);
+    }
   }
   /**
    * {@inheritDoc}
@@ -52,7 +83,10 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitScript(MTScript2Parser.ScriptContext ctx) {
-    return visitChildren(ctx);
+    List<ASTNode> children = ctx.scriptBody().children.stream()
+      .map(c -> c.accept(this))
+      .collect(Collectors.toList());
+    return new ScriptNode(children);
   }
   /**
    * {@inheritDoc}
@@ -72,7 +106,7 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitDiceRolls(MTScript2Parser.DiceRollsContext ctx) {
-    return visitChildren(ctx);
+    throw new UnsupportedOperationException("Not a valid entry point");
   }
   /**
    * {@inheritDoc}
@@ -82,7 +116,7 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitDiceExprTopLevel(MTScript2Parser.DiceExprTopLevelContext ctx) {
-    return visitChildren(ctx);
+    throw new UnsupportedOperationException("Not a valid entry point");
   }
   /**
    * {@inheritDoc}
@@ -331,26 +365,6 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    * ctx}.
    */
   @Override
-  public ASTNode visitIntegerValue(MTScript2Parser.IntegerValueContext ctx) {
-    return visitChildren(ctx);
-  }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
-  public ASTNode visitDoubleValue(MTScript2Parser.DoubleValueContext ctx) {
-    return visitChildren(ctx);
-  }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
   public ASTNode visitDiceArguments(MTScript2Parser.DiceArgumentsContext ctx) {
     return visitChildren(ctx);
   }
@@ -552,7 +566,7 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitScriptBody(MTScript2Parser.ScriptBodyContext ctx) {
-    return visitChildren(ctx);
+    throw new UnsupportedOperationException("Should not hit visitScriptBody directly");
   }
   /**
    * {@inheritDoc}
@@ -562,7 +576,24 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitLiteral(MTScript2Parser.LiteralContext ctx) {
-    return visitChildren(ctx);
+    if (ctx.SCRIPT_STRING_LITERAL() != null) {
+      // Trim off the leading and trailing doublequote.
+      String str = ctx.SCRIPT_STRING_LITERAL().getText();
+      str = str.subSequence(1, str.length()-1).toString();
+      // Unescape the rest
+      // TODO Should we use unescapeEcmaScript instead here?
+      str = StringEscapeUtils.unescapeJava(str);
+      return new StringLiteralNode(str);
+    } else if (ctx.SCRIPT_BOOL_LITERAL() != null) {
+      return new BooleanLiteralNode(Boolean.getBoolean(ctx.getText()));
+    } else if (ctx.SCRIPT_NUMBER_LITERAL() != null) {
+      return new NumberLiteralNode(Double.valueOf(ctx.getText()));
+    } else if (ctx.integerLiteral() != null) {
+      return new IntegerLiteralNode(Integer.valueOf(ctx.getText()));
+    } else if (ctx.SCRIPT_NULL_LITERAL() != null) {
+      return new NullLiteralNode();
+    }
+    throw new IllegalStateException("Unknown literal type encountered");
   }
   /**
    * {@inheritDoc}
@@ -572,7 +603,7 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitIntegerLiteral(MTScript2Parser.IntegerLiteralContext ctx) {
-    return visitChildren(ctx);
+    throw new UnsupportedOperationException("visitIntegerLiteral should not be hit directly");
   }
   /**
    * {@inheritDoc}
@@ -653,7 +684,10 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitStatement(MTScript2Parser.StatementContext ctx) {
-    return visitChildren(ctx);
+    if (ctx.statementExpression != null) {
+      return ctx.statementExpression.accept(this);
+    }
+    throw new UnsupportedOperationException("Not implemented, yet");
   }
   /**
    * {@inheritDoc}
@@ -744,7 +778,7 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitExpressionList(MTScript2Parser.ExpressionListContext ctx) {
-    return visitChildren(ctx);
+    throw new UnsupportedOperationException("Should not hit visitExpressionList");
   }
   /**
    * {@inheritDoc}
@@ -754,7 +788,16 @@ public class ParseTreeASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
    */
   @Override
   public ASTNode visitMethodCall(MTScript2Parser.MethodCallContext ctx) {
-    return visitChildren(ctx);
+    String identifier = ctx.SCRIPT_IDENTIFIER().getText();
+    try {
+      List<ExpressionNode> expressionList = ctx.expressionList().expression().stream()
+        .map(e -> e.accept(this))
+        .map(ExpressionNode.class::cast)
+        .collect(Collectors.toList());
+      return new MethodCallNode(identifier, expressionList);
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException("Found non-expression node where expression expected", e);
+    }
   }
   /**
    * {@inheritDoc}

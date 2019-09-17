@@ -14,6 +14,7 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 public class MethodCallNode implements ExpressionNode {
@@ -21,9 +22,10 @@ public class MethodCallNode implements ExpressionNode {
   private final String identifier;
   private final List<ExpressionNode> parameters;
 
-  MethodCallNode(String identifier, List<ExpressionNode> parameters) {
-    this.identifier = identifier;
-    this.parameters = parameters;
+  public MethodCallNode(String identifier, List<ExpressionNode> parameters) {
+    this.identifier = requireNonNull(identifier, "identifier");
+    this.parameters = requireNonNull(parameters, "parameters");
+    parameters.forEach(p -> requireNonNull(p));
   }
 
   public String getIdentifier() {
