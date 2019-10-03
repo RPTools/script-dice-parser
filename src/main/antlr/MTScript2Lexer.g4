@@ -219,6 +219,10 @@ SCRIPT_LINE_COMMENT : '//' ~[\r\n]*     -> channel(HIDDEN);
 // Identifiers
 SCRIPT_IDENTIFIER   : Letter LetterOrDigit* ;
 
+fragment SCRIPT_LOCAL_VAR_LEADER   : '$';
+fragment SCRIPT_GLOBAL_VAR_LEADER  : '$$';
+fragment SCRIPT_PROPERTY_VAR_LEADER: '@';
+
 // Fragment rules
 fragment EscapeSequence : '\\' [btnfr"'\\] ;
 

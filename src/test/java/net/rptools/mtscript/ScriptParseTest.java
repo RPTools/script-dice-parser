@@ -63,6 +63,18 @@ class ScriptParseTest {
     assertEquals(str.getValue(), "Hello world");
   }
 
+  @Test
+  @DisplayName("Variable definitions")
+  void testVariableDefinitions() {
+    String input = getResourceAsString("scriptsamples/variables.mts2");
+    MTScript2Parser parser = createParser(input);
+    ParseTree ptree = parser.chat();
+    BuildASTVisitor visitor = new BuildASTVisitor();
+    ASTNode root = ptree.accept(visitor);
+    System.out.println(root);
+  }
+
+
   private MTScript2Parser createParser(String input) {
     MTScript2Lexer lexer = new MTScript2Lexer(CharStreams.fromString(input));
     CommonTokenStream tokens = new CommonTokenStream(lexer);

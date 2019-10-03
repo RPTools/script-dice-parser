@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.text.StringEscapeUtils;
 
 import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.AssignmentNode;
 import net.rptools.mtscript.ast.BooleanLiteralNode;
 import net.rptools.mtscript.ast.ChatNode;
 import net.rptools.mtscript.ast.DiceExprNode;
@@ -32,6 +33,7 @@ import net.rptools.mtscript.ast.NumberLiteralNode;
 import net.rptools.mtscript.ast.ScriptNode;
 import net.rptools.mtscript.ast.StringLiteralNode;
 import net.rptools.mtscript.ast.TextNode;
+import net.rptools.mtscript.ast.VariableNode;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.MTScript2ParserBaseVisitor;
 import net.rptools.mtscript.parser.MTScript2ParserVisitor;
@@ -131,12 +133,13 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode> {
   /**
    * {@inheritDoc}
    *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
+   * <p>Roll assignment, for assigning roll results to variables</p>
    */
   @Override
   public ASTNode visitAssignment(MTScript2Parser.AssignmentContext ctx) {
-    return visitChildren(ctx);
+    VariableNode variable = VariableNode.fromName(ctx.variable().getText());
+    ExpressionNode expression = ExpressionNode.class.cast(ctx.right.accept(this));
+    return new AssignmentNode(variable, expression);
   }
   /**
    * {@inheritDoc}

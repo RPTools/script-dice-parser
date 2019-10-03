@@ -266,7 +266,7 @@ variableDeclarators         : variableDeclarator (SCRIPT_COMMA variableDeclarato
 
 variableDeclarator          : variableDeclaratorId ( SCRIPT_ASSIGN variableInitializer)? ;
 
-variableDeclaratorId        : SCRIPT_IDENTIFIER ( SCRIPT_LBRACK SCRIPT_RBRACK )* ;
+variableDeclaratorId        : scope=(SCRIPT_GLOBAL_VAR_LEADER | SCOPE_LOCAL_VAR_LEADER | SCOPE_PROPERTY_VAR_LEADER) SCRIPT_IDENTIFIER ( SCRIPT_LBRACK SCRIPT_RBRACK )* ;
 
 variableInitializer         : arrayInitializer
                             | expression
