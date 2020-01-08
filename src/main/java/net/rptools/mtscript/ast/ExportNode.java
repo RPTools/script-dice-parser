@@ -14,13 +14,19 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
 public class ExportNode implements ASTNode {
 
-  // TODO: Revisit this class, the parser rule may need to be reworked.
-  private final String as;
+    private final String name;
 
-  ExportNode(String as) {
-    this.as = as;
-    throw new UnsupportedOperationException("This node type is not implemented yet");
-  }
+    // TODO Revisit this class to add 'as' and 'destination' and support external properties
+
+    public ExportNode(String name) {
+        this.name = requireNonNull(name, "name");
+    }
+
+    public String getName() {
+        return name;
+    }
 }

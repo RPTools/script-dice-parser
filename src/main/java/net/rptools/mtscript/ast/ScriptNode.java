@@ -9,8 +9,8 @@ public class ScriptNode implements ASTNode {
   private final List<ASTNode> children;
 
   public ScriptNode(List<ASTNode> children) {
-    this.children = requireNonNull(children);
-    children.forEach(c -> requireNonNull(c));
+    this.children = requireNonNull(children, "Missing list of children");
+    children.forEach(c -> requireNonNull(c, "Child was null!"));
   }
 
   public List<ASTNode> getChildren() {

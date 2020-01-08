@@ -15,7 +15,7 @@
 package net.rptools.mtscript.ast;
 
 /** Abstract syntax tree node that represents a non equality test. */
-public class NonEqualityTestNode extends BinaryOperatorNode implements BooleanExpressionNode {
+public class NonEqualityTestNode extends BinaryOperatorNode {
 
   /**
    * Creates the AST node for non equality test.

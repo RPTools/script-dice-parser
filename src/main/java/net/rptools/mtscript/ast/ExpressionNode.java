@@ -14,4 +14,4 @@
  */
 package net.rptools.mtscript.ast;
 
-public interface ExpressionNode extends ASTNode {}
+public interface ExpressionNode extends ASTNode,VariableInitializerNode {}

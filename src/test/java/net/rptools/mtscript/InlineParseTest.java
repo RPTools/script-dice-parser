@@ -42,11 +42,11 @@ class InlineParseTest {
                 testText.get(0)
                     + "[["
                     + testRolls.get(0)
-                    + "]]"
+                    + ";]]"
                     + testText.get(1)
                     + "[["
                     + testRolls.get(1)
-                    + "]]"));
+                    + ";]]"));
 
     // create a buffer of tokens pulled from the lexer
     CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -115,13 +115,13 @@ class InlineParseTest {
         new MTScript2Lexer(
             CharStreams.fromString(
                 testText.get(0)
-                    + "[[["
+                    + "[["
                     + testScript.get(0)
-                    + "]]]"
+                    + "]]"
                     + testText.get(1)
-                    + "[[["
+                    + "[["
                     + testScript.get(1)
-                    + "]]]"));
+                    + "]]"));
 
     // create a buffer of tokens pulled from the lexer
     CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -166,7 +166,7 @@ class InlineParseTest {
     // create a parser that feeds off the tokens buffer
     MTScript2Parser parser = new MTScript2Parser(tokens);
 
-    ParseTree parseTree = parser.startModule();
+    ParseTree parseTree = parser.scriptModule();
     ParseTreeWalker walker = new ParseTreeWalker();
 
     MTScript2TestListener listener = new MTScript2TestListener();

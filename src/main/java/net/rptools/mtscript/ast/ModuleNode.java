@@ -14,54 +14,56 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 
 /** ASTNode to hold a module. */
 public class ModuleNode implements ASTNode {
 
-  private final String name;
-  private final String version;
-  private final String description;
-  private final List<ImportNode> imports;
-  private final List<DeclarationNode> body;
-  private final List<ExportNode> exports;
+    private final String name;
+    private final String version;
+    private final String description;
+    private final List<ImportNode> imports;
+    private final List<DeclarationNode> body;
+    private final List<ExportNode> exports;
 
-  ModuleNode(
-      String name,
-      String version,
-      String description,
-      List<ImportNode> imports,
-      List<DeclarationNode> body,
-      List<ExportNode> exports) {
-    this.name = name;
-    this.version = version; // TODO: Maybe we should make this a SEMVER class
-    this.description = description;
-    this.imports = imports;
-    this.body = body;
-    this.exports = exports;
-  }
+    public ModuleNode(
+            String name,
+            String version,
+            String description,
+            List<ImportNode> imports,
+            List<DeclarationNode> body,
+            List<ExportNode> exports) {
+        this.name = requireNonNull(name, "name");
+        this.version = requireNonNull(version, "version"); // TODO: Maybe we should make this a SEMVER class
+        this.description = description;
+        this.imports = requireNonNull(imports, "imports");
+        this.body = requireNonNull(body, "body");
+        this.exports = requireNonNull(exports, "exports");
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getVersion() {
-    return version;
-  }
+    public String getVersion() {
+        return version;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public List<ImportNode> getImports() {
-    return imports;
-  }
+    public List<ImportNode> getImports() {
+        return imports;
+    }
 
-  public List<DeclarationNode> getBody() {
-    return body;
-  }
+    public List<DeclarationNode> getBody() {
+        return body;
+    }
 
-  public List<ExportNode> getExports() {
-    return exports;
-  }
+    public List<ExportNode> getExports() {
+        return exports;
+    }
 }

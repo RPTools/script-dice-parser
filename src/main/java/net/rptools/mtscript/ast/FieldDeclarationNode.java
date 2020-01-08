@@ -14,33 +14,25 @@
  */
 package net.rptools.mtscript.ast;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Set;
+
 /** An AST Node for declaration of a fields. */
 public class FieldDeclarationNode extends DeclarationNode {
 
-  private final String name;
   private final Type type;
-  private final ASTNode value;
+  private final Set<VariableDeclaratorNode> nodes;
 
   /**
    * Creates a FieldDeclarationNode for the declaration of one or more fields.
    *
-   * @param name the name.
    * @param type the type.
-   * @param value the value.
+   * @param nodes the variable declaration nodes.
    */
-  FieldDeclarationNode(String name, Type type, ASTNode value) {
-    this.name = name;
-    this.type = type;
-    this.value = value;
-  }
-
-  /**
-   * Returns the field name.
-   *
-   * @return the field name.
-   */
-  public String getName() {
-    return name;
+  public FieldDeclarationNode(Type type, Set<VariableDeclaratorNode> nodes) {
+    this.type = requireNonNull(type, "Missing type");
+    this.nodes = requireNonNull(nodes, "Missing variable declarator list");
   }
 
   /**
@@ -53,11 +45,11 @@ public class FieldDeclarationNode extends DeclarationNode {
   }
 
   /**
-   * Returns the value.
+   * Returns the variable declarators.
    *
-   * @return the value.
+   * @return The variable declarators
    */
-  public ASTNode getValue() {
-    return value;
+  public Set<VariableDeclaratorNode> getNodes() {
+    return nodes;
   }
 }
