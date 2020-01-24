@@ -15,6 +15,4 @@
 package net.rptools.mtscript.ast;
 
 public class BreakNode implements StatementNode {
-
-  BreakNode() {}
 }

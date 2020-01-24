@@ -15,7 +15,7 @@
 package net.rptools.mtscript.ast;
 
 /** An AST Node for declaration of a local variable. */
-public class LocalDeclarationNode extends DeclarationNode {
+public class LocalDeclarationNode extends DeclarationNode implements BlockStatementNode {
 
   private final String name;
   private final Type type;

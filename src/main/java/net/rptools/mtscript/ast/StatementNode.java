@@ -14,4 +14,4 @@
  */
 package net.rptools.mtscript.ast;
 
-public interface StatementNode extends ASTNode {}
+public interface StatementNode extends ASTNode, BlockStatementNode {}

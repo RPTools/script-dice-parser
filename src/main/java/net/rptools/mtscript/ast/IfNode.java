@@ -30,7 +30,7 @@ public class IfNode implements StatementNode {
    * @param conditionalPairs A list of {@link ConditionalPair} objects.
    * @param elseNode The optional body to execute if condition is false.
    */
-  IfNode(List<ConditionalPair> conditionalPairs, ASTNode elseNode) {
+  public IfNode(List<ConditionalPair> conditionalPairs, ASTNode elseNode) {
     this.conditionalPairs = conditionalPairs;
     this.elseNode = elseNode;
   }

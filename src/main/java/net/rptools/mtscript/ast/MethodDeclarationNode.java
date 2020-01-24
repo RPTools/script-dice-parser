@@ -14,29 +14,67 @@
  */
 package net.rptools.mtscript.ast;
 
-import java.util.Map;
+import static java.util.Objects.requireNonNull;
+
+import java.util.Objects;
+import java.util.Set;
 
 public class MethodDeclarationNode extends DeclarationNode {
 
-  private final String name;
-  private final Map<String, Type> parameters;
-  private final ASTNode body;
+    private final String name;
+    private final Set<MethodParameter> parameters;
+    private final ASTNode body;
 
-  MethodDeclarationNode(String name, Map<String, Type> parameters, ASTNode body) {
-    this.name = name;
-    this.parameters = parameters;
-    this.body = body;
-  }
+    public MethodDeclarationNode(String name, Set<MethodParameter> parameters, ASTNode body) {
+        this.name = requireNonNull(name, "name");
+        this.parameters = requireNonNull(parameters, "parameters");
+        this.body = body;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public Map<String, Type> getParameters() {
-    return parameters;
-  }
+    public Set<MethodParameter> getParameters() {
+        return parameters;
+    }
 
-  public ASTNode getBody() {
-    return body;
-  }
+    public ASTNode getBody() {
+        return body;
+    }
+
+    public static class MethodParameter {
+        private final Type type;
+        private final VariableDeclaratorIdNode id;
+
+        public MethodParameter(Type type, VariableDeclaratorIdNode id) {
+            this.type = requireNonNull(type, "type");
+            this.id = requireNonNull(id, "id");
+        }
+
+        public Type getType() { return type; }
+        public VariableDeclaratorIdNode getID() { return id; }
+
+        @Override
+        public boolean equals(Object o) {
+            if ( o == null) {
+                return false;
+            } else if (this == o) {
+                return true;
+            }
+
+            if (!(o instanceof MethodParameter)) {
+                return false;
+            }
+
+            MethodParameter p = (MethodParameter)o;
+
+            return Objects.equals(type, p.type) && Objects.equals(id, p.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(type, id);
+        }
+    }
 }

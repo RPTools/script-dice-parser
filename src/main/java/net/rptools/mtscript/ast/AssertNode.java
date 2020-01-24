@@ -25,7 +25,7 @@ public class AssertNode implements StatementNode {
    * @param conditionalNode The conditional node.
    * @param valueNode The optional value node.
    */
-  AssertNode(ExpressionNode conditionalNode, ExpressionNode valueNode) {
+  public AssertNode(ExpressionNode conditionalNode, ExpressionNode valueNode) {
     this.conditionalNode = conditionalNode;
     this.valueNode = valueNode;
   }

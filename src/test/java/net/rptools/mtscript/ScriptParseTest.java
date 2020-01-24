@@ -31,8 +31,10 @@ import org.junit.jupiter.api.Test;
 
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.ast.ChatNode;
+import net.rptools.mtscript.ast.DeclarationNode;
 import net.rptools.mtscript.ast.ExpressionNode;
 import net.rptools.mtscript.ast.MethodCallNode;
+import net.rptools.mtscript.ast.MethodDeclarationNode;
 import net.rptools.mtscript.ast.ModuleNode;
 import net.rptools.mtscript.ast.ScriptNode;
 import net.rptools.mtscript.ast.StringLiteralNode;
@@ -79,7 +81,7 @@ class ScriptParseTest {
     @DisplayName("Module definitions")
     void testModuleDefinitions() {
         String input = getResourceAsString("scriptsamples/module.mts2");
-        MTScript2Parser parser = createParser(input, true);
+        MTScript2Parser parser = createParser(input, true); // Create parser in module mode
         ParseTree ptree = parser.scriptModule();
         BuildASTVisitor visitor = new BuildASTVisitor();
         ASTNode root = ptree.accept(visitor);
@@ -87,7 +89,23 @@ class ScriptParseTest {
         assertEquals(module.getName(), "name");
         assertEquals(module.getVersion(), "0.1");
         assertEquals(module.getDescription(), "a test module for the parser unit tests");
+        List<DeclarationNode> body = module.getBody();
+        assertEquals(body.size(), 1);
+        MethodDeclarationNode method = MethodDeclarationNode.class.cast(body.get(0));
+        assertEquals(method.getName(), "hello");
+        assertEquals(method.getParameters().size(), 0);
         // TODO Write more tests!
+    }
+
+    @Test
+    @DisplayName("Non-trivial module")
+    void testModuleNonTrivial() {
+        String input = getResourceAsString("scriptsamples/non_trivial.mts2");
+        MTScript2Parser parser = createParser(input, true); // Create parser in module mode
+        ParseTree ptree = parser.scriptModule();
+        BuildASTVisitor visitor = new BuildASTVisitor();
+        ASTNode root = ptree.accept(visitor);
+        ModuleNode module = ModuleNode.class.cast(root);
     }
 
     private MTScript2Parser createParser(String input) {

@@ -15,6 +15,4 @@
 package net.rptools.mtscript.ast;
 
 public class ContinueNode implements StatementNode {
-
-  ContinueNode() {}
 }
