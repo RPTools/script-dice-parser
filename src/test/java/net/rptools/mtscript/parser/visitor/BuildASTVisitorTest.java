@@ -18,11 +18,30 @@ import org.junit.jupiter.api.Test;
 
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.ast.ChatNode;
+import net.rptools.mtscript.ast.ExportNode;
+import net.rptools.mtscript.ast.ScriptModuleNode;
 import net.rptools.mtscript.ast.ScriptNode;
+import net.rptools.mtscript.ast.TextNode;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 
 public class BuildASTVisitorTest {
+
+    @Test
+    @DisplayName("Text")
+    public void testText() {
+        String input = getResourceAsString("scriptsamples/text.mts2");
+        MTScript2Parser parser = createParser(input, false);
+        ParseTree ptree = parser.chat();
+        BuildASTVisitor visitor = new BuildASTVisitor();
+        ASTNode root = ptree.accept(visitor);
+
+        assertNotNull(root);
+        assertTrue(root instanceof ChatNode);
+        ChatNode chat = (ChatNode) root;
+        assertEquals(chat.getChildren().size(), 1);
+        assertTrue(chat.getChildren().get(0) instanceof TextNode);
+    }
 
     @Test
     @DisplayName("Empty Script")
@@ -33,13 +52,26 @@ public class BuildASTVisitorTest {
         BuildASTVisitor visitor = new BuildASTVisitor();
         ASTNode root = ptree.accept(visitor);
 
-        assertNotNull(root);
-        assertTrue(root instanceof ChatNode);
-        ChatNode chat = (ChatNode) root;
-        assertEquals(chat.getChildren().size(), 1);
-        assertTrue(chat.getChildren().get(0) instanceof ScriptNode);
-        ScriptNode script = (ScriptNode) chat.getChildren().get(0);
+        ScriptNode script = assertAndGetChatScript(root);
         assertTrue(script.getBody().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Empty Module")
+    public void testEmptyModule() {
+        String input = getResourceAsString("scriptsamples/empty_module.mts2");
+        MTScript2Parser parser = createParser(input, true);
+        ParseTree ptree = parser.scriptModule();
+        BuildASTVisitor visitor = new BuildASTVisitor();
+        ASTNode root = ptree.accept(visitor);
+
+        assertNotNull(root);
+        assertTrue(root instanceof ScriptModuleNode);
+        ScriptModuleNode module = (ScriptModuleNode) root;
+        assertEquals(module.getImports().size(), 0);
+        assertEquals(module.getDeclarations().size(), 0);
+        ExportNode exports = module.getExports();
+        assertEquals(exports.get().size(), 0);
     }
 
     @Test
@@ -51,8 +83,23 @@ public class BuildASTVisitorTest {
         ParseTree ptree = parser.chat();
         BuildASTVisitor visitor = new BuildASTVisitor();
         ASTNode root = ptree.accept(visitor);
-        System.out.println(root);
-        // TODO Add proper asserts here
+
+        ScriptNode script = assertAndGetChatScript(root);
+        // TODO Add asserts for variable nodes once they exist.
+    }
+
+    /**
+     * Useful for asserting that the root node is a {@link ChatNode} containing exactly one {@link ScriptNode}.
+     * @param root {@link ASTNode} to check
+     * @return {@link ScriptNode} contained via the ChatNode
+     */
+    private ScriptNode assertAndGetChatScript(ASTNode root) {
+        assertNotNull(root);
+        assertTrue(root instanceof ChatNode);
+        ChatNode chat = (ChatNode) root;
+        assertEquals(chat.getChildren().size(), 1);
+        assertTrue(chat.getChildren().get(0) instanceof ScriptNode);
+        return (ScriptNode) chat.getChildren().get(0);
     }
 
     private MTScript2Parser createParser(String input, boolean parsingModule) {
