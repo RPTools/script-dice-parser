@@ -18,9 +18,6 @@ variable                    : scope=LOCAL_VAR_LEADER IDENTIFIER
                             | scope=PROPERTY_VAR_LEADER IDENTIFIER
                             ;
 
-extPropName                 : (IDENTIFIER DOT)* IDENTIFIER
-                            ;
-
 group                       : LPAREN val=expression RPAREN                          # parenGroup
                             | LBRACE val=expression RBRACE                          # braceGroup
                             ;
@@ -38,11 +35,6 @@ diceSides                   : integerLiteral
                             | group
                             ;
 
-doubleValue                 : NUMBER_LITERAL
-                            ;
-
-
-
 diceArguments               : diceArgumentList
                             ;
 
@@ -59,7 +51,7 @@ diceArgumentVal             : IDENTIFIER                                        
                             | variable                                          # dargVariable
                             | STRING_LITERAL                                    # dargString
                             | integerLiteral                                    # dargInteger
-                            | doubleValue                                       # dargDouble
+                            | NUMBER_LITERAL                                    # dargDouble
                             ;
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -69,9 +61,9 @@ scriptModuleDefinition      : name=IDENTIFIER version=NUMBER_LITERAL desc=STRING
 
 scriptImports               :  KEYWORD_USE name=IDENTIFIER scriptVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
-scriptModuleBody            : constantDeclaration   # moduleBodyConstant
-                            | fieldDeclaration      # moduleBodyField
-                            | methodDeclaration     # moduleBodyMethod
+scriptModuleBody            : constantDeclaration
+                            | fieldDeclaration
+                            | methodDeclaration
                             ;
 
 
