@@ -17,13 +17,13 @@ package net.rptools.mtscript.ast;
 import static java.util.Objects.requireNonNull;
 
 public class TextNode implements ASTNode {
-    private final String text;
+  private final String text;
 
-    public TextNode(String text) {
-      this.text = requireNonNull(text);
-    }
+  public TextNode(String text) {
+    this.text = requireNonNull(text, "text");
+  }
 
-    public String getText() {
-      return text;
-    }
+  public String getText() {
+    return text;
+  }
 }

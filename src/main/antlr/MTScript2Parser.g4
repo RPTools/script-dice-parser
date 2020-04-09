@@ -13,9 +13,6 @@ script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 
 text                        : TEXT+;
 
-assignment                  : variable OP_ASSIGN right=expression
-                            ;
-
 variable                    : scope=LOCAL_VAR_LEADER IDENTIFIER
                             | scope=GLOBAL_VAR_LEADER IDENTIFIER
                             | scope=PROPERTY_VAR_LEADER IDENTIFIER
@@ -60,23 +57,21 @@ diceArgument                : argName=IDENTIFIER op=( OP_LT | OP_GT | OP_LE | OP
 
 diceArgumentVal             : IDENTIFIER                                        # dargIdentifier
                             | variable                                          # dargVariable
-                            | STRING_LITERAL                                       # dargString
-                            | integerLiteral                                     # dargInteger
+                            | STRING_LITERAL                                    # dargString
+                            | integerLiteral                                    # dargInteger
                             | doubleValue                                       # dargDouble
                             ;
 ////////////////////////////////////////////////////////////////////////////////
 
-scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports scriptModuleBody* scriptExports*;
+scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* scriptModuleBody* scriptExports*;
 
 scriptModuleDefinition      : name=IDENTIFIER version=NUMBER_LITERAL desc=STRING_LITERAL SEMI;
 
-scriptImports               : scriptUses*;
+scriptImports               :  KEYWORD_USE name=IDENTIFIER scriptVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
-scriptUses                  : KEYWORD_USE name=IDENTIFIER scriptVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
-
-scriptModuleBody            : constantDeclaration
-                            | fieldDeclaration
-                            | methodDeclaration
+scriptModuleBody            : constantDeclaration   # moduleBodyConstant
+                            | fieldDeclaration      # moduleBodyField
+                            | methodDeclaration     # moduleBodyMethod
                             ;
 
 
@@ -96,11 +91,11 @@ exportDest                  : KEYWORD_INTERNAL
 
 scriptBody                  : (statement | fieldDeclaration | constantDeclaration)* ;
 
-literal                     : integerLiteral
-                            | NUMBER_LITERAL
-                            | STRING_LITERAL
-                            | BOOL_LITERAL
-                            | NULL_LITERAL
+literal                     : integerLiteral    # literalInteger
+                            | NUMBER_LITERAL    # literalNumber
+                            | STRING_LITERAL    # literalString
+                            | BOOL_LITERAL      # literalBool
+                            | NULL_LITERAL      # literalNull
                             ;
 
 integerLiteral              : DECIMAL_LITERAL
@@ -123,20 +118,20 @@ blockStatement              : localVariableDeclaration SEMI
 
 localVariableDeclaration    : type variableDeclarators ;
 
-statement                   : blockLabel=block
-                            | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI
-                            | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?
-                            | KEYWORD_FOR LPAREN forControl RPAREN block
-                            | KEYWORD_WHILE parExpression block
-                            | KEYWORD_DO block KEYWORD_WHILE parExpression SEMI
-                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock)
-                            | KEYWORD_SWITCH parExpression LBRACE switchBlockStatementGroup* switchLabel* RBRACE
-                            | KEYWORD_RETURN expression? SEMI
-                            | KEYWORD_THROW expression SEMI
-                            | KEYWORD_BREAK SEMI
-                            | KEYWORD_CONTINUE SEMI
-                            | SEMI
-                            | statementExpression=expression SEMI
+statement                   : blockLabel=block                                              # stmtBlock
+                            | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI         # stmtAssert
+                            | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?   # stmtIf
+                            | KEYWORD_FOR LPAREN forControl RPAREN block                    # stmtFor
+                            | KEYWORD_WHILE parExpression block                             # stmtWhile
+                            | KEYWORD_DO block KEYWORD_WHILE parExpression SEMI             # stmtDoWhile
+                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock) # stmtTry
+                            | KEYWORD_SWITCH parExpression LBRACE switchBlockStatementGroup* switchLabel* RBRACE # stmtSwitch
+                            | KEYWORD_RETURN expression? SEMI                               # stmtReturn
+                            | KEYWORD_THROW expression SEMI                                 # stmtThrow
+                            | KEYWORD_BREAK SEMI                                            # stmtBreak
+                            | KEYWORD_CONTINUE SEMI                                         # stmtContinue
+                            | SEMI                                                          # stmtSemi
+                            | statementExpression=expression SEMI                           # stmtExpr
                             ;
 
 
@@ -151,25 +146,25 @@ switchLabel                 : KEYWORD_CASE constantExpression=expression OP_COLO
                             | KEYWORD_DEFAULT OP_COLON
                             ;
 
-forControl                  : foreachControl
-                            | forInit? SEMI expression? SEMI forUpdate=expressionList?
+forControl                  : type variableDeclaratorId ':' expression                  # forControlForeach
+                            | forInit? SEMI expression? SEMI forUpdate=expressionList?  # forControlBasic
                             ;
 
 forInit                     : localVariableDeclaration
                             | expressionList
                             ;
 
-foreachControl              : type variableDeclaratorId ':' expression ;
-
 parExpression               : LPAREN expression RPAREN ;
 
 expressionList              : expression (COMMA expression)* ;
 
-methodCall                  : IDENTIFIER LPAREN expressionList? RPAREN ;
+methodCall                  : IDENTIFIER LPAREN expressionList? RPAREN  # exprMethodCall
+                            ;
 
 expression                  : LPAREN expression RPAREN
                             | dice
                             | literal
+                            | variable
                             | IDENTIFIER
                             | expression bop=DOT ( IDENTIFIER | methodCall )
                             | expression LBRACK expression RBRACK
@@ -224,4 +219,5 @@ type                        : t=KEYWORD_BOOLEAN
                             | t=KEYWORD_STRING
                             | t=KEYWORD_ROLL
                             | t=KEYWORD_DICT
+                            | t=KEYWORD_TOKEN
                             ;

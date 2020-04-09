@@ -1,35 +1,41 @@
+/*
+ * This software Copyright by the RPTools.net development team, and
+ * licensed under the Affero GPL Version 3 or, at your option, any later
+ * version.
+ *
+ * RPTools Source Code is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License * along with this source Code.  If not, please visit
+ * <http://www.gnu.org/licenses/> and specifically the Affero license
+ * text at <http://www.gnu.org/licenses/agpl.html>.
+ */
 package net.rptools.mtscript.ast;
 
 import static java.util.Objects.requireNonNull;
 
-public class VariableNode implements ASTNode {
+public class VariableNode implements ExpressionNode {
   public static enum Scope {
     LOCAL,
     GLOBAL,
-    PROPERTY,
+    PROPERTY
   };
 
   private final Scope scope;
-  private final String identifier;
+  private final String id;
 
-  public static VariableNode fromName(String name) {
-    requireNonNull(name);
-    if (name.startsWith("$$")) {
-      return new VariableNode(Scope.GLOBAL, name.substring(2));
-    } else if (name.startsWith("$")) {
-      return new VariableNode(Scope.LOCAL, name.substring(1));
-    } else if (name.startsWith("@")) {
-      return new VariableNode(Scope.PROPERTY, name.substring(1));
-    } else {
-      throw new IllegalArgumentException("Name does not fit a proper variable name pattern");
-    }
-  }
-
-  public VariableNode(Scope scope, String identifier) {
+  public VariableNode(Scope scope, String id) {
     this.scope = requireNonNull(scope, "scope");
-    this.identifier = requireNonNull(identifier, "identifier");
+    this.id = requireNonNull(id, "id");
   }
 
-  public Scope getScope() { return scope; }
-  public String getIdentifier() { return identifier; }
+  public Scope getScope() {
+    return scope;
+  }
+
+  public String getId() {
+    return id;
+  }
 }

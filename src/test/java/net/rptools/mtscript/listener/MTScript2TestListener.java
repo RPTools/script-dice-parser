@@ -16,7 +16,6 @@ package net.rptools.mtscript.listener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.rptools.mtscript.parser.MTScript2Parser.DiceContext;
 import net.rptools.mtscript.parser.MTScript2Parser.ScriptBodyContext;
 import net.rptools.mtscript.parser.MTScript2Parser.ScriptModuleContext;
@@ -76,10 +75,10 @@ public class MTScript2TestListener extends MTScript2ParserBaseListener {
   public void enterScriptModule(ScriptModuleContext ctx) {
     scriptModule.add(ctx.getText());
   }
-  
+
   @Override
   public void enterDice(DiceContext ctx) {
-	  inlineRollStrings.add(ctx.getText());
+    inlineRollStrings.add(ctx.getText());
   }
 
   @Override

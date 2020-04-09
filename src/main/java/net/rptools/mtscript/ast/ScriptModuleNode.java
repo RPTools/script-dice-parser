@@ -18,42 +18,29 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-public class ExportNode implements ASTNode {
-  private final List<Export> exports;
+public class ScriptModuleNode implements ASTNode {
+  private final List<ImportNode> imports;
+  private final List<DeclarationNode> declarations;
+  private final ExportNode
+      exports; // TODO Revisit this. Should ExportNode be a thing? Should it just be a
+  // List<ExportNode.Export>?
 
-  public ExportNode(List<Export> exports) {
+  public ScriptModuleNode(
+      List<ImportNode> imports, List<DeclarationNode> declarations, ExportNode exports) {
+    this.imports = requireNonNull(imports, "imports");
+    this.declarations = requireNonNull(declarations, "declarations");
     this.exports = requireNonNull(exports, "exports");
   }
 
-  public static class Export {
-    private final String id;
-    private String as = null;
-    private String destination = null;
+  public List<ImportNode> getImports() {
+    return imports;
+  }
 
-    public Export(String id) {
-      this.id = requireNonNull(id, "id");
-    }
+  public List<DeclarationNode> getDeclarations() {
+    return declarations;
+  }
 
-    public Export withAs(String as) {
-      this.as = as;
-      return this;
-    }
-
-    public Export withDestination(String destination) {
-      this.destination = destination;
-      return this;
-    }
-
-    public String getId() {
-      return id;
-    }
-
-    public String getAs() {
-      return as;
-    }
-
-    public String getDestination() {
-      return destination;
-    }
+  public ExportNode getExports() {
+    return exports;
   }
 }

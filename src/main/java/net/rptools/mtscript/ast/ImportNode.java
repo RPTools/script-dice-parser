@@ -1,60 +1,41 @@
+/*
+ * This software Copyright by the RPTools.net development team, and
+ * licensed under the Affero GPL Version 3 or, at your option, any later
+ * version.
+ *
+ * RPTools Source Code is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License * along with this source Code.  If not, please visit
+ * <http://www.gnu.org/licenses/> and specifically the Affero license
+ * text at <http://www.gnu.org/licenses/agpl.html>.
+ */
 package net.rptools.mtscript.ast;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Objects;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 public class ImportNode implements ASTNode {
+  private final String id;
+  private final String version;
+  private final String as;
 
-    private final String name;
-    private final String version;
-    private final String as;
+  public ImportNode(String id, String version, String as) {
+    this.id = requireNonNull(id, "id");
+    this.version = requireNonNull(version, "version");
+    this.as = as;
+  }
 
-    public ImportNode(String name, String version, String as) {
-        this.name = requireNonNull(name, "name");
-        this.version = requireNonNull(version, "version");
-        if (as == null) {
-            this.as = name;
-        } else {
-            this.as = as;
-        }
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getVersion() {
+    return version;
+  }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public String getAs() {
-        return as;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, version, as);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || !(other instanceof ImportNode)) {
-            return false;
-        } else if (other == this) {
-            return true;
-        }
-
-        ImportNode o = (ImportNode) other;
-        return Objects.equals(this.name, o.name)
-                && Objects.equals(this.version, o.version)
-                && Objects.equals(this.as, o.as);
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
-    }
+  public String getAs() {
+    return as;
+  }
 }
