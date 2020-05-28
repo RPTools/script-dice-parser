@@ -47,3 +47,4 @@ build-resources/jWrapper/
 #build-resources/jWrapper/JWrapperLaunchTemp
 #build-resources/jWrapper/jwrapper.xml
 src/main/gen
+src/main/antlr/gen/

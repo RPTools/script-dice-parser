@@ -75,7 +75,7 @@ public class BuildASTVisitorTest {
         assertTrue(root instanceof ScriptModuleNode);
         ScriptModuleNode module = (ScriptModuleNode) root;
         assertEquals(module.getName(), "emptyName");
-        assertEquals(module.getVersion(), "0.1");
+        assertEquals(module.getVersion(), "0.0.1");
         assertEquals(module.getDescription(), "An empty module");
         assertEquals(module.getImports().size(), 0);
         assertEquals(module.getDeclarations().size(), 0);

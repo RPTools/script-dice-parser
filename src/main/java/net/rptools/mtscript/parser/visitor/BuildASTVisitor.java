@@ -81,7 +81,7 @@ implements MTScript2ParserVisitor<ASTNode> {
                         u ->
                         new ImportNode(
                                 u.name.getText(),
-                                u.scriptVersion().getText(),
+                                u.semverVersion().getText(),
                                 u.as != null ? u.as.getText() : null))
                 .collect(Collectors.toList());
 
@@ -289,9 +289,11 @@ implements MTScript2ParserVisitor<ASTNode> {
      * ctx}.
      */
     @Override
-    public ASTNode visitScriptVersion(MTScript2Parser.ScriptVersionContext ctx) {
+    public ASTNode visitSemverVersion(MTScript2Parser.SemverVersionContext ctx) {
         throw new IllegalStateException("This should not be hit directly.");
     }
+
+
 
     /** Do not use. */
     @Override

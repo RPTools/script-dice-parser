@@ -58,20 +58,16 @@ diceArgumentVal             : IDENTIFIER                                        
                             ;
 ////////////////////////////////////////////////////////////////////////////////
 
-scriptModuleDefinition      : name=MODULE_IDENTIFIER version=semverVersion desc=MODULE_STRING MODULE_SEMI;
+scriptModuleDefinition      : name=moduleName version=semverVersion desc=MODULE_STRING MODULE_SEMI;
 
-// TODO This needs to have a semver instead of scriptVersion
-scriptImports               :  KEYWORD_USE name=IDENTIFIER scriptVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
+scriptImports               :  KEYWORD_USE name=IDENTIFIER semverVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
 scriptModuleBody            : constantDeclaration
                             | fieldDeclaration
                             | methodDeclaration
                             ;
 
-
-scriptVersion               : NUMBER_LITERAL
-                            | STRING_LITERAL
-                            ;
+moduleName                  : MODULE_LETTER (MODULE_LETTER | MODULE_DIGIT)*;
 
 scriptExports               : KEYWORD_EXPORT LBRACE (exported (COMMA exported)*) RBRACE;
 
@@ -219,39 +215,30 @@ type                        : t=KEYWORD_BOOLEAN
 ////////////////////////////////////////////////////////////////////////////////
 //                             SemVer Support                                 //
 ////////////////////////////////////////////////////////////////////////////////
-semverVersion               : semverCore
-                            | semverCore MODULE_DASH semverPrerelease
-                            | semverCore MODULE_PLUS semverBuild
-                            | semverCore MODULE_DASH semverPrerelease MODULE_PLUS semverBuild
+semverVersion               : semverCore (MODULE_DASH semverPrerelease)? ( MODULE_PLUS semverBuild)?
                             ;
 
-semverCore                  : major=SEMVER_DIGIT MODULE_DOT minor=SEMVER_DIGIT MODULE_DOT patch=SEMVER_DIGIT;
+semverCore                  : major=MODULE_DIGIT MODULE_DOT minor=MODULE_DIGIT MODULE_DOT patch=MODULE_DIGIT;
 
-semverPrerelease            : semverPrereleaseId
-                            | semverPrereleaseId MODULE_DOT semverPrerelease
+semverPrerelease            : semverPrereleaseId (MODULE_DOT semverPrereleaseId)*
                             ;
-semverBuild                 : semverBuildId
-                            | semverBuildId MODULE_DOT semverBuild
+
+semverBuild                 : semverBuildId (MODULE_DOT semverBuildId)*
                             ;
-semverPrereleaseId          : semverAlphaNumericId
-                            | SEMVER_DIGIT
+
+semverPrereleaseId          : (MODULE_LETTER | MODULE_DIGIT)+
                             ;
-semverBuildId               : semverAlphaNumericId
-                            | SEMVER_DIGIT
+
+semverBuildId               : semverAlphaDigits
                             ;
-semverAlphaNumericId        : semverNonDigit
-                            | semverNonDigit semverId
-                            | semverId semverNonDigit
-                            | semverId semverNonDigit semverId
+
+semverDigits                : MODULE_DIGIT+
                             ;
-semverNonDigit              : SEMVER_LETTER
-                            | MODULE_DASH
+
+semverAlphaDigits           : (MODULE_LETTER | MODULE_DIGIT)+
                             ;
-semverId                    : SEMVER_DIGIT
-                            | semverNonDigit
-                            | SEMVER_DIGIT semverId
-                            | semverNonDigit semverId
-                            ;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //                           End SemVer Support                               //
 ////////////////////////////////////////////////////////////////////////////////

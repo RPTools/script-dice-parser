@@ -16,12 +16,11 @@ OPEN_MODULE                 : 'module' { parsingModule }? -> pushMode(MODULE_MOD
 TEXT                        : .+? { !parsingModule }?;
 
 mode MODULE_MODE;
-MODULE_IDENTIFIER      : SEMVER_LETTER (SEMVER_LETTER | SEMVER_DIGIT)*;
 MODULE_STRING          : ( '\'' (~['] | EscapeSequence)* '\''  )
                        | ( '"'  (~["] | EscapeSequence)* '"'   )
                        ;
-SEMVER_LETTER          : [a-zA-Z];
-SEMVER_DIGIT           : Digits;
+MODULE_LETTER          : Letter;
+MODULE_DIGIT           : Digits;
 MODULE_DOT     : '.';
 MODULE_DASH    : '-';
 MODULE_PLUS    : '+';
