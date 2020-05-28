@@ -2,246 +2,244 @@ parser grammar MTScript2Parser;
 
 
 @header {
-  package net.rptools.maptool.mtscript;
+package net.rptools.mtscript.parser;
 }
 
 options { tokenVocab=MTScript2Lexer; }
 
-chat                                      : (script | inlineRoll | text)* ;
+// Top level sentences
+chat                        : (script | text)* ;
+scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* scriptModuleBody* scriptExports*;
+// End top level sentences
 
-inlineRoll                                : OPEN_INLINE_ROLL diceRolls CLOSE_INLINE_ROLL;
+script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 
-script                                    : OPEN_INLINE_SCRIPT scriptBody CLOSE_INLINE_SCRIPT;
+text                        : TEXT+;
 
-text                                      : TEXT+;
+variable                    : scope=LOCAL_VAR_LEADER IDENTIFIER
+                            | scope=GLOBAL_VAR_LEADER IDENTIFIER
+                            | scope=PROPERTY_VAR_LEADER IDENTIFIER
+                            ;
 
-diceRolls                                 : diceExprTopLevel ( ROLL_SEMI diceExprTopLevel)* ROLL_SEMI?;
+group                       : LPAREN val=expression RPAREN                          # parenGroup
+                            | LBRACE val=expression RBRACE                          # braceGroup
+                            ;
 
-diceExprTopLevel                          : diceExpr
-                                          ;
-
-diceExpr                                  : assignment
-                                          | expr
-                                          | instruction
-                                          ;
-
-
-assignment                                : variable ROLL_ASSIGN right=expr
-                                          ;
-
-variable                                  : localVariable
-                                          | globalVariable
-                                          | propertyVariable
-                                          ;
-
-localVariable                             : ROLL_LOCAL_VARIABLE
-                                          ;
-
-globalVariable                            : ROLL_GLOBAL_VARIABLE
-                                          ;
-
-propertyVariable                          : ROLL_PROPERTY_VARIABLE
-                                          ;
+dice                        : numDice? diceName=IDENTIFIER diceArguments?
+                            ;
 
 
-expr                                      : left=expr op=ROLL_POWER right=expr                   # binaryExpr
-                                          | left=expr op=(ROLL_MULTIPLY | ROLL_DIVIDE) right=expr           # binaryExpr
-                                          | left=expr op=(ROLL_PLUS | ROLL_MINUS) right=expr           # binaryExpr
-                                          | op=ROLL_MINUS right=expr                             # unaryExpr
-                                          | dice                                          # diceSpec
-                                          | group                                         # groupExpr
-                                          | variable                                      # symbol
-                                          | integerValue                                  # integerVal
-                                          | doubleValue                                   # doubleVal
-                                          | ROLL_STRING                                   # string
-                                          ;
-
-group                                     : ROLL_LPAREN val=diceExpr ROLL_RPAREN                          # parenGroup
-                                          | ROLL_LBRACE val=diceExpr ROLL_RBRACE                          # braceGroup
-                                          ;
-
-dice                                      : numDice? diceName diceSides diceArguments?
-                                          ;
+numDice                     : integerLiteral
+                            | group
+                            ;
 
 
-numDice                                   : integerValue
-                                          | group
-                                          ;
+diceSides                   : integerLiteral
+                            | group
+                            ;
+
+diceArguments               : diceArgumentList
+                            ;
+
+diceArgumentList            : LBRACE diceArgument ( COMMA diceArgument )* RBRACE
+                            | LPAREN diceArgument ( COMMA diceArgument )* RPAREN
+                            ;
 
 
-diceSides                                 : integerValue
-                                          | group
-                                          ;
+diceArgument                : argName=IDENTIFIER op=( OP_LT | OP_GT | OP_LE | OP_GE | OP_NOTEQUAL | OP_ASSIGN )? val=diceArgumentVal?
+                            ;
 
 
-instruction                               : ROLL_INSTRUCTION_LEADER instructionName=identifier instructionArgumentList
-                                          ;
-
-instructionArgumentList                   : (instructionArgument ( ROLL_COMMA instructionArgument))*
-                                          ;
-
-instructionArgument                       : identifier
-                                          | variable
-                                          | ROLL_STRING
-                                          ;
-
-integerValue                              : ROLL_INTEGER_LITERAL
-                                          ;
-
-doubleValue                               : ROLL_DOUBLE_LITERAL
-                                          ;
-
-
-
-diceArguments                             : diceArgumentList
-                                          ;
-
-diceArgumentList                          : ROLL_LBRACE diceArgument ( ROLL_COMMA diceArgument )* ROLL_RBRACE
-                                          | ROLL_LPAREN diceArgument ( ROLL_COMMA diceArgument )* ROLL_RPAREN
-                                          ;
-
-
-diceArgument                              : argName=ROLL_WORD op=( ROLL_LESS_THAN | ROLL_GREATER_THAN | ROLL_LESS_EQ_TO | ROLL_GREATER_EQ_TO | ROLL_NOT_EQUAL | ROLL_ASSIGN )? val=diceArgumentVal?
-                                          ;
-
-
-diceArgumentVal                           : identifier                                        # dargIdentifier
-                                          | variable                                          # dargVariable
-                                          | ROLL_STRING                                       # dargString
-                                          | integerValue                                      # dargInteger
-                                          | doubleValue                                       # dargDouble
-                                          ;
-
-diceName                                  : ROLL_WORD
-                                          | ROLL_WORD ( integerValue | ROLL_WORD)* ROLL_WORD
-                                          ;
-
-
-identifier                                :  ROLL_WORD ( integerValue | ROLL_WORD)*
-                                          ;
+diceArgumentVal             : IDENTIFIER                                        # dargIdentifier
+                            | variable                                          # dargVariable
+                            | STRING_LITERAL                                    # dargString
+                            | integerLiteral                                    # dargInteger
+                            | NUMBER_LITERAL                                    # dargDouble
+                            ;
 ////////////////////////////////////////////////////////////////////////////////
 
-scriptBody                                : statement* ;
+scriptModuleDefinition      : name=moduleName version=semverVersion desc=MODULE_STRING MODULE_SEMI;
 
-literal			                              : integerLiteral
-				                                  | SCRIPT_NUMBER_LITERAL
-				                                  | SCRIPT_STRING_LITERAL
-				                                  | SCRIPT_BOOL_LITERAL
-				                                  | SCRIPT_NULL_LITERAL
-				                                  ;
+scriptImports               :  KEYWORD_USE name=IDENTIFIER semverVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
-integerLiteral	                          : SCRIPT_DECIMAL_LITERAL
-				                                  | SCRIPT_HEX_LITERAL
-				                                  ;
+scriptModuleBody            : constantDeclaration
+                            | fieldDeclaration
+                            | methodDeclaration
+                            ;
 
-methodDeclaration	                        : SCRIPT_FUNCTION SCRIPT_IDENTIFIER formalParameters block ;
+moduleName                  : MODULE_LETTER (MODULE_LETTER | MODULE_DIGIT)*;
 
-formalParameters	                        : SCRIPT_LPAREN formalParameterList? SCRIPT_RPAREN ;
+scriptExports               : KEYWORD_EXPORT LBRACE (exported (COMMA exported)*) RBRACE;
 
-formalParameterList	                      : formalParameter (SCRIPT_COMMA formalParameter)* ;
+exported                    : (IDENTIFIER | externalProperty) (KEYWORD_AS IDENTIFIER)? (LBRACK exportDest RBRACK)?;
 
-formalParameter		                        : type variableDeclaratorId;
+exportDest                  : KEYWORD_INTERNAL
+                            | KEYWORD_CHAT (LPAREN perm=(KEYWORD_GM | KEYWORD_TRUSTED) RPAREN)?
+                            | KEYWORD_ROLL LPAREN KEYWORD_DEFAULT OP_ASSIGN def=DECIMAL_LITERAL COMMA
+                              KEYWORD_ROLL OP_ASSIGN rollName=IDENTIFIER
+                            ;
 
-block	                                    : SCRIPT_LBRACE blockStatement* SCRIPT_RBRACE ;
+scriptBody                  : (statement | fieldDeclaration | constantDeclaration)* ;
 
-blockStatement	                          : localVariableDeclaration SCRIPT_SEMI
-				                                  | statement
-				                                  ;
+literal                     : integerLiteral    # literalInteger
+                            | NUMBER_LITERAL    # literalNumber
+                            | STRING_LITERAL    # literalString
+                            | BOOL_LITERAL      # literalBool
+                            | NULL_LITERAL      # literalNull
+                            ;
 
-localVariableDeclaration	                : type variableDeclarators ;
+integerLiteral              : DECIMAL_LITERAL
+                            | HEX_LITERAL
+                            ;
 
-statement		                              : blockLabel=block
-				                                  | SCRIPT_ASSERT expression (SCRIPT_COLON expression)? SCRIPT_SEMI
-				                                  | SCRIPT_IF parExpression block (SCRIPT_ELSE SCRIPT_IF parExpression block)* (SCRIPT_ELSE block)?
-				                                  | SCRIPT_FOR SCRIPT_LPAREN forControl SCRIPT_RPAREN block
-				                                  | SCRIPT_WHILE parExpression block
-				                                  | SCRIPT_DO block SCRIPT_WHILE parExpression SCRIPT_SEMI
-				                                  | SCRIPT_TRY block (catchClause+ finallyBlock? | finallyBlock)
-				                                  | SCRIPT_SWITCH parExpression SCRIPT_LBRACE switchBlockStatementGroup* switchLabel* SCRIPT_RBRACE
-				                                  | SCRIPT_RETURN expression? SCRIPT_SEMI
-				                                  | SCRIPT_THROW expression SCRIPT_SEMI
-				                                  | SCRIPT_BREAK SCRIPT_SEMI
-				                                  | SCRIPT_CONTINUE SCRIPT_SEMI
-				                                  | SCRIPT_SEMI
-				                                  | statementExpression=expression SCRIPT_SEMI
-				                                  ;
+methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters block ;
+
+formalParameters            : LPAREN formalParameterList? RPAREN ;
+
+formalParameterList         : formalParameter (COMMA formalParameter)* ;
+
+formalParameter             : type variableDeclaratorId;
+
+block                       : LBRACE blockStatement* RBRACE ;
+
+blockStatement              : localVariableDeclaration SEMI
+                            | statement
+                            ;
+
+localVariableDeclaration    : type variableDeclarators ;
+
+statement                   : blockLabel=block                                              # stmtBlock
+                            | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI         # stmtAssert
+                            | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?   # stmtIf
+                            | KEYWORD_FOR LPAREN forControl RPAREN block                    # stmtFor
+                            | KEYWORD_WHILE parExpression block                             # stmtWhile
+                            | KEYWORD_DO block KEYWORD_WHILE parExpression SEMI             # stmtDoWhile
+                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock) # stmtTry
+                            | KEYWORD_SWITCH parExpression LBRACE switchBlockStatementGroup* switchLabel* RBRACE # stmtSwitch
+                            | KEYWORD_RETURN expression? SEMI                               # stmtReturn
+                            | KEYWORD_THROW expression SEMI                                 # stmtThrow
+                            | KEYWORD_BREAK SEMI                                            # stmtBreak
+                            | KEYWORD_CONTINUE SEMI                                         # stmtContinue
+                            | SEMI                                                          # stmtSemi
+                            | statementExpression=expression SEMI                           # stmtExpr
+                            ;
 
 
 
-catchClause		                            : SCRIPT_CATCH SCRIPT_LPAREN SCRIPT_IDENTIFIER SCRIPT_RPAREN block ;
+catchClause                 : KEYWORD_CATCH LPAREN IDENTIFIER RPAREN block ;
 
-finallyBlock	                            : SCRIPT_FINALLY block ;
+finallyBlock                : KEYWORD_FINALLY block ;
 
-switchBlockStatementGroup	                : switchLabel+ blockStatement+ ;
+switchBlockStatementGroup   : switchLabel+ blockStatement+ ;
 
-switchLabel		                            : SCRIPT_CASE constantExpression=expression SCRIPT_COLON
-				                                  | SCRIPT_DEFAULT SCRIPT_COLON
-				                                  ;
+switchLabel                 : KEYWORD_CASE constantExpression=expression OP_COLON
+                            | KEYWORD_DEFAULT OP_COLON
+                            ;
 
-forControl		                            : foreachControl
-				                                  | forInit? SCRIPT_SEMI expression? SCRIPT_SEMI forUpdate=expressionList?
-				                                  ;
+forControl                  : type variableDeclaratorId ':' expression                  # forControlForeach
+                            | forInit? SEMI expression? SEMI forUpdate=expressionList?  # forControlBasic
+                            ;
 
-forInit                                   : localVariableDeclaration
-                                          | expressionList
-                                          ;
+forInit                     : localVariableDeclaration
+                            | expressionList
+                            ;
 
-foreachControl 	                          : type variableDeclaratorId ':' expression ;
+parExpression               : LPAREN expression RPAREN ;
 
-parExpression	                            : SCRIPT_LPAREN expression SCRIPT_RPAREN ;
+expressionList              : expression (COMMA expression)* ;
 
-expressionList                            : expression (SCRIPT_COMMA expression)* ;
+methodCall                  : IDENTIFIER LPAREN expressionList? RPAREN  # exprMethodCall
+                            ;
 
-methodCall 		                            : SCRIPT_IDENTIFIER SCRIPT_LPAREN expressionList? SCRIPT_RPAREN ;
+expression                  : LPAREN expression RPAREN
+                            | dice
+                            | literal
+                            | variable
+                            | IDENTIFIER
+                            | expression bop=DOT ( IDENTIFIER | methodCall )
+                            | expression LBRACK expression RBRACK
+                            | methodCall
+                            | prefix=OP_BANG expression
+                            | expression bop=(OP_MUL | OP_DIV | OP_MOD) expression
+                            | expression bop=(OP_ADD | OP_SUB) expression
+                            | expression bop=(OP_LE | OP_GE | OP_GT | OP_LT) expression
+                            | expression bop=KEYWORD_INSTANCEOF type
+                            | expression bop=(OP_EQUAL | OP_NOTEQUAL) expression
+                            | expression bop=OP_BITAND expression
+                            | expression bop=OP_CARET expression
+                            | expression bop=OP_BITOR expression
+                            | expression bop=OP_AND expression
+                            | expression bop=OP_OR expression
+                            | expression bop=OP_QUESTION expression ':' expression
+                            | expression postfix=(OP_INC | OP_DEC)
+                            | <assoc=right> expression bop=(OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN | OP_AND_ASSIGN | OP_OR_ASSIGN | OP_XOR_ASSIGN | OP_MOD_ASSIGN ) expression
+                            | externalProperty
+                            ;
 
-expression                                : SCRIPT_LPAREN expression SCRIPT_RPAREN
-                                          | literal
-                                          | SCRIPT_IDENTIFIER
-                                          | expression bop=SCRIPT_DOT ( SCRIPT_IDENTIFIER | methodCall )
-                                          | expression SCRIPT_LBRACK expression SCRIPT_RBRACK
-                                          | methodCall
-                                          | prefix=SCRIPT_BANG expression
-                                          | expression bop=(SCRIPT_MUL | SCRIPT_DIV | SCRIPT_MOD) expression
-                                          | expression bop=(SCRIPT_ADD | SCRIPT_SUB) expression
-                                          | expression bop=(SCRIPT_LE | SCRIPT_GE | SCRIPT_GT | SCRIPT_LT) expression
-                                          | expression bop=SCRIPT_INSTANCEOF type
-                                          | expression bop=(SCRIPT_EQUAL | SCRIPT_NOTEQUAL) expression
-                                          | expression bop=SCRIPT_BITAND expression
-                                          | expression bop=SCRIPT_CARET expression
-                                          | expression bop=SCRIPT_BITOR expression
-                                          | expression bop=SCRIPT_AND expression
-                                          | expression bop=SCRIPT_OR expression
-                                          | expression bop=SCRIPT_QUESTION expression ':' expression
-                                          | expression postfix=(SCRIPT_INC | SCRIPT_DEC)
-                                          | <assoc=right> expression bop=(SCRIPT_ASSIGN | SCRIPT_ADD_ASSIGN | SCRIPT_SUB_ASSIGN | SCRIPT_MUL_ASSIGN | SCRIPT_DIV_ASSIGN | SCRIPT_AND_ASSIGN | SCRIPT_OR_ASSIGN | SCRIPT_XOR_ASSIGN | SCRIPT_MOD_ASSIGN ) expression
-                                          ;
+externalProperty            : EXT_PROP_PREFIX externalPropertyName;
 
-fieldDeclaration                          : type variableDeclarators SCRIPT_SEMI;
+externalPropertyName        : (IDENTIFIER DOT)* IDENTIFIER
+                            ;
 
-constantDeclaration                       : type constantDeclarator (SCRIPT_COMMA constantDeclarator)* SCRIPT_SEMI;
+fieldDeclaration            : type variableDeclarators SEMI;
 
-constantDeclarator                        : SCRIPT_IDENTIFIER (SCRIPT_LBRACK SCRIPT_RBRACK)* SCRIPT_ASSIGN variableInitializer ;
+constantDeclaration         : KEYWORD_CONST type constantDeclarator (COMMA constantDeclarator)* SEMI;
 
-variableDeclarators                       : variableDeclarator (SCRIPT_COMMA variableDeclarator)* ;
+constantDeclarator          : IDENTIFIER (LBRACK RBRACK)* OP_ASSIGN variableInitializer ;
 
-variableDeclarator                        : variableDeclaratorId ( SCRIPT_ASSIGN variableInitializer)? ;
+variableDeclarators         : variableDeclarator (COMMA variableDeclarator)* ;
 
-variableDeclaratorId                      : SCRIPT_IDENTIFIER ( SCRIPT_LBRACK SCRIPT_RBRACK )* ;
+variableDeclarator          : variableDeclaratorId (OP_ASSIGN variableInitializer)? ;
 
-variableInitializer                       : arrayInitializer
-                                          | expression
-                                          ;
+variableDeclaratorId        : scope=(GLOBAL_VAR_LEADER | LOCAL_VAR_LEADER | PROPERTY_VAR_LEADER) IDENTIFIER ( LBRACK RBRACK )* ;
 
-arrayInitializer                          : SCRIPT_LBRACE (variableInitializer ( SCRIPT_COMMA variableInitializer )* (SCRIPT_COMMA)? )? SCRIPT_RBRACE ;
+variableInitializer         : arrayInitializer
+                            | expression
+                            ;
+
+arrayInitializer            : LBRACE (variableInitializer ( COMMA variableInitializer )* (COMMA)? )? RBRACE ;
 
 ////////
 
-arguments                                 : SCRIPT_LPAREN expressionList? SCRIPT_RPAREN ;
+arguments                   : LPAREN expressionList? RPAREN ;
 
-type                                      : SCRIPT_BOOLEAN
-                                          | SCRIPT_INTEGER
-                                          | SCRIPT_NUMBER
-                                          | SCRIPT_STRING
-                                          | SCRIPT_ROLL
-                                          | SCRIPT_DICT
-                                          ;
+type                        : t=KEYWORD_BOOLEAN
+                            | t=KEYWORD_INTEGER
+                            | t=KEYWORD_NUMBER
+                            | t=KEYWORD_STRING
+                            | t=KEYWORD_ROLL
+                            | t=KEYWORD_DICT
+                            | t=KEYWORD_TOKEN
+                            ;
+
+////////////////////////////////////////////////////////////////////////////////
+//                             SemVer Support                                 //
+////////////////////////////////////////////////////////////////////////////////
+semverVersion               : semverCore (MODULE_DASH semverPrerelease)? ( MODULE_PLUS semverBuild)?
+                            ;
+
+semverCore                  : major=MODULE_DIGIT MODULE_DOT minor=MODULE_DIGIT MODULE_DOT patch=MODULE_DIGIT;
+
+semverPrerelease            : semverPrereleaseId (MODULE_DOT semverPrereleaseId)*
+                            ;
+
+semverBuild                 : semverBuildId (MODULE_DOT semverBuildId)*
+                            ;
+
+semverPrereleaseId          : (MODULE_LETTER | MODULE_DIGIT)+
+                            ;
+
+semverBuildId               : semverAlphaDigits
+                            ;
+
+semverDigits                : MODULE_DIGIT+
+                            ;
+
+semverAlphaDigits           : (MODULE_LETTER | MODULE_DIGIT)+
+                            ;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                           End SemVer Support                               //
+////////////////////////////////////////////////////////////////////////////////
+                            

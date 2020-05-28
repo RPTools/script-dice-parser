@@ -1,0 +1,9 @@
+module name 0.1 "a test module for the parser unit tests";
+
+function hello() {
+  print("Hello world");
+}
+
+export {
+  hello
+}
