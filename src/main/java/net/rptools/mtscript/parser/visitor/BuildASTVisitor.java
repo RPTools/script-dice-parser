@@ -68,6 +68,12 @@ implements MTScript2ParserVisitor<ASTNode> {
     @Override
     public ASTNode visitScriptModule(MTScript2Parser.ScriptModuleContext ctx) {
         MTScript2Parser.ScriptModuleDefinitionContext definition = ctx.scriptModuleDefinition();
+        System.out.println(definition.version.getStart());
+        System.out.println(definition.version.getText());
+
+        String name = definition.name.getText();
+        String version = definition.version.getText();
+        String description = parseStringLiteral(definition.desc.getText());
 
         List<ImportNode> imports =
                 ctx.scriptImports().stream()
@@ -102,7 +108,7 @@ implements MTScript2ParserVisitor<ASTNode> {
 
         ExportNode exportNode = new ExportNode(exports);
 
-        return new ScriptModuleNode(imports, declarationNodes, exportNode);
+        return new ScriptModuleNode(name, version, description, imports, declarationNodes, exportNode);
     }
 
     /** Node for holding plain text. */
@@ -349,12 +355,7 @@ implements MTScript2ParserVisitor<ASTNode> {
     @Override
     public ASTNode visitLiteralString(MTScript2Parser.LiteralStringContext ctx) {
         String literal = ctx.getText();
-        // Trim off the leading and trailing double quotes
-        // TODO Is this going to handle single quotes properly? Write a test!
-        String str = literal.subSequence(1, literal.length() - 1).toString();
-        // Unescape the rest
-        // TODO Should we use unescapeEcmaScript instead here?
-        return new LiteralNode.StringLiteralNode(StringEscapeUtils.unescapeJava(str));
+        return new LiteralNode.StringLiteralNode(parseStringLiteral(literal));
     }
 
     @Override
@@ -748,5 +749,14 @@ implements MTScript2ParserVisitor<ASTNode> {
     @Override
     public ASTNode visitType(MTScript2Parser.TypeContext ctx) {
         return visitChildren(ctx);
+    }
+
+    private String parseStringLiteral(String literal) {
+        // Trim off the leading and trailing double quotes
+        // TODO Is this going to handle single quotes properly? Write a test!
+        String str = literal.subSequence(1, literal.length() - 1).toString();
+        // Unescape the rest
+        // TODO Should we use unescapeEcmaScript instead here?
+        return StringEscapeUtils.unescapeJava(str);
     }
 }

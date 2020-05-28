@@ -7,7 +7,10 @@ package net.rptools.mtscript.parser;
 
 options { tokenVocab=MTScript2Lexer; }
 
+// Top level sentences
 chat                        : (script | text)* ;
+scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* scriptModuleBody* scriptExports*;
+// End top level sentences
 
 script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 
@@ -55,10 +58,9 @@ diceArgumentVal             : IDENTIFIER                                        
                             ;
 ////////////////////////////////////////////////////////////////////////////////
 
-scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* scriptModuleBody* scriptExports*;
+scriptModuleDefinition      : name=MODULE_IDENTIFIER version=semverVersion desc=MODULE_STRING MODULE_SEMI;
 
-scriptModuleDefinition      : name=IDENTIFIER version=NUMBER_LITERAL desc=STRING_LITERAL SEMI;
-
+// TODO This needs to have a semver instead of scriptVersion
 scriptImports               :  KEYWORD_USE name=IDENTIFIER scriptVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
 scriptModuleBody            : constantDeclaration
@@ -213,3 +215,44 @@ type                        : t=KEYWORD_BOOLEAN
                             | t=KEYWORD_DICT
                             | t=KEYWORD_TOKEN
                             ;
+
+////////////////////////////////////////////////////////////////////////////////
+//                             SemVer Support                                 //
+////////////////////////////////////////////////////////////////////////////////
+semverVersion               : semverCore
+                            | semverCore MODULE_DASH semverPrerelease
+                            | semverCore MODULE_PLUS semverBuild
+                            | semverCore MODULE_DASH semverPrerelease MODULE_PLUS semverBuild
+                            ;
+
+semverCore                  : major=SEMVER_DIGIT MODULE_DOT minor=SEMVER_DIGIT MODULE_DOT patch=SEMVER_DIGIT;
+
+semverPrerelease            : semverPrereleaseId
+                            | semverPrereleaseId MODULE_DOT semverPrerelease
+                            ;
+semverBuild                 : semverBuildId
+                            | semverBuildId MODULE_DOT semverBuild
+                            ;
+semverPrereleaseId          : semverAlphaNumericId
+                            | SEMVER_DIGIT
+                            ;
+semverBuildId               : semverAlphaNumericId
+                            | SEMVER_DIGIT
+                            ;
+semverAlphaNumericId        : semverNonDigit
+                            | semverNonDigit semverId
+                            | semverId semverNonDigit
+                            | semverId semverNonDigit semverId
+                            ;
+semverNonDigit              : SEMVER_LETTER
+                            | MODULE_DASH
+                            ;
+semverId                    : SEMVER_DIGIT
+                            | semverNonDigit
+                            | SEMVER_DIGIT semverId
+                            | semverNonDigit semverId
+                            ;
+////////////////////////////////////////////////////////////////////////////////
+//                           End SemVer Support                               //
+////////////////////////////////////////////////////////////////////////////////
+                            
