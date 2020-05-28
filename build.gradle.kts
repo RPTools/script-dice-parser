@@ -4,7 +4,7 @@ plugins {
     `java-library`
     eclipse
     jacoco
-    id("com.diffplug.gradle.spotless") version "3.18.0"
+    id("com.diffplug.gradle.spotless") version "3.28.0"
 }
 
 group = "net.rptools.scriptparser"
