@@ -12,8 +12,21 @@ package net.rptools.mtscript.parser;
 
 // Default Mode
 OPEN_SCRIPT_MODE            : '[[' -> pushMode(SCRIPT_MODE);
-OPEN_MODULE                 : 'module' { parsingModule }? -> pushMode(SCRIPT_MODE);
+OPEN_MODULE                 : 'module' { parsingModule }? -> pushMode(MODULE_MODE);
 TEXT                        : .+? { !parsingModule }?;
+
+mode MODULE_MODE;
+MODULE_STRING          : ( '\'' (~['] | EscapeSequence)* '\''  )
+                       | ( '"'  (~["] | EscapeSequence)* '"'   )
+                       ;
+MODULE_LETTER          : Letter;
+MODULE_DIGIT           : Digits;
+MODULE_DOT     : '.';
+MODULE_DASH    : '-';
+MODULE_PLUS    : '+';
+
+MODULE_WS    : [ \t\r\n\u000C]+  -> channel(HIDDEN);
+MODULE_SEMI  : ';' -> pushMode(SCRIPT_MODE);
 
 mode SCRIPT_MODE;
 CLOSE_SCRIPT_MODE         : ']]' -> popMode;
@@ -56,6 +69,7 @@ KEYWORD_STRING     : 'string';
 KEYWORD_ROLL       : 'roll';
 KEYWORD_BOOLEAN    : 'bool';
 KEYWORD_DICT       : 'dict';
+KEYWORD_TOKEN      : 'token';
 
 KEYWORD_OPEN_OP_MODE : '[[' -> pushMode(SCRIPT_MODE);
 
@@ -65,8 +79,8 @@ HEX_LITERAL     : '0' [xX] [0-9a-fA-F] ([0-9a-fA-F_]* [0-9a-fA-F])? ;
 NUMBER_LITERAL  : (Digits '.' Digits? | '.' Digits) ;
 BOOL_LITERAL    : 'true' | 'false' ;
 STRING_LITERAL  : ( '\'' (~['] | EscapeSequence)* '\''  )
-                       | ( '"'  (~["] | EscapeSequence)* '"'   )
-                       ;
+                | ( '"'  (~["] | EscapeSequence)* '"'   )
+                ;
 NULL_LITERAL    : 'null';
 
 // Separators

@@ -14,17 +14,19 @@
  */
 package net.rptools.mtscript.ast;
 
-/** Represents an abstract tree node for bit wise negation. */
-public class BitWiseNotNode implements BooleanExpressionNode {
+import static java.util.Objects.requireNonNull;
 
-  private final ASTNode child;
+import java.util.List;
 
-  /**
-   * Creates AST node to represent bit wise negation.
-   *
-   * @param childValue the value to negate.
-   */
-  public BitWiseNotNode(ASTNode childValue) {
-    child = childValue;
+public class BlockNode implements ASTNode {
+  private final List<BlockStatementNode> children;
+
+  public BlockNode(List<BlockStatementNode> children) {
+    this.children = requireNonNull(children, "children");
+    this.children.forEach(c -> requireNonNull(c, "child"));
+  }
+
+  public List<BlockStatementNode> getChildren() {
+    return children;
   }
 }

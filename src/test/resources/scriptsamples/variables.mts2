@@ -5,7 +5,7 @@
   number $variableWithValue = 5.0;
   string $a, $few, $variables, $$wow;
   roll $something_different;
-  //const string CONSTVALUE = "Hello";
+  const string CONSTVALUE = "Hello";
   integer $five = 9;
   dict $dictVariable;
 ]]

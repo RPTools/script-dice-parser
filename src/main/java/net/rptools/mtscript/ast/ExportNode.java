@@ -16,17 +16,48 @@ package net.rptools.mtscript.ast;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 public class ExportNode implements ASTNode {
+  private final List<Export> exports;
 
-    private final String name;
+  public ExportNode(List<Export> exports) {
+    this.exports = requireNonNull(exports, "exports");
+  }
 
-    // TODO Revisit this class to add 'as' and 'destination' and support external properties
+  public List<Export> get() {
+    return exports;
+  }
 
-    public ExportNode(String name) {
-        this.name = requireNonNull(name, "name");
+  public static class Export {
+    private final String id;
+    private String as = null;
+    private String destination = null;
+
+    public Export(String id) {
+      this.id = requireNonNull(id, "id");
     }
 
-    public String getName() {
-        return name;
+    public Export withAs(String as) {
+      this.as = as;
+      return this;
     }
+
+    public Export withDestination(String destination) {
+      this.destination = destination;
+      return this;
+    }
+
+    public String getId() {
+      return id;
+    }
+
+    public String getAs() {
+      return as;
+    }
+
+    public String getDestination() {
+      return destination;
+    }
+  }
 }

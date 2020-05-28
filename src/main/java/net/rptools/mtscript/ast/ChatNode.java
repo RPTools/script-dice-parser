@@ -19,11 +19,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 public class ChatNode implements ASTNode {
-  public final List<ASTNode> children;
+  private final List<ASTNode> children;
 
   public ChatNode(List<ASTNode> children) {
-    this.children = requireNonNull(children);
-    children.forEach(c -> requireNonNull(c));
+    this.children = requireNonNull(children, "children");
+    children.forEach(c -> requireNonNull(c, "child")); // Child sanity check
   }
 
   public List<ASTNode> getChildren() {

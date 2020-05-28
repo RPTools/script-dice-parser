@@ -16,7 +16,7 @@ package net.rptools.mtscript.ast;
 
 import static java.util.Objects.requireNonNull;
 
-public class LiteralNode<T> implements ExpressionNode {
+public abstract class LiteralNode<T> implements ExpressionNode {
 
   private final T value;
 
@@ -26,5 +26,35 @@ public class LiteralNode<T> implements ExpressionNode {
 
   public T getValue() {
     return value;
+  }
+
+  public static class NullLiteralNode extends LiteralNode<Void> {
+    public NullLiteralNode() {
+      super(null);
+    }
+  }
+
+  public static class BooleanLiteralNode extends LiteralNode<Boolean> {
+    public BooleanLiteralNode(boolean b) {
+      super(b);
+    }
+  }
+
+  public static class IntegerLiteralNode extends LiteralNode<Integer> {
+    public IntegerLiteralNode(int i) {
+      super(i);
+    }
+  }
+
+  public static class NumberLiteralNode extends LiteralNode<Double> {
+    public NumberLiteralNode(double d) {
+      super(d);
+    }
+  }
+
+  public static class StringLiteralNode extends LiteralNode<String> {
+    public StringLiteralNode(String s) {
+      super(s);
+    }
   }
 }

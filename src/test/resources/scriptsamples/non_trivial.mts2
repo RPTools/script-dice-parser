@@ -1,0 +1,10 @@
+module math 0.1 "A non-trival module for unit testing";
+
+function factorial(int n) {
+    if (n == 1) {
+        return 1; // If n == 1, drop out
+    }
+    return n * factorial(n - 1); // Recursively call oneself counting down
+}
+
+export { factorial }
