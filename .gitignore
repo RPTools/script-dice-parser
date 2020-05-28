@@ -46,3 +46,4 @@ build-resources/rptools-keystore
 build-resources/jWrapper/
 #build-resources/jWrapper/JWrapperLaunchTemp
 #build-resources/jWrapper/jwrapper.xml
+src/main/gen

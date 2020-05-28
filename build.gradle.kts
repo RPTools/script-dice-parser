@@ -60,13 +60,13 @@ spotless {
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
-        events("passed", "skipped", "failed")
+        events("passed", "skipped", "failed", "standard_error", "standard_out")
     }
 }
 
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.5"
     reportsDir = file("build/reports/jacoco")
 }
 
