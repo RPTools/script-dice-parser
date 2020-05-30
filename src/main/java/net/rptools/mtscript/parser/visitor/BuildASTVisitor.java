@@ -404,32 +404,11 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
   @Override
   public ASTNode visitBlock(MTScript2Parser.BlockContext ctx) {
     List<BlockStatementNode> children =
-        ctx.blockStatement().stream()
+        ctx.statement().stream()
             .map(c -> c.accept(this))
             .map(c -> BlockStatementNode.class.cast(c))
             .collect(Collectors.toList());
     return new BlockNode(children);
-  }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
-  public ASTNode visitBlockStatement(MTScript2Parser.BlockStatementContext ctx) {
-    return visitChildren(ctx);
-  }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
-  public ASTNode visitLocalVariableDeclaration(
-      MTScript2Parser.LocalVariableDeclarationContext ctx) {
-    return visitChildren(ctx);
   }
 
   @Override
@@ -638,16 +617,7 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
   public ASTNode visitConstantDeclaration(MTScript2Parser.ConstantDeclarationContext ctx) {
     return visitChildren(ctx);
   }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
-  public ASTNode visitConstantDeclarator(MTScript2Parser.ConstantDeclaratorContext ctx) {
-    return visitChildren(ctx);
-  }
+
   /**
    * {@inheritDoc}
    *

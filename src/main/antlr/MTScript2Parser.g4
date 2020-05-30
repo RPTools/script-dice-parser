@@ -100,13 +100,8 @@ formalParameterList         : formalParameter (COMMA formalParameter)* ;
 
 formalParameter             : type variableDeclaratorId;
 
-block                       : LBRACE blockStatement* RBRACE ;
+block                       : LBRACE statement* RBRACE ;
 
-blockStatement              : localVariableDeclaration SEMI
-                            | statement
-                            ;
-
-localVariableDeclaration    : type variableDeclarators ;
 
 statement                   : blockLabel=block                                              # stmtBlock
                             | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI         # stmtAssert
@@ -121,6 +116,8 @@ statement                   : blockLabel=block                                  
                             | KEYWORD_BREAK SEMI                                            # stmtBreak
                             | KEYWORD_CONTINUE SEMI                                         # stmtContinue
                             | SEMI                                                          # stmtSemi
+                            | variableDeclaration                                           # stmtVariable
+                            | constantDeclaration                                           # stmtConstant
                             | statementExpression=expression SEMI                           # stmtExpr
                             ;
 
@@ -130,7 +127,7 @@ catchClause                 : KEYWORD_CATCH LPAREN IDENTIFIER RPAREN block ;
 
 finallyBlock                : KEYWORD_FINALLY block ;
 
-switchBlockStatementGroup   : switchLabel+ blockStatement+ ;
+switchBlockStatementGroup   : switchLabel+ statement+ ;
 
 switchLabel                 : KEYWORD_CASE constantExpression=expression OP_COLON
                             | KEYWORD_DEFAULT OP_COLON
@@ -140,7 +137,7 @@ forControl                  : type variableDeclaratorId ':' expression          
                             | forInit? SEMI expression? SEMI forUpdate=expressionList?  # forControlBasic
                             ;
 
-forInit                     : localVariableDeclaration
+forInit                     : variableDeclaration
                             | expressionList
                             ;
 
@@ -176,14 +173,17 @@ expression                  : LPAREN expression RPAREN
                             ;
 
 
+variableDeclaration         : type variableDeclarationAssign (COMMA variableDeclarationAssign )* SEMI
+                            ;
 
-variableDeclaration         : type variableDeclarators SEMI;
+variableDeclarationAssign   : variable ( OP_ASSIGN expression )?
+                            ;
 
-constantDeclaration         : KEYWORD_CONST type constantDeclarator (COMMA constantDeclarator)* SEMI;
+constantDeclaration         : KEYWORD_CONST type constantDeclarationAssign ( COMMA constantDeclarationAssign )* SEMI
+                            ;
 
-constantDeclarator          : IDENTIFIER (LBRACK RBRACK)* OP_ASSIGN variableInitializer ;
-
-variableDeclarators         : variableDeclarator (COMMA variableDeclarator)* ;
+constantDeclarationAssign   : IDENTIFIER OP_ASSIGN expression
+                            ;
 
 variableDeclarator          : variableDeclaratorId (OP_ASSIGN variableInitializer)? ;
 
@@ -199,13 +199,16 @@ arrayInitializer            : LBRACE (variableInitializer ( COMMA variableInitia
 
 arguments                   : LPAREN expressionList? RPAREN ;
 
-type                        : KEYWORD_INTEGER
-                            | KEYWORD_NUMBER
-                            | KEYWORD_STRING
-                            | KEYWORD_ROLL
-                            | KEYWORD_BOOLEAN
-                            | KEYWORD_DICT
-                            | IDENTIFIER
+listTypeDecl                : LBRACK RBRACK
+                            ;
+
+type                        : KEYWORD_INTEGER listTypeDecl?
+                            | KEYWORD_NUMBER listTypeDecl?
+                            | KEYWORD_STRING listTypeDecl?
+                            | KEYWORD_ROLL listTypeDecl?
+                            | KEYWORD_BOOLEAN listTypeDecl?
+                            | KEYWORD_DICT listTypeDecl?
+                            | IDENTIFIER listTypeDecl?
                             ;
 
 ////////////////////////////////////////////////////////////////////////////////
