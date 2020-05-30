@@ -128,7 +128,6 @@ OP_OR_ASSIGN  : '|=';
 OP_XOR_ASSIGN : '^=';
 OP_MOD_ASSIGN : '%=';
 
-EXT_PROP_PREFIX : '#';
 
 // Whitespace and comments
 WS           : [ \t\r\n\u000C]+  -> channel(HIDDEN);

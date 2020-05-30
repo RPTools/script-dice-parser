@@ -39,6 +39,7 @@ spotless {
 
     java {
         target("src/**/*.java")
+        targetExclude("src/main/gen/*", "src/main/antlr/gen/*")
         licenseHeaderFile(file("build-resources/spotless.license.java"))
         googleJavaFormat()
         // https://github.com/diffplug/spotless/blob/master/PADDEDCELL.md
@@ -47,7 +48,6 @@ spotless {
 
     format("misc") {
         target("**/*.gradle", "**/.gitignore")
-        targetExclude("src/main/gen/", "/src/main/antlr/gen")
 
         // spotless has built-in rules for most basic formatting tasks
         trimTrailingWhitespace()

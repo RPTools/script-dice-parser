@@ -626,20 +626,6 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
    * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
    * ctx}.
    */
-  @Override
-  public ASTNode visitExternalProperty(MTScript2Parser.ExternalPropertyContext ctx) {
-    return visitChildren(ctx);
-  }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation returns the result of calling {@link #visitChildren} on {@code
-   * ctx}.
-   */
-  @Override
-  public ASTNode visitExternalPropertyName(MTScript2Parser.ExternalPropertyNameContext ctx) {
-    return visitChildren(ctx);
-  }
   /**
    * {@inheritDoc}
    *

@@ -70,7 +70,7 @@ moduleName                  : MODULE_LETTER (MODULE_LETTER | MODULE_DIGIT)*;
 
 scriptExports               : KEYWORD_EXPORT LBRACE (exported (COMMA exported)*) RBRACE;
 
-exported                    : (IDENTIFIER | externalProperty) (KEYWORD_AS IDENTIFIER)? (LBRACK exportDest RBRACK)?;
+exported                    : IDENTIFIER (KEYWORD_AS IDENTIFIER)? (LBRACK exportDest RBRACK)?;
 
 exportDest                  : KEYWORD_INTERNAL
                             | KEYWORD_CHAT (LPAREN perm=(KEYWORD_GM | KEYWORD_TRUSTED) RPAREN)?
@@ -172,13 +172,9 @@ expression                  : LPAREN expression RPAREN
                             | expression bop=OP_QUESTION expression ':' expression
                             | expression postfix=(OP_INC | OP_DEC)
                             | <assoc=right> expression bop=(OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN | OP_AND_ASSIGN | OP_OR_ASSIGN | OP_XOR_ASSIGN | OP_MOD_ASSIGN ) expression
-                            | externalProperty
                             ;
 
-externalProperty            : EXT_PROP_PREFIX externalPropertyName;
 
-externalPropertyName        : (IDENTIFIER DOT)* IDENTIFIER
-                            ;
 
 fieldDeclaration            : type variableDeclarators SEMI;
 
