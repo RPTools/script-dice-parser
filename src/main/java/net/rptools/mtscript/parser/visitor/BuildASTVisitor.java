@@ -30,7 +30,6 @@ import net.rptools.mtscript.ast.ScriptNode;
 import net.rptools.mtscript.ast.TextNode;
 import net.rptools.mtscript.ast.VariableNode;
 import net.rptools.mtscript.ast.VariableNode.Scope;
-import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.MTScript2ParserBaseVisitor;
 import net.rptools.mtscript.parser.MTScript2ParserVisitor;
@@ -118,14 +117,7 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
   /** Node to hold a variable when it is being **called or used.** */
   @Override
   public ASTNode visitVariable(MTScript2Parser.VariableContext ctx) {
-    switch (ctx.scope.getTokenIndex()) {
-      case MTScript2Lexer.LOCAL_VAR_LEADER:
-        return new VariableNode(Scope.LOCAL, ctx.IDENTIFIER().getText());
-      case MTScript2Lexer.PROPERTY_VAR_LEADER:
-        return new VariableNode(Scope.PROPERTY, ctx.IDENTIFIER().getText());
-      default:
-        throw new IllegalStateException("Unknown variable scope encountered!");
-    }
+    return new VariableNode(Scope.LOCAL, ctx.IDENTIFIER().getText());
   }
 
   /**
