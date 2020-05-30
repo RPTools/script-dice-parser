@@ -139,7 +139,6 @@ LINE_COMMENT : '//' ~[\r\n]*     -> channel(HIDDEN);
 IDENTIFIER   : Letter LetterOrDigit* ;
 
 LOCAL_VAR_LEADER   : '$';
-GLOBAL_VAR_LEADER  : '$$';
 PROPERTY_VAR_LEADER: '@';
 
 // Fragment rules

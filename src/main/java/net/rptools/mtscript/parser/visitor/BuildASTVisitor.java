@@ -37,7 +37,7 @@ import net.rptools.mtscript.parser.MTScript2ParserVisitor;
 import org.apache.commons.text.StringEscapeUtils;
 
 /**
- * This class provides a visitor for conversion of {@link ParseTree} into a proper AST Tree for
+ * This class provides a visitor for conversion of {@code ParseTree} into a proper AST Tree for
  * later interpreting.
  */
 public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
@@ -121,8 +121,6 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
     switch (ctx.scope.getTokenIndex()) {
       case MTScript2Lexer.LOCAL_VAR_LEADER:
         return new VariableNode(Scope.LOCAL, ctx.IDENTIFIER().getText());
-      case MTScript2Lexer.GLOBAL_VAR_LEADER:
-        return new VariableNode(Scope.GLOBAL, ctx.IDENTIFIER().getText());
       case MTScript2Lexer.PROPERTY_VAR_LEADER:
         return new VariableNode(Scope.PROPERTY, ctx.IDENTIFIER().getText());
       default:

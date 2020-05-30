@@ -17,7 +17,6 @@ script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 text                        : TEXT+;
 
 variable                    : scope=LOCAL_VAR_LEADER IDENTIFIER
-                            | scope=GLOBAL_VAR_LEADER IDENTIFIER
                             | scope=PROPERTY_VAR_LEADER IDENTIFIER
                             ;
 
@@ -191,7 +190,7 @@ variableDeclarators         : variableDeclarator (COMMA variableDeclarator)* ;
 
 variableDeclarator          : variableDeclaratorId (OP_ASSIGN variableInitializer)? ;
 
-variableDeclaratorId        : scope=(GLOBAL_VAR_LEADER | LOCAL_VAR_LEADER | PROPERTY_VAR_LEADER) IDENTIFIER ( LBRACK RBRACK )* ;
+variableDeclaratorId        : scope=( LOCAL_VAR_LEADER | PROPERTY_VAR_LEADER) IDENTIFIER ( LBRACK RBRACK )* ;
 
 variableInitializer         : arrayInitializer
                             | expression
@@ -230,9 +229,6 @@ semverPrereleaseId          : (MODULE_LETTER | MODULE_DIGIT)+
                             ;
 
 semverBuildId               : semverAlphaDigits
-                            ;
-
-semverDigits                : MODULE_DIGIT+
                             ;
 
 semverAlphaDigits           : (MODULE_LETTER | MODULE_DIGIT)+
