@@ -90,7 +90,7 @@ integerLiteral              : DECIMAL_LITERAL
                             | HEX_LITERAL
                             ;
 
-methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters block ;
+methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters (KEYWORD_RETURNS returnType=type)? block ;
 
 formalParameters            : LPAREN formalParameterList? RPAREN ;
 
@@ -197,13 +197,7 @@ arrayInitializer            : LBRACE (variableInitializer ( COMMA variableInitia
 
 arguments                   : LPAREN expressionList? RPAREN ;
 
-type                        : t=KEYWORD_BOOLEAN
-                            | t=KEYWORD_INTEGER
-                            | t=KEYWORD_NUMBER
-                            | t=KEYWORD_STRING
-                            | t=KEYWORD_ROLL
-                            | t=KEYWORD_DICT
-                            | t=KEYWORD_TOKEN
+type                        : IDENTIFIER
                             ;
 
 ////////////////////////////////////////////////////////////////////////////////

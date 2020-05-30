@@ -44,6 +44,7 @@ KEYWORD_FOR        : 'for';
 KEYWORD_FOREACH    : 'foreach';
 KEYWORD_FUNCTION   : 'function';
 KEYWORD_IF         : 'if';
+KEYWORD_RETURNS    : 'returns';
 KEYWORD_RETURN     : 'return';
 KEYWORD_SWITCH     : 'switch';
 KEYWORD_WHILE      : 'while';
@@ -63,13 +64,6 @@ KEYWORD_TRUSTED    : 'trusted';
 
 
 KEYWORD_CONSTANT   : 'constant';
-KEYWORD_INTEGER    : 'integer';
-KEYWORD_NUMBER     : 'number';
-KEYWORD_STRING     : 'string';
-KEYWORD_ROLL       : 'roll';
-KEYWORD_BOOLEAN    : 'bool';
-KEYWORD_DICT       : 'dict';
-KEYWORD_TOKEN      : 'token';
 
 KEYWORD_OPEN_OP_MODE : '[[' -> pushMode(SCRIPT_MODE);
 
