@@ -47,6 +47,7 @@ spotless {
 
     format("misc") {
         target("**/*.gradle", "**/.gitignore")
+        targetExclude("src/main/gen/", "/src/main/antlr/gen")
 
         // spotless has built-in rules for most basic formatting tasks
         trimTrailingWhitespace()
