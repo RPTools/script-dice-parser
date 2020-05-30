@@ -61,7 +61,7 @@ scriptModuleDefinition      : name=moduleName version=semverVersion desc=MODULE_
 scriptImports               :  KEYWORD_USE name=IDENTIFIER semverVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
 scriptModuleBody            : constantDeclaration
-                            | fieldDeclaration
+                            | variableDeclaration
                             | methodDeclaration
                             ;
 
@@ -77,7 +77,7 @@ exportDest                  : KEYWORD_INTERNAL
                               KEYWORD_ROLL OP_ASSIGN rollName=IDENTIFIER
                             ;
 
-scriptBody                  : (statement | fieldDeclaration | constantDeclaration)* ;
+scriptBody                  : (statement | variableDeclaration | constantDeclaration)* ;
 
 literal                     : integerLiteral    # literalInteger
                             | NUMBER_LITERAL    # literalNumber
@@ -90,7 +90,9 @@ integerLiteral              : DECIMAL_LITERAL
                             | HEX_LITERAL
                             ;
 
-methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters (KEYWORD_RETURNS returnType=type)? block ;
+methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters KEYWORD_RETURNS returnType=type block
+                            | KEYWORD_PROCEDURE IDENTIFIER formalParameters block
+                            ;
 
 formalParameters            : LPAREN formalParameterList? RPAREN ;
 
@@ -175,7 +177,7 @@ expression                  : LPAREN expression RPAREN
 
 
 
-fieldDeclaration            : type variableDeclarators SEMI;
+variableDeclaration         : type variableDeclarators SEMI;
 
 constantDeclaration         : KEYWORD_CONST type constantDeclarator (COMMA constantDeclarator)* SEMI;
 
@@ -197,7 +199,13 @@ arrayInitializer            : LBRACE (variableInitializer ( COMMA variableInitia
 
 arguments                   : LPAREN expressionList? RPAREN ;
 
-type                        : IDENTIFIER
+type                        : KEYWORD_INTEGER
+                            | KEYWORD_NUMBER
+                            | KEYWORD_STRING
+                            | KEYWORD_ROLL
+                            | KEYWORD_BOOLEAN
+                            | KEYWORD_DICT
+                            | IDENTIFIER
                             ;
 
 ////////////////////////////////////////////////////////////////////////////////

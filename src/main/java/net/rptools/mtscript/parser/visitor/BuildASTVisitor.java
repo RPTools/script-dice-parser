@@ -625,7 +625,7 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
    * ctx}.
    */
   @Override
-  public ASTNode visitFieldDeclaration(MTScript2Parser.FieldDeclarationContext ctx) {
+  public ASTNode visitVariableDeclaration(MTScript2Parser.VariableDeclarationContext ctx) {
     return visitChildren(ctx);
   }
   /**
