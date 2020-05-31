@@ -14,7 +14,12 @@
  */
 package net.rptools.mtscript.symboltable;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /** Implementation of the {@link SymbolTable} interface for symbol tables for the script. */
 class StandardSymbolTable implements SymbolTable {
@@ -24,6 +29,9 @@ class StandardSymbolTable implements SymbolTable {
 
   /** The factory class used to crate {@link SymbolTableEntry}. */
   private SymbolTableEntryFactory symbolTableEntryFactory;
+
+  /** Mapping between symbol name and {@link SymbolTableEntry}. */
+  private final Map<String, SymbolTableEntry> symbolMap = new HashMap<>();
 
   /**
    * Creates a new {@code StandardSymbolTable} with the specified scope level.
@@ -47,5 +55,10 @@ class StandardSymbolTable implements SymbolTable {
   @Override
   public Optional<SymbolTableEntry> lookup(String name) {
     return Optional.empty();
+  }
+
+  @Override
+  public Set<SymbolTableEntry> getEntries() {
+    return new HashSet<>(symbolMap.values());
   }
 }

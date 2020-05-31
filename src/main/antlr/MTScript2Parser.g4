@@ -14,7 +14,11 @@ scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* 
 
 script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 
-text                        : TEXT+;
+text                        : passThroughText
+                            ;
+
+passThroughText             : TEXT+
+                            ;
 
 variable                    : scope=LOCAL_VAR_LEADER varName=IDENTIFIER
                             ;

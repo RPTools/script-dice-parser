@@ -15,6 +15,7 @@
 package net.rptools.mtscript.symboltable;
 
 import java.util.Optional;
+import java.util.Set;
 
 /** Interface that represents the script symbol table. */
 public interface SymbolTable {
@@ -42,4 +43,10 @@ public interface SymbolTable {
    * @return the symbol for the specified name.
    */
   Optional<SymbolTableEntry> lookup(String name);
+
+  /**
+   * Returns all the {@link SymbolTableEntry}s in the {@link SymbolTable}.
+   * @return all the {@link SymbolTableEntry}s.
+   */
+  Set<SymbolTableEntry> getEntries();
 }

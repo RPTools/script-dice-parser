@@ -76,4 +76,13 @@ class StandardSymbolTableStack implements SymbolTableStack {
     SymbolTable symbolTable = stack.get(stackTop);
     return symbolTable.lookup(name);
   }
+
+  @Override
+  public SymbolTable getSymbolTable(int level) {
+    if (level > stackTop) {
+      throw new IllegalStateException("Scope Level Does not exist.");
+    }
+
+    return stack.get(level);
+  }
 }

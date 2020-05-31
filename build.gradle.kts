@@ -4,6 +4,7 @@ plugins {
     `java-library`
     eclipse
     jacoco
+    application
     id("com.diffplug.gradle.spotless") version "3.28.0"
 }
 
@@ -23,6 +24,8 @@ dependencies {
     implementation("org.apache.logging.log4j", "log4j-api", "2.11.0");
     implementation("org.apache.logging.log4j", "log4j-1.2-api", "2.11.0");
     implementation("com.google.inject:guice:4.2.3")
+    implementation("commons-cli:commons-cli:1.4")
+
 }
 
 configure<JavaPluginConvention> {
@@ -71,4 +74,9 @@ jacoco {
     toolVersion = "0.8.5"
     reportsDir = file("build/reports/jacoco")
 }
+
+application {
+    mainClassName = "net.rptools.mtscript.Main"
+}
+
 

@@ -25,7 +25,7 @@ MODULE_DOT     : '.';
 MODULE_DASH    : '-';
 MODULE_PLUS    : '+';
 
-MODULE_WS    : [ \t\r\n\u000C]+  -> channel(HIDDEN);
+//MODULE_WS    : [ \t\r\n\u000C]+  -> channel(HIDDEN);
 MODULE_SEMI  : ';' -> pushMode(SCRIPT_MODE);
 
 mode SCRIPT_MODE;

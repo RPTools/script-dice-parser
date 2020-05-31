@@ -15,12 +15,33 @@
 package net.rptools.mtscript.parser.visitor;
 
 import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.parser.MTScript2Parser.TextContext;
 import net.rptools.mtscript.parser.MTScript2ParserBaseVisitor;
 import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
 /**
  * This class provides a visitor for conversion of {@code ParseTree} into a proper AST Tree for
  * later interpreting.
  */
 public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
-    implements MTScript2ParserVisitor<ASTNode> {}
+    implements MTScript2ParserVisitor<ASTNode> {
+
+  /** The symbol table stack built up during parsing. */
+  private final SymbolTableStack symbolTableStack;
+
+
+  /**
+   * Creates a new {@code BuildASTVisitor}.
+   * @param symbolTableStack the symbol table stack used for the AST.
+   */
+  public BuildASTVisitor(SymbolTableStack symbolTableStack) {
+    this.symbolTableStack = symbolTableStack;
+  }
+
+  @Override
+  public ASTNode visitText(TextContext ctx) {
+    System.out.println(ctx.getText());
+    return super.visitText(ctx);
+  }
+}

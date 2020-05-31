@@ -30,6 +30,7 @@ public class MTScriptErrorStrategy extends BailErrorStrategy {
             + "\tFound:\n"
             + "\t\t"
             + recognizer.getVocabulary().getDisplayName(e.getOffendingToken().getType());
+    System.err.println(errorString);
     super.reportError(recognizer, e);
   }
 }
