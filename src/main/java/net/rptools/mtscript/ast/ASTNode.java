@@ -14,5 +14,78 @@
  */
 package net.rptools.mtscript.ast;
 
+import java.util.List;
+import java.util.Optional;
+
 /** Interface that represents nodes in our abstract syntax tree. */
-public interface ASTNode {}
+public interface ASTNode {
+
+  /**
+   * Sets the type of the {@code ASTNode}.
+   *
+   * @param type the type of the {@code ASTNode}.
+   */
+  void setType(ASTNodeType type);
+
+  /**
+   * Returns the type of the {@code ASTNode}.
+   *
+   * @return the type of the {@code ASTNode}.
+   */
+  ASTNodeType getType();
+
+  /**
+   * Sets the parent of this {@code ASTNode}.
+   *
+   * @param parent the parent of this {@code ASTNode}.
+   */
+  void setParent(ASTNode parent);
+
+  /**
+   * Returns the parent of this {@code ASTNode}.
+   *
+   * @return the parent of this {@code ASTNode}.
+   */
+  ASTNode getParent();
+
+  /**
+   * Adds a child {@code ASTNode} to this node.
+   *
+   * @param node adds a child node to this node.
+   * @return the node that was added.
+   */
+  ASTNode addChild(ASTNode node);
+
+  /**
+   * Returns the children of this node.
+   *
+   * @return the children of this node.
+   */
+  List<ASTNode> getChildren();
+
+  /**
+   * Sets the specified attribute for this node.
+   *
+   * @param key the attribute key to set.
+   * @param value the value to set for the attribute.
+   */
+  void setAttribute(ASTAttributeKey key, Object value);
+
+  /**
+   * Returns the specified attribute for this node.
+   *
+   * @param key the key for the attribute to return.
+   * @return the value of the attribute.
+   */
+  Optional<Object> getAttribute(ASTAttributeKey key);
+
+  /**
+   * Returns the specified attribute for this node.
+   *
+   * @param <T> the attribute type.
+   * @param key the key for the attribute to return.
+   * @param clazz the attribute class.
+   * @return the value of the attribute.
+   */
+  <T> Optional<T> getAttribute(ASTAttributeKey key, Class<T> clazz);
+}

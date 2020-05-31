@@ -14,4 +14,64 @@
  */
 package net.rptools.mtscript.ast;
 
-public enum ASTNodeType {}
+public enum ASTNodeType {
+
+  // Top Level Entries
+  CHAT,
+  SCRIPT,
+  TEXT,
+  MODULE,
+
+  // Top Level Module Entries
+  FIELD,
+  FUNCTION,
+  PROCEDURE,
+  IMPORT,
+  EXPORT,
+
+  // Statements
+  BLOCK,
+  ASSERT,
+  IF,
+  FOR,
+  WHILE,
+  DO,
+  TRY,
+  SWITCH,
+  RETURN,
+  THROW,
+  BREAK,
+  NO_OP, // Not sure if we will need.
+
+  // Relational
+  EQUAL,
+  NOT_EQUAL,
+  GREATER_THAN,
+  GREATER_THAN_EQUAL,
+  LESS_THAN_EQUAL,
+  INSTANCE_OF,
+
+  // Boolean operations
+  AND,
+  OR,
+  NOT,
+
+  // Bitwise operations
+  BIT_OR,
+  BIT_AND,
+  BIT_XOR,
+  BIT_NOT,
+
+  // operations
+  ADD,
+  SUBTRACT,
+  MULTIPLY,
+  DIVIDE,
+  MODULUS,
+
+  // Expressions
+  VARIABLE,
+  CONSTANT,
+  POST_FIX_INCREMENT,
+  POST_FIX_DECREMENT,
+}

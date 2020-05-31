@@ -12,6 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-public interface BlockStatementNode extends ASTNode {}
+/** Factory class for creating implementations of the {@link SymbolTable} interface. */
+public class SymbolTableFactoryClass implements SymbolTableFactory, SymbolTableEntryFactory {
+
+  @Override
+  public SymbolTable create(int scopeLevel) {
+    return new StandardSymbolTable(this, scopeLevel);
+  }
+
+  @Override
+  public SymbolTableEntry create(String name, SymbolTable symbolTable) {
+    return new StandardSymbolTableEntry(name, symbolTable);
+  }
+}

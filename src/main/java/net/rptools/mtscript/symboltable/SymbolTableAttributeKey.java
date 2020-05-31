@@ -12,21 +12,14 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-
-public class ChatNode implements ASTNode {
-  private final List<ASTNode> children;
-
-  public ChatNode(List<ASTNode> children) {
-    this.children = requireNonNull(children, "children");
-    children.forEach(c -> requireNonNull(c, "child")); // Child sanity check
-  }
-
-  public List<ASTNode> getChildren() {
-    return children;
-  }
+public enum SymbolTableAttributeKey {
+  CONSTANT,
+  BLOCK_AST,
+  BLOCK_SYMBOL_TABLE,
+  METHOD_PARAMETERS,
+  VALUE,
+  DEFINITION,
+  TYPE
 }

@@ -12,21 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-import static java.util.Objects.requireNonNull;
+/** Interface for factory class the can create a {@link SymbolTableEntry}. */
+public interface SymbolTableEntryFactory {
 
-import java.util.List;
-
-public class BlockNode implements ASTNode {
-  private final List<BlockStatementNode> children;
-
-  public BlockNode(List<BlockStatementNode> children) {
-    this.children = requireNonNull(children, "children");
-    this.children.forEach(c -> requireNonNull(c, "child"));
-  }
-
-  public List<BlockStatementNode> getChildren() {
-    return children;
-  }
+  /**
+   * Creates a new {@link SymbolTableEntry}.
+   *
+   * @param symbolTable the {@link SymbolTable} that the {@link SymbolTableEntry} belongs to.
+   * @param name the name of the {@link SymbolTableEntry}.
+   * @return the newly created {@link SymbolTableEntry}.
+   */
+  SymbolTableEntry create(String name, SymbolTable symbolTable);
 }

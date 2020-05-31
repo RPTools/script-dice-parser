@@ -12,6 +12,6 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-public interface ExpressionNode extends StatementNode {}
+public interface SymbolType {}

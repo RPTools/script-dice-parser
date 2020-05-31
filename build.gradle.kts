@@ -17,11 +17,12 @@ repositories {
 dependencies {
     antlr("org.antlr:antlr4:4.7.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.0")
-    compile("org.reflections", "reflections", "0.9.11")
-    compile("org.apache.commons", "commons-text", "1.6")
-    compile("com.github.jknack:handlebars:4.1.2")
+    implementation("org.reflections", "reflections", "0.9.11")
+    implementation("org.apache.commons", "commons-text", "1.6")
+    implementation("com.github.jknack:handlebars:4.1.2")
     implementation("org.apache.logging.log4j", "log4j-api", "2.11.0");
     implementation("org.apache.logging.log4j", "log4j-1.2-api", "2.11.0");
+    implementation("com.google.inject:guice:4.2.3")
 }
 
 configure<JavaPluginConvention> {
