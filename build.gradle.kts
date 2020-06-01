@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 
 plugins {
     antlr
@@ -6,6 +8,7 @@ plugins {
     jacoco
     application
     id("com.diffplug.gradle.spotless") version "3.28.0"
+    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 group = "net.rptools.scriptparser"
@@ -79,4 +82,9 @@ application {
     mainClassName = "net.rptools.mtscript.Main"
 }
 
+tasks.withType<ShadowJar>() {
+    manifest {
+        attributes["Main-Class"] = "net.rptools.mtscript.Main"
+    }
+}
 
