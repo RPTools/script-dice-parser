@@ -81,7 +81,10 @@ exportDest                  : KEYWORD_INTERNAL
                               KEYWORD_ROLL OP_ASSIGN rollName=IDENTIFIER
                             ;
 
-scriptBody                  : (statement | variableDeclaration | constantDeclaration)* ;
+scriptBody                  : statement
+                            | variableDeclaration
+                            | constantDeclaration
+                            | statements;
 
 literal                     : integerLiteral    # literalInteger
                             | NUMBER_LITERAL    # literalNumber
@@ -104,25 +107,28 @@ formalParameterList         : formalParameter (COMMA formalParameter)* ;
 
 formalParameter             : type variableDeclaratorId;
 
-block                       : LBRACE statement* RBRACE ;
+block                       : LBRACE statements* RBRACE ;
 
 
 statement                   : blockLabel=block                                              # stmtBlock
-                            | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI         # stmtAssert
+                            | KEYWORD_ASSERT expression (OP_COLON expression)?              # stmtAssert
                             | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?   # stmtIf
                             | KEYWORD_FOR LPAREN forControl RPAREN block                    # stmtFor
                             | KEYWORD_WHILE parExpression block                             # stmtWhile
-                            | KEYWORD_DO block KEYWORD_WHILE parExpression SEMI             # stmtDoWhile
-                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock) # stmtTry
+                            | KEYWORD_DO block KEYWORD_WHILE parExpression                  # stmtDoWhile
+                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock)   # stmtTry
                             | KEYWORD_SWITCH parExpression LBRACE switchBlockStatementGroup* switchLabel* RBRACE # stmtSwitch
-                            | KEYWORD_RETURN expression? SEMI                               # stmtReturn
-                            | KEYWORD_THROW expression SEMI                                 # stmtThrow
-                            | KEYWORD_BREAK SEMI                                            # stmtBreak
-                            | KEYWORD_CONTINUE SEMI                                         # stmtContinue
-                            | SEMI                                                          # stmtSemi
+                            | KEYWORD_RETURN expression?                                    # stmtReturn
+                            | KEYWORD_THROW expression                                      # stmtThrow
+                            | KEYWORD_BREAK                                                 # stmtBreak
+                            | KEYWORD_CONTINUE                                              # stmtContinue
+                            //| SEMI                                                          # stmtSemi
                             | variableDeclaration                                           # stmtVariable
                             | constantDeclaration                                           # stmtConstant
-                            | statementExpression=expression SEMI                           # stmtExpr
+                            | statementExpression=expression                                # stmtExpr
+                            ;
+
+ statements                 : statement SEMI (statement SEMI)*
                             ;
 
 
@@ -131,7 +137,7 @@ catchClause                 : KEYWORD_CATCH LPAREN IDENTIFIER RPAREN block ;
 
 finallyBlock                : KEYWORD_FINALLY block ;
 
-switchBlockStatementGroup   : switchLabel+ statement+ ;
+switchBlockStatementGroup   : switchLabel+ statements ;
 
 switchLabel                 : KEYWORD_CASE constantExpression=expression OP_COLON
                             | KEYWORD_DEFAULT OP_COLON
