@@ -28,18 +28,22 @@ public class GenericASTNode implements ASTNode {
   private ASTNode parent;
 
   /** The type of node. */
-  private ASTNodeType type;
+  private final ASTNodeType type;
+
+  /**
+   * Creates a new {@code GenericASTNode}.
+   *
+   * @param type the type of the node.
+   */
+  GenericASTNode(ASTNodeType type) {
+    this.type = type;
+  }
 
   /** Attributes for the {@code ASTNode}. */
   private final Map<ASTAttributeKey, Object> attributeMap = new HashMap<>();
 
   /** The children of this {@code ASTNode}. */
   private final ArrayList<ASTNode> children = new ArrayList<>();
-
-  @Override
-  public void setType(ASTNodeType type) {
-    this.type = type;
-  }
 
   @Override
   public ASTNodeType getType() {
@@ -71,6 +75,7 @@ public class GenericASTNode implements ASTNode {
   @Override
   public void setAttribute(ASTAttributeKey key, Object value) {
     attributeMap.put(key, value);
+    System.out.println(key + " => " + value);
   }
 
   @Override

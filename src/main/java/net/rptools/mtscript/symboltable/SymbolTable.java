@@ -46,6 +46,7 @@ public interface SymbolTable {
 
   /**
    * Returns all the {@link SymbolTableEntry}s in the {@link SymbolTable}.
+   *
    * @return all the {@link SymbolTableEntry}s.
    */
   Set<SymbolTableEntry> getEntries();

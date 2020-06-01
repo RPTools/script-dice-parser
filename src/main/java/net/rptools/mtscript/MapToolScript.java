@@ -17,37 +17,48 @@ package net.rptools.mtscript;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.ASTNodeFactory;
 import net.rptools.mtscript.injection.ScriptModule;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.util.MTScriptConstants;
+import net.rptools.mtscript.util.SymbolTablePrinter;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-/**
- * Temporary class for running the parser/
- */
+/** Temporary class for running the parser/ */
 public class MapToolScript {
   private final Injector injector;
 
-  private SymbolTableStack symbolTableStack;
+  private final SymbolTableStack symbolTableStack;
+  private final MTScriptConstants constants;
 
   public MapToolScript() {
     injector = Guice.createInjector(new ScriptModule());
+    symbolTableStack = injector.getInstance(SymbolTableStack.class);
+    constants = injector.getInstance(MTScriptConstants.class);
   }
 
-  public void parse(String script) {
-    MTScript2Parser parser = createParser(script, false);
+  public void parseScript(String script) {
+    parse(script, false);
+  }
+
+  public void parseModule(String module) {
+    parse(module, true);
+  }
+
+  private void parse(String script, boolean isModule) {
+    MTScript2Parser parser = createParser(script, isModule);
     ParseTree parseTree = parser.chat();
-    symbolTableStack = injector.getInstance(SymbolTableStack.class);
 
     // Add Global Symbols here
-    BuildASTVisitor visitor = new BuildASTVisitor(symbolTableStack);
+    ASTNodeFactory astNodeFactory = injector.getInstance(ASTNodeFactory.class);
+    BuildASTVisitor visitor = new BuildASTVisitor(symbolTableStack, astNodeFactory, constants);
     ASTNode root = parseTree.accept(visitor);
-
   }
 
   private MTScript2Parser createParser(String script, boolean parsingModule) {
@@ -57,5 +68,10 @@ public class MapToolScript {
     MTScript2Parser parser = new MTScript2Parser(tokenStream);
     parser.setErrorHandler(injector.getInstance(ANTLRErrorStrategy.class));
     return parser;
+  }
+
+  public void printSymbolTable() {
+    SymbolTablePrinter printer = new SymbolTablePrinter();
+    printer.printSymbolTableStack(symbolTableStack);
   }
 }

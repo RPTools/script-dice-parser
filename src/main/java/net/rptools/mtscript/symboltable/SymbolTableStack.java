@@ -68,9 +68,9 @@ public interface SymbolTableStack {
    */
   Optional<SymbolTableEntry> lookup(String name);
 
-
   /**
    * Return the {@link SymbolTable} at the specified scope level.
+   *
    * @param level the scope level to get the symbol table for.
    * @return the {@link SymbolTable} for the scope level.
    */

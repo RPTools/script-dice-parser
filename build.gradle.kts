@@ -67,6 +67,7 @@ spotless {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs("--enable-preview")
     testLogging {
         events("passed", "skipped", "failed", "standard_error", "standard_out")
     }
@@ -88,3 +89,10 @@ tasks.withType<ShadowJar>() {
     }
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("--enable-preview")
+}
+
+tasks.withType<JavaExec> {
+    jvmArgs("--enable-preview")
+}

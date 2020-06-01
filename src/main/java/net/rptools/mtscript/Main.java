@@ -17,12 +17,50 @@ package net.rptools.mtscript;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
+  private boolean dumpSymbolTable = true; // false;
+  private boolean module = false;
+  private String filename;
+
+  public static void main(String[] args) throws IOException, ParseException {
+    Main main = new Main();
+    main.run(args);
+  }
+
+  private void run(String[] args) throws IOException, ParseException {
+    parseArgs(args);
+
     MapToolScript mapToolScript = new MapToolScript();
-    String script = new String(Files.readAllBytes(Paths.get(args[0])));
-    mapToolScript.parse(script);
+    String script = new String(Files.readAllBytes(Paths.get(filename)));
+    if (module) {
+      mapToolScript.parseModule(script);
+    } else {
+      mapToolScript.parseScript(script);
+    }
+
+    if (dumpSymbolTable) {
+      mapToolScript.printSymbolTable();
+    }
+  }
+
+  private void parseArgs(String[] args) throws ParseException {
+    Options options = new Options();
+    options.addOption("s", false, "Dump SymbolTable details");
+
+    CommandLineParser parser = new DefaultParser();
+    CommandLine cmd = parser.parse(options, args);
+
+    if (cmd.hasOption("s")) {
+      dumpSymbolTable = true;
+    }
+
+    filename = cmd.getArgs()[0];
   }
 }

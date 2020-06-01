@@ -22,7 +22,7 @@ import java.util.Optional;
  * Standard implementation of a {@link SymbolTableStack} used for maintaining a stack of symbol
  * tables used for resolving symbols in the script over several scopes.
  */
-class StandardSymbolTableStack implements SymbolTableStack {
+public class StandardSymbolTableStack implements SymbolTableStack {
 
   /** {@link ArrayList} used to maintain the stack of {@link SymbolTable}s. */
   private final ArrayList<SymbolTable> stack = new ArrayList<>();

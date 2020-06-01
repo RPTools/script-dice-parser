@@ -14,7 +14,6 @@
  */
 package net.rptools.mtscript.symboltable;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,6 +39,7 @@ class StandardSymbolTable implements SymbolTable {
    */
   public StandardSymbolTable(SymbolTableEntryFactory factory, int scopeLevel) {
     level = scopeLevel;
+    symbolTableEntryFactory = factory;
   }
 
   @Override
@@ -49,7 +49,13 @@ class StandardSymbolTable implements SymbolTable {
 
   @Override
   public SymbolTableEntry create(String name) {
-    return null;
+    if (lookup(name).isPresent()) {
+      throw new IllegalStateException("Symbol: " + name + " already exists.");
+    }
+    SymbolTableEntry symbolTableEntry = symbolTableEntryFactory.create(name, this);
+    symbolMap.put(name, symbolTableEntry);
+
+    return symbolTableEntry;
   }
 
   @Override

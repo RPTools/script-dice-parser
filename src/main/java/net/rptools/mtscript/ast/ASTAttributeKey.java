@@ -14,4 +14,6 @@
  */
 package net.rptools.mtscript.ast;
 
-public enum ASTAttributeKey {}
+public enum ASTAttributeKey {
+  VALUE
+}

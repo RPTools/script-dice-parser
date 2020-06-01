@@ -21,13 +21,6 @@ import java.util.Optional;
 public interface ASTNode {
 
   /**
-   * Sets the type of the {@code ASTNode}.
-   *
-   * @param type the type of the {@code ASTNode}.
-   */
-  void setType(ASTNodeType type);
-
-  /**
    * Returns the type of the {@code ASTNode}.
    *
    * @return the type of the {@code ASTNode}.

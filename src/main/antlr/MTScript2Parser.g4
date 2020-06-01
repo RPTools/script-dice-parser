@@ -81,10 +81,8 @@ exportDest                  : KEYWORD_INTERNAL
                               KEYWORD_ROLL OP_ASSIGN rollName=IDENTIFIER
                             ;
 
-scriptBody                  : statement
-                            | variableDeclaration
-                            | constantDeclaration
-                            | statements;
+scriptBody                  : stmt=statement
+                            | stmtList=statements;
 
 literal                     : integerLiteral    # literalInteger
                             | NUMBER_LITERAL    # literalNumber
@@ -110,8 +108,7 @@ formalParameter             : type variableDeclaratorId;
 block                       : LBRACE statements* RBRACE ;
 
 
-statement                   : blockLabel=block                                              # stmtBlock
-                            | KEYWORD_ASSERT expression (OP_COLON expression)?              # stmtAssert
+statement                   : KEYWORD_ASSERT expression (OP_COLON expression)?              # stmtAssert
                             | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?   # stmtIf
                             | KEYWORD_FOR LPAREN forControl RPAREN block                    # stmtFor
                             | KEYWORD_WHILE parExpression block                             # stmtWhile
@@ -128,7 +125,7 @@ statement                   : blockLabel=block                                  
                             | statementExpression=expression                                # stmtExpr
                             ;
 
- statements                 : statement SEMI (statement SEMI)*
+ statements                 : ( block | statement SEMI+ ) ( block | statement SEMI+)*
                             ;
 
 
