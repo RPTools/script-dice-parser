@@ -15,7 +15,7 @@
 package net.rptools.mtscript.symboltable;
 
 /** Factory class for creating implementations of the {@link SymbolTable} interface. */
-public class SymbolTableFactoryClass implements SymbolTableFactory, SymbolTableEntryFactory {
+public class SymbolTableFactoryImpl implements SymbolTableFactory, SymbolTableEntryFactory {
 
   @Override
   public SymbolTable create(int scopeLevel) {

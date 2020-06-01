@@ -18,8 +18,12 @@ import com.google.inject.AbstractModule;
 import net.rptools.mtscript.MTScriptErrorStrategy;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.ast.GenericASTNode;
+import net.rptools.mtscript.symboltable.StandardSymbolTableStack;
 import net.rptools.mtscript.symboltable.SymbolTableFactory;
-import net.rptools.mtscript.symboltable.SymbolTableFactoryClass;
+import net.rptools.mtscript.symboltable.SymbolTableFactoryImpl;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.util.MTScriptConstants;
+import net.rptools.mtscript.util.MTScriptConstantsImpl;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
 
 public class ScriptModule extends AbstractModule {
@@ -29,6 +33,8 @@ public class ScriptModule extends AbstractModule {
     super.configure();
     bind(ASTNode.class).to(GenericASTNode.class);
     bind(ANTLRErrorStrategy.class).to(MTScriptErrorStrategy.class);
-    bind(SymbolTableFactory.class).to(SymbolTableFactoryClass.class);
+    bind(SymbolTableFactory.class).to(SymbolTableFactoryImpl.class);
+    bind(SymbolTableStack.class).to(StandardSymbolTableStack.class);
+    bind(MTScriptConstants.class).to(MTScriptConstantsImpl.class);
   }
 }
