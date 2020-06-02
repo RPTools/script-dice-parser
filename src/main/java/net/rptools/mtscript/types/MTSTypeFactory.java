@@ -12,16 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.types;
 
-/** Key values for attributes in the symbol table. */
-public enum SymbolTableAttributeKey {
-  /** Attribute contains a constant value. */
-  CONSTANT,
-  /** Attribute contains the root of an AST tree ({@link net.rptools.mtscript.ast.ASTNode)}. */
-  CODE_AST,
-  /** Attribute contains a {@link net.rptools.mtscript.symboltable.SymbolTable}. */
-  SYMBOL_TABLE,
-  /** Attribute contains a Type. */
-  TYPE
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
+
+/** Interface for factory to create {@link MTSType}s. */
+public interface MTSTypeFactory {
+
+  /**
+   * Creates a new {@link MTSType}.
+   *
+   * @param symbolTableEntry The {@link SymbolTableEntry} where the type is defined.
+   * @return the newly created {@link MTSType}.
+   */
+  MTSType create(SymbolTableEntry symbolTableEntry);
 }

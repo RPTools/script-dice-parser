@@ -16,6 +16,8 @@ package net.rptools.mtscript.util;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.symboltable.SymbolTable;
 import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
@@ -31,11 +33,23 @@ public class SymbolTablePrinter {
    * @param indentLevel the level of indentation.
    */
   public void printSymbolTable(SymbolTable symbolTable, int indentLevel) {
+    String indent = " ".repeat(indentLevel);
+    System.out.println(
+        ANSIEscape.WHITE_BOLD
+            + "Symbol Table Nesting Level "
+            + symbolTable.getLevel()
+            + ANSIEscape.RESET);
+    if (symbolTable.getEntries().isEmpty()) {
+      System.out.println(indent + "  " + ANSIEscape.RED + "No Entries" + ANSIEscape.RESET);
+    }
     symbolTable.getEntries().stream()
         .sorted(Comparator.comparing(SymbolTableEntry::getName))
         .forEach(
             ste -> {
               System.out.println("Name: " + ste.getName());
+
+              Optional<Object> cnst = ste.getAttribute(SymbolTableAttributeKey.CONSTANT);
+              cnst.ifPresent(c -> System.out.println(formatValue(c.toString(), indentLevel + 2)));
 
               Optional<SymbolTable> st =
                   ste.getAttribute(SymbolTableAttributeKey.SYMBOL_TABLE, SymbolTable.class);
@@ -54,9 +68,16 @@ public class SymbolTablePrinter {
    * @param stack the {@link SymbolTableStack} to print out the contents of.
    */
   public void printSymbolTableStack(SymbolTableStack stack) {
-    System.out.println("Symbol Table Stack");
-    for (int i = 0; i <= stack.getLocalLevel(); i++) {
+    System.out.println(ANSIEscape.WHITE_BOLD_BRIGHT + "Symbol Table Stack" + ANSIEscape.RESET);
+    for (int i = 0; i <= stack.getNestingLevel(); i++) {
       printSymbolTable(stack.getSymbolTable(i), 0);
     }
+  }
+
+  private String formatValue(String value, int indentLevel) {
+    String indent = " ".repeat(indentLevel);
+    Pattern pattern = Pattern.compile("^", Pattern.MULTILINE);
+    Matcher matcher = pattern.matcher(value);
+    return matcher.replaceAll(indent + ANSIEscape.GREEN + ">" + ANSIEscape.RESET);
   }
 }

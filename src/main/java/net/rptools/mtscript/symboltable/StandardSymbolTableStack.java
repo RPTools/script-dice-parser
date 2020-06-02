@@ -41,7 +41,7 @@ public class StandardSymbolTableStack implements SymbolTableStack {
   }
 
   @Override
-  public int getLocalLevel() {
+  public int getNestingLevel() {
     return stackTop;
   }
 
@@ -73,6 +73,19 @@ public class StandardSymbolTableStack implements SymbolTableStack {
 
   @Override
   public Optional<SymbolTableEntry> lookup(String name) {
+    for (int i = stackTop; i >= 0; i--) {
+      SymbolTable symbolTable = stack.get(i);
+      Optional<SymbolTableEntry> lookup = symbolTable.lookup(name);
+      if (lookup.isPresent()) {
+        return lookup;
+      }
+    }
+
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<SymbolTableEntry> lookupLocal(String name) {
     SymbolTable symbolTable = stack.get(stackTop);
     return symbolTable.lookup(name);
   }

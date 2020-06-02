@@ -15,6 +15,9 @@
 package net.rptools.mtscript.parser.visitor;
 
 import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import net.rptools.mtscript.ast.ASTAttributeKey;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.ast.ASTNodeFactory;
@@ -28,6 +31,9 @@ import net.rptools.mtscript.parser.MTScript2ParserVisitor;
 import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeFactory;
+import net.rptools.mtscript.types.PredefinedType;
 import net.rptools.mtscript.util.MTScriptConstants;
 
 /**
@@ -43,60 +49,95 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
   /** The constants used through out the parser. */
   private final MTScriptConstants constants;
 
-  /** Tge factory used to create {@link ASTNode}s. */
+  /** The factory used to create {@link ASTNode}s. */
   private final ASTNodeFactory astNodeFactory;
 
-  private final String CHAT_SYMBOL_NAME_PART = "chat";
+  /** The factory used to create {@link MTSType}s. */
+  private final MTSTypeFactory mtsTypeFactory;
 
-  private final String CHAT_SYMBOL_NAME;
+  /** Cached map of {@link PredefinedType} to {@link SymbolTableEntry} for performance, */
+  private final Map<PredefinedType, MTSType> predefinedTypesMap = new HashMap<>();
+
+  private final String ENTRY_POINT_SYMBOL_NAME_PART = "entry point";
+  private final String ENTRY_POINT_SYMBOL_NAME;
 
   /**
    * Creates a new {@code BuildASTVisitor}.
    *
    * @param symbolTableStack the symbol table stack used for the AST.
+   * @param astNodeFactory the factory used to create {@link ASTNode}s.
+   * @param mtsTypeFactory the factory used to create {@link MTSType}s.
    * @param constants constants used through out the parsing / execution process.
    */
   @Inject
   public BuildASTVisitor(
       SymbolTableStack symbolTableStack,
       ASTNodeFactory astNodeFactory,
+      MTSTypeFactory mtsTypeFactory,
       MTScriptConstants constants) {
     this.symbolTableStack = symbolTableStack;
     this.astNodeFactory = astNodeFactory;
+    this.mtsTypeFactory = mtsTypeFactory;
     this.constants = constants;
 
-    CHAT_SYMBOL_NAME = constants.getInternalSymbolPrefix() + CHAT_SYMBOL_NAME_PART;
+    ENTRY_POINT_SYMBOL_NAME = constants.getInternalSymbolPrefix() + ENTRY_POINT_SYMBOL_NAME_PART;
+
+    for (PredefinedType pt : PredefinedType.values()) {
+      Optional<SymbolTableEntry> entry = symbolTableStack.lookup(pt.getName());
+      if (entry.isPresent()) {
+        Optional<MTSType> mtsType =
+            entry.get().getAttribute(SymbolTableAttributeKey.TYPE, MTSType.class);
+        mtsType.ifPresent(type -> predefinedTypesMap.put(pt, type));
+      }
+    }
   }
 
   @Override
   public ASTNode visitChat(ChatContext ctx) {
-    SymbolTableEntry symbolTableEntry = symbolTableStack.create(CHAT_SYMBOL_NAME);
+    SymbolTableEntry symbolTableEntry = symbolTableStack.create(ENTRY_POINT_SYMBOL_NAME);
     ASTNode astNode = astNodeFactory.create(ASTNodeType.CHAT);
+    astNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
+
     symbolTableEntry.setAttribute(SymbolTableAttributeKey.CODE_AST, astNode);
 
-    ctx.children.forEach(
-        c -> {
-          astNode.addChild(visit(c));
-        });
+    ctx.children.forEach(c -> astNode.addChild(visit(c)));
 
     return astNode;
   }
 
   @Override
   public ASTNode visitText(TextContext ctx) {
-    ASTNode astNode = astNodeFactory.create(ASTNodeType.TEXT);
-    astNode.setAttribute(ASTAttributeKey.VALUE, ctx.getText());
+    // TODO next three lines need to be replaced with lookup of 'writeString' procedure symbol
+    ASTNode astNode = astNodeFactory.create(ASTNodeType.CALL_PROCEDURE);
+    astNode.setAttribute(ASTAttributeKey.VALUE, "writeString");
+    astNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
+
+    ASTNode paramNode = astNodeFactory.create(ASTNodeType.PARAMETERS);
+    paramNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
+    astNode.addChild(paramNode);
+
+    ASTNode firstParam = astNodeFactory.create(ASTNodeType.LITERAL);
+    firstParam.setAttribute(ASTAttributeKey.VALUE, ctx.getText());
+    firstParam.setMTSType(predefinedTypesMap.get(PredefinedType.STRING));
+    paramNode.addChild(firstParam);
+
     return astNode;
   }
 
   @Override
   public ASTNode visitScript(ScriptContext ctx) {
+    // Just return the child, as while this level is needed for parsing its no longer required in
+    // AST.
     return visitScriptBody(ctx.scriptBody());
   }
 
   @Override
   public ASTNode visitScriptBody(ScriptBodyContext ctx) {
+    ASTNode astNode = astNodeFactory.create(ASTNodeType.SCRIPT);
+    // TODO need to think about what MTSType this node will have, as well as how to do equivalent of
+    // [h: ... ]
+    astNode.setMTSType(predefinedTypesMap.get(PredefinedType.STRING));
 
-    return astNodeFactory.create(ASTNodeType.SCRIPT);
+    return astNode;
   }
 }

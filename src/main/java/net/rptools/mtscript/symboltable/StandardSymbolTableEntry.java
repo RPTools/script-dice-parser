@@ -16,6 +16,7 @@ package net.rptools.mtscript.symboltable;
 
 import java.util.HashMap;
 import java.util.Optional;
+import net.rptools.mtscript.types.MTSTypeDefinition;
 
 /** Classes that store information in a {@link SymbolTable}. */
 class StandardSymbolTableEntry implements SymbolTableEntry {
@@ -28,6 +29,9 @@ class StandardSymbolTableEntry implements SymbolTableEntry {
 
   /** Attribute values for the symbol table entry. */
   private final HashMap<SymbolTableAttributeKey, Object> attributeMap = new HashMap<>();
+
+  /** The type definition for this symbol. */
+  private MTSTypeDefinition typeDefinition;
 
   /**
    * Creates a new {@code StandardSymbolTableEntry} object.
@@ -62,5 +66,15 @@ class StandardSymbolTableEntry implements SymbolTableEntry {
   @Override
   public <T> Optional<T> getAttribute(SymbolTableAttributeKey key, Class<T> clazz) {
     return Optional.ofNullable(clazz.cast(attributeMap.get(key)));
+  }
+
+  @Override
+  public MTSTypeDefinition getTypeDefinition() {
+    return typeDefinition;
+  }
+
+  @Override
+  public void setTypeDefinition(MTSTypeDefinition typeDefinition) {
+    this.typeDefinition = typeDefinition;
   }
 };

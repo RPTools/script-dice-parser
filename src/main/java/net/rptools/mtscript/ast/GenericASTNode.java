@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import net.rptools.mtscript.types.MTSType;
 
 /** Class that represents nodes in our abstract syntax tree. */
 public class GenericASTNode implements ASTNode {
@@ -29,6 +30,9 @@ public class GenericASTNode implements ASTNode {
 
   /** The type of node. */
   private final ASTNodeType type;
+
+  /** The type resulting from executing this {@code ASTNode}. */
+  private MTSType mtsType;
 
   /**
    * Creates a new {@code GenericASTNode}.
@@ -75,7 +79,6 @@ public class GenericASTNode implements ASTNode {
   @Override
   public void setAttribute(ASTAttributeKey key, Object value) {
     attributeMap.put(key, value);
-    System.out.println(key + " => " + value);
   }
 
   @Override
@@ -86,5 +89,15 @@ public class GenericASTNode implements ASTNode {
   @Override
   public <T> Optional<T> getAttribute(ASTAttributeKey key, Class<T> clazz) {
     return Optional.ofNullable(clazz.cast(attributeMap.get(key)));
+  }
+
+  @Override
+  public MTSType getMTSType() {
+    return mtsType;
+  }
+
+  @Override
+  public void setMTSType(MTSType type) {
+    mtsType = type;
   }
 }

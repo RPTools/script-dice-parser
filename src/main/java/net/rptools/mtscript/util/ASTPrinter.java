@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import net.rptools.mtscript.ast.ASTAttributeKey;
 import net.rptools.mtscript.ast.ASTNode;
 
-/** Class for printing out th details of a tree of {@link ASTNode}s. */
 public class ASTPrinter {
 
   /**
@@ -31,9 +30,17 @@ public class ASTPrinter {
    */
   public void print(ASTNode node, int indentLevel) {
     String indent = " ".repeat(indentLevel);
-    System.out.println(indent + node.getType() + ":");
+    System.out.println(
+        indent
+            + node.getType()
+            + ": MTSType="
+            + ANSIEscape.YELLOW
+            + "("
+            + node.getMTSType().getName()
+            + ")"
+            + ANSIEscape.RESET);
     Optional<String> valueAttr = node.getAttribute(ASTAttributeKey.VALUE, String.class);
-    valueAttr.ifPresent(value -> System.out.println(formatValue(value, indentLevel)));
+    valueAttr.ifPresent(value -> System.out.println(formatValue(value, indentLevel + 2)));
 
     node.getChildren().forEach(n -> print(n, indentLevel + 2));
   }
@@ -42,6 +49,6 @@ public class ASTPrinter {
     String indent = " ".repeat(indentLevel);
     Pattern pattern = Pattern.compile("^", Pattern.MULTILINE);
     Matcher matcher = pattern.matcher(value);
-    return matcher.replaceAll(indent + "|");
+    return matcher.replaceAll(indent + ANSIEscape.GREEN + ">" + ANSIEscape.RESET);
   }
 }

@@ -22,6 +22,8 @@ import net.rptools.mtscript.symboltable.StandardSymbolTableStack;
 import net.rptools.mtscript.symboltable.SymbolTableFactory;
 import net.rptools.mtscript.symboltable.SymbolTableFactoryImpl;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.types.MTSTypeFactory;
+import net.rptools.mtscript.types.MTSTypeFactoryImpl;
 import net.rptools.mtscript.util.MTScriptConstants;
 import net.rptools.mtscript.util.MTScriptConstantsImpl;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
@@ -36,5 +38,6 @@ public class ScriptModule extends AbstractModule {
     bind(SymbolTableStack.class).to(StandardSymbolTableStack.class);
     bind(MTScriptConstants.class).to(MTScriptConstantsImpl.class);
     bind(ASTNodeFactory.class).to(ASTNodeFactoryImpl.class);
+    bind(MTSTypeFactory.class).to(MTSTypeFactoryImpl.class);
   }
 }

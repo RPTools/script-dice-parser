@@ -16,6 +16,7 @@ package net.rptools.mtscript.ast;
 
 import java.util.List;
 import java.util.Optional;
+import net.rptools.mtscript.types.MTSType;
 
 /** Interface that represents nodes in our abstract syntax tree. */
 public interface ASTNode {
@@ -81,4 +82,18 @@ public interface ASTNode {
    * @return the value of the attribute.
    */
   <T> Optional<T> getAttribute(ASTAttributeKey key, Class<T> clazz);
+
+  /**
+   * Returns the {@link MTSType} resulting from the {@code ASTNode}.
+   *
+   * @return the {@link MTSType} resulting from the {@code ASTNode}.
+   */
+  MTSType getMTSType();
+
+  /**
+   * Sets the {@link MTSType} resulting from the [@code ASTNode}.
+   *
+   * @param type the {@link MTSType} resulting from the [@code ASTNode}.
+   */
+  void setMTSType(MTSType type);
 }

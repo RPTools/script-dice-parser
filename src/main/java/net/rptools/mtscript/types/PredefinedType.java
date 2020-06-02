@@ -12,16 +12,31 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.types;
 
-/** Key values for attributes in the symbol table. */
-public enum SymbolTableAttributeKey {
-  /** Attribute contains a constant value. */
-  CONSTANT,
-  /** Attribute contains the root of an AST tree ({@link net.rptools.mtscript.ast.ASTNode)}. */
-  CODE_AST,
-  /** Attribute contains a {@link net.rptools.mtscript.symboltable.SymbolTable}. */
-  SYMBOL_TABLE,
-  /** Attribute contains a Type. */
-  TYPE
+/** Temporary holder for Predefined Types */
+public enum PredefinedType {
+  NONE("@NONE@"),
+  INTEGER("integer"),
+  NUMBER("number"),
+  LIST("list"),
+  DICT("dict"),
+  ROLL("roll"),
+  STRING("string");
+
+  /** The name of the type. */
+  private final String name;
+
+  PredefinedType(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Returns the name of the predefined type.
+   *
+   * @return the name of the predefined type.
+   */
+  public String getName() {
+    return name;
+  }
 }

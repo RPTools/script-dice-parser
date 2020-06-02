@@ -23,7 +23,7 @@ public interface SymbolTableStack {
    *
    * @return the scope level at the top of the stack which will be the local scope.
    */
-  int getLocalLevel();
+  int getNestingLevel();
 
   /**
    * Returns the {@link SymbolTable} at the top of the stack which will be the {@link SymbolTable}
@@ -67,6 +67,15 @@ public interface SymbolTableStack {
    * @return the {@link SymbolTableEntry}
    */
   Optional<SymbolTableEntry> lookup(String name);
+
+  /**
+   * Returns the defined {@link SymbolTableEntry} for the specified name. This method will only
+   * search the top (local) symbol table in the stack.
+   *
+   * @param name the name of the {@link SymbolTableEntry} to retrieve.
+   * @return the {@link SymbolTableEntry}
+   */
+  Optional<SymbolTableEntry> lookupLocal(String name);
 
   /**
    * Return the {@link SymbolTable} at the specified scope level.

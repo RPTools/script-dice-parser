@@ -22,7 +22,13 @@ import net.rptools.mtscript.injection.ScriptModule;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
+import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeDefinition;
+import net.rptools.mtscript.types.MTSTypeFactory;
+import net.rptools.mtscript.types.PredefinedType;
 import net.rptools.mtscript.util.MTScriptConstants;
 import net.rptools.mtscript.util.SymbolTablePrinter;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
@@ -36,11 +42,13 @@ public class MapToolScript {
 
   private final SymbolTableStack symbolTableStack;
   private final MTScriptConstants constants;
+  private final MTSTypeFactory mtsTypeFactory;
 
   public MapToolScript() {
     injector = Guice.createInjector(new ScriptModule());
     symbolTableStack = injector.getInstance(SymbolTableStack.class);
     constants = injector.getInstance(MTScriptConstants.class);
+    mtsTypeFactory = injector.getInstance(MTSTypeFactory.class);
   }
 
   public void parseScript(String script) {
@@ -52,12 +60,14 @@ public class MapToolScript {
   }
 
   private void parse(String script, boolean isModule) {
+    createPredefinedTypes(symbolTableStack);
+    symbolTableStack.push();
     MTScript2Parser parser = createParser(script, isModule);
     ParseTree parseTree = parser.chat();
 
-    // Add Global Symbols here
     ASTNodeFactory astNodeFactory = injector.getInstance(ASTNodeFactory.class);
-    BuildASTVisitor visitor = new BuildASTVisitor(symbolTableStack, astNodeFactory, constants);
+    BuildASTVisitor visitor =
+        new BuildASTVisitor(symbolTableStack, astNodeFactory, mtsTypeFactory, constants);
     ASTNode root = parseTree.accept(visitor);
   }
 
@@ -73,5 +83,14 @@ public class MapToolScript {
   public void printSymbolTable() {
     SymbolTablePrinter printer = new SymbolTablePrinter();
     printer.printSymbolTableStack(symbolTableStack);
+  }
+
+  private void createPredefinedTypes(SymbolTableStack symbolTableStack) {
+    for (PredefinedType pt : PredefinedType.values()) {
+      SymbolTableEntry entry = symbolTableStack.create(pt.getName());
+      entry.setTypeDefinition(MTSTypeDefinition.TYPE);
+      MTSType mtsType = mtsTypeFactory.create(entry);
+      entry.setAttribute(SymbolTableAttributeKey.TYPE, mtsType);
+    }
   }
 }

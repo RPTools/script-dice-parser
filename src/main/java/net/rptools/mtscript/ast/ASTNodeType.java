@@ -71,7 +71,12 @@ public enum ASTNodeType {
 
   // Expressions
   VARIABLE,
-  CONSTANT,
   POST_FIX_INCREMENT,
   POST_FIX_DECREMENT,
+  CALL_FUNCTION,
+  CALL_PROCEDURE,
+  LITERAL,
+
+  // Other
+  PARAMETERS
 }

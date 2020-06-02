@@ -27,7 +27,7 @@ class StandardSymbolTable implements SymbolTable {
   private final int level;
 
   /** The factory class used to crate {@link SymbolTableEntry}. */
-  private SymbolTableEntryFactory symbolTableEntryFactory;
+  private final SymbolTableEntryFactory symbolTableEntryFactory;
 
   /** Mapping between symbol name and {@link SymbolTableEntry}. */
   private final Map<String, SymbolTableEntry> symbolMap = new HashMap<>();
@@ -60,7 +60,7 @@ class StandardSymbolTable implements SymbolTable {
 
   @Override
   public Optional<SymbolTableEntry> lookup(String name) {
-    return Optional.empty();
+    return Optional.ofNullable(symbolMap.get(name));
   }
 
   @Override
