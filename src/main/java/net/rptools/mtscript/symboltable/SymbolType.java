@@ -12,21 +12,6 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.List;
-
-public class ScriptNode implements ASTNode {
-  private final List<ASTNode> body;
-
-  public ScriptNode(List<ASTNode> body) {
-    this.body = requireNonNull(body, "body list");
-    this.body.forEach(c -> requireNonNull(c, "child was null"));
-  }
-
-  public List<ASTNode> getBody() {
-    return body;
-  }
-}
+public interface SymbolType {}

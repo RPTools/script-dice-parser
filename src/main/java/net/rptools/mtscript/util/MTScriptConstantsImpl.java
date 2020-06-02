@@ -12,30 +12,16 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.util;
 
-import static java.util.Objects.requireNonNull;
+/** Classes that provides constants used through out the parser and execution. */
+public class MTScriptConstantsImpl implements MTScriptConstants {
 
-public class ImportNode implements ASTNode {
-  private final String id;
-  private final String version;
-  private final String as;
+  /** Prefix for internal symbols. */
+  private static final String INTERNAL_STRING_PREFIX = "@@";
 
-  public ImportNode(String id, String version, String as) {
-    this.id = requireNonNull(id, "id");
-    this.version = requireNonNull(version, "version");
-    this.as = as;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getVersion() {
-    return version;
-  }
-
-  public String getAs() {
-    return as;
+  @Override
+  public String getInternalSymbolPrefix() {
+    return INTERNAL_STRING_PREFIX;
   }
 }

@@ -12,6 +12,31 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.types;
 
-public interface ExpressionNode extends StatementNode {}
+/** Temporary holder for Predefined Types */
+public enum PredefinedType {
+  NONE("@NONE@"),
+  INTEGER("integer"),
+  NUMBER("number"),
+  LIST("list"),
+  DICT("dict"),
+  ROLL("roll"),
+  STRING("string");
+
+  /** The name of the type. */
+  private final String name;
+
+  PredefinedType(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Returns the name of the predefined type.
+   *
+   * @return the name of the predefined type.
+   */
+  public String getName() {
+    return name;
+  }
+}

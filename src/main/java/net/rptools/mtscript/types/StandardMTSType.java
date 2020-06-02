@@ -12,6 +12,26 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.types;
 
-public class BuildASTVisitorTest {}
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
+
+/** Concrete class for MapTool Script Type */
+public class StandardMTSType implements MTSType {
+
+  private final SymbolTableEntry symbolTableEntry;
+
+  StandardMTSType(SymbolTableEntry entry) {
+    symbolTableEntry = entry;
+  }
+
+  @Override
+  public SymbolTableEntry getSymbolTableEntry() {
+    return symbolTableEntry;
+  }
+
+  @Override
+  public String getName() {
+    return symbolTableEntry.getName();
+  }
+}

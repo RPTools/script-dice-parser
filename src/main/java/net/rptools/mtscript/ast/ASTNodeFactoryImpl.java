@@ -14,4 +14,11 @@
  */
 package net.rptools.mtscript.ast;
 
-public interface StatementNode extends ASTNode, BlockStatementNode {}
+/** Factory class that creates {@link ASTNode}s. */
+public class ASTNodeFactoryImpl implements ASTNodeFactory {
+
+  @Override
+  public ASTNode create(ASTNodeType type) {
+    return new GenericASTNode(type);
+  }
+}

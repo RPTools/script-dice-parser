@@ -12,30 +12,14 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.types;
 
-import static java.util.Objects.requireNonNull;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
-public class VariableNode implements ExpressionNode {
-  public static enum Scope {
-    LOCAL,
-    GLOBAL,
-    PROPERTY
-  };
+/** Interface for Map Toll Script types. */
+public interface MTSType {
 
-  private final Scope scope;
-  private final String id;
+  SymbolTableEntry getSymbolTableEntry();
 
-  public VariableNode(Scope scope, String id) {
-    this.scope = requireNonNull(scope, "scope");
-    this.id = requireNonNull(id, "id");
-  }
-
-  public Scope getScope() {
-    return scope;
-  }
-
-  public String getId() {
-    return id;
-  }
+  String getName();
 }

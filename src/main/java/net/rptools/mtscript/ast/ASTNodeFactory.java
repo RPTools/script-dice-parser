@@ -12,6 +12,16 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.ast;
 
-public class BuildASTVisitorTest {}
+/** Interface for factory class that creates {@link ASTNode}s. */
+public interface ASTNodeFactory {
+
+  /**
+   * Creates an {@link ASTNode} for a {@link ASTNodeType}.
+   *
+   * @param type the {@link ASTNodeType} to create an {@link ASTNode} for.
+   * @return the created {@link ASTNode}.
+   */
+  ASTNode create(ASTNodeType type);
+}

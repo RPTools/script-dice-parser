@@ -12,21 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.types;
 
-import static java.util.Objects.requireNonNull;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
-import java.util.List;
+/** Interface for factory to create {@link MTSType}s. */
+public interface MTSTypeFactory {
 
-public class ChatNode implements ASTNode {
-  private final List<ASTNode> children;
-
-  public ChatNode(List<ASTNode> children) {
-    this.children = requireNonNull(children, "children");
-    children.forEach(c -> requireNonNull(c, "child")); // Child sanity check
-  }
-
-  public List<ASTNode> getChildren() {
-    return children;
-  }
+  /**
+   * Creates a new {@link MTSType}.
+   *
+   * @param symbolTableEntry The {@link SymbolTableEntry} where the type is defined.
+   * @return the newly created {@link MTSType}.
+   */
+  MTSType create(SymbolTableEntry symbolTableEntry);
 }

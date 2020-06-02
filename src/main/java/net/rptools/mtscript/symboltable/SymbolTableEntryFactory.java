@@ -12,18 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.symboltable;
 
-import static java.util.Objects.requireNonNull;
+/** Interface for factory class the can create a {@link SymbolTableEntry}. */
+public interface SymbolTableEntryFactory {
 
-public class TextNode implements ASTNode {
-  private final String text;
-
-  public TextNode(String text) {
-    this.text = requireNonNull(text, "text");
-  }
-
-  public String getText() {
-    return text;
-  }
+  /**
+   * Creates a new {@link SymbolTableEntry}.
+   *
+   * @param symbolTable the {@link SymbolTable} that the {@link SymbolTableEntry} belongs to.
+   * @param name the name of the {@link SymbolTableEntry}.
+   * @return the newly created {@link SymbolTableEntry}.
+   */
+  SymbolTableEntry create(String name, SymbolTable symbolTable);
 }
