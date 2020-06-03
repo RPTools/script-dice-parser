@@ -12,17 +12,28 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.types.impl;
 
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.types.MTSType;
 
 /** Concrete class for MapTool Script Type */
 public class StandardMTSType implements MTSType {
 
+  /** The symbol table entry for the type. */
   private final SymbolTableEntry symbolTableEntry;
 
-  StandardMTSType(SymbolTableEntry entry) {
+  private final Object defaultValue;
+
+  /**
+   * Creates a new {@code StandardMTSType} object.
+   *
+   * @param entry the {@link SymbolTableEntry} for this type.
+   * @param defaultValue the default "uninitialized" value for this type.
+   */
+  StandardMTSType(SymbolTableEntry entry, Object defaultValue) {
     symbolTableEntry = entry;
+    this.defaultValue = defaultValue;
   }
 
   @Override
@@ -33,5 +44,10 @@ public class StandardMTSType implements MTSType {
   @Override
   public String getName() {
     return symbolTableEntry.getName();
+  }
+
+  @Override
+  public Object getDefaultValue() {
+    return defaultValue;
   }
 }

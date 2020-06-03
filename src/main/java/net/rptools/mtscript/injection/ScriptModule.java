@@ -27,14 +27,12 @@ import net.rptools.mtscript.symboltable.SymbolTableStack;
 import net.rptools.mtscript.symboltable.impl.StandardSymbolTableStack;
 import net.rptools.mtscript.symboltable.impl.SymbolTableFactoryImpl;
 import net.rptools.mtscript.types.MTSTypeFactory;
-import net.rptools.mtscript.types.MTSTypeFactoryImpl;
+import net.rptools.mtscript.types.impl.MTSTypeFactoryImpl;
 import net.rptools.mtscript.util.MTScriptConstants;
 import net.rptools.mtscript.util.MTScriptConstantsImpl;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
 
-/**
- * Module class for dependency injection.
- */
+/** Module class for dependency injection. */
 public class ScriptModule extends AbstractModule {
 
   @Override

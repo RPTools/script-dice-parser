@@ -23,7 +23,8 @@ public interface MTSTypeFactory {
    * Creates a new {@link MTSType}.
    *
    * @param symbolTableEntry The {@link SymbolTableEntry} where the type is defined.
+   * @param defaultValue the default "initialized" value for variables of this type.
    * @return the newly created {@link MTSType}.
    */
-  MTSType create(SymbolTableEntry symbolTableEntry);
+  MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue);
 }

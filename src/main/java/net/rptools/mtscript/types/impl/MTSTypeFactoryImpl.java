@@ -12,15 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.types.impl;
 
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeFactory;
 
 /** Factory class for creating {@link MTSType}s. */
 public class MTSTypeFactoryImpl implements MTSTypeFactory {
 
   @Override
-  public MTSType create(SymbolTableEntry symbolTableEntry) {
-    return new StandardMTSType(symbolTableEntry);
+  public MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue) {
+    return new StandardMTSType(symbolTableEntry, defaultValue);
   }
 }

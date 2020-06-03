@@ -51,6 +51,7 @@ public class StandardStackMemory implements StackMemory {
                   || typeDefinition == MTSTypeDefinition.VARIABLE) {
                 String name = e.getName();
                 MTSType type = e.getType();
+                factory.createMemoryLocation(type);
                 memoryMap.put(name, factory.createMemoryLocation(type));
               }
             });

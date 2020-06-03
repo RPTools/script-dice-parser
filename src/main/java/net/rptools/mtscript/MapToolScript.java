@@ -88,7 +88,7 @@ public class MapToolScript {
     for (PredefinedType pt : PredefinedType.values()) {
       SymbolTableEntry entry = symbolTableStack.create(pt.getName());
       entry.setTypeDefinition(MTSTypeDefinition.TYPE);
-      MTSType mtsType = mtsTypeFactory.create(entry);
+      MTSType mtsType = mtsTypeFactory.create(entry, pt.getDefaultValue());
       entry.setType(mtsType);
     }
   }

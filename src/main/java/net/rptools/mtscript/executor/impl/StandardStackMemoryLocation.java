@@ -21,7 +21,7 @@ import net.rptools.mtscript.types.MTSType;
 public class StandardStackMemoryLocation implements StackMemoryLocation {
 
   /** The type of value in this "memory" location. */
-  private MTSType type;
+  private final MTSType type;
 
   /** The value in this "memory" location. */
   private Object value;
@@ -33,6 +33,7 @@ public class StandardStackMemoryLocation implements StackMemoryLocation {
    */
   StandardStackMemoryLocation(MTSType type) {
     this.type = type;
+    value = type.getDefaultValue();
   }
 
   @Override

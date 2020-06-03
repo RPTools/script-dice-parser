@@ -19,7 +19,25 @@ import net.rptools.mtscript.symboltable.SymbolTableEntry;
 /** Interface for Map Toll Script types. */
 public interface MTSType {
 
+  /**
+   * Returns the {@link SymbolTableEntry} for this type.
+   *
+   * @return the {@link SymbolTableEntry} for this type.
+   */
   SymbolTableEntry getSymbolTableEntry();
 
+  /**
+   * Returns the name of the type.
+   *
+   * @return the name of the type.
+   */
   String getName();
+
+  /**
+   * Returns the default value for this type. This is the value that the variable will be set to if
+   * it is uninitialised.
+   *
+   * @return the default value for this type.
+   */
+  Object getDefaultValue();
 }
