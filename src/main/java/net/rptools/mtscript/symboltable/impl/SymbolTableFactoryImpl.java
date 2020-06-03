@@ -12,7 +12,12 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.symboltable.impl;
+
+import net.rptools.mtscript.symboltable.SymbolTable;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTableEntryFactory;
+import net.rptools.mtscript.symboltable.SymbolTableFactory;
 
 /** Factory class for creating implementations of the {@link SymbolTable} interface. */
 public class SymbolTableFactoryImpl implements SymbolTableFactory, SymbolTableEntryFactory {

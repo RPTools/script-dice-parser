@@ -12,7 +12,11 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.ast.impl;
+
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.ASTNodeFactory;
+import net.rptools.mtscript.ast.ASTNodeType;
 
 /** Factory class that creates {@link ASTNode}s. */
 public class ASTNodeFactoryImpl implements ASTNodeFactory {

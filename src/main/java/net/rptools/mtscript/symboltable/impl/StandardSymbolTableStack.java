@@ -12,11 +12,15 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.symboltable.impl;
 
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Optional;
+import net.rptools.mtscript.symboltable.SymbolTable;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTableFactory;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
 /**
  * Standard implementation of a {@link SymbolTableStack} used for maintaining a stack of symbol

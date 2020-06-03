@@ -12,10 +12,13 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.symboltable.impl;
 
 import java.util.HashMap;
 import java.util.Optional;
+import net.rptools.mtscript.symboltable.SymbolTable;
+import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.types.MTSTypeDefinition;
 
 /** Classes that store information in a {@link SymbolTable}. */
