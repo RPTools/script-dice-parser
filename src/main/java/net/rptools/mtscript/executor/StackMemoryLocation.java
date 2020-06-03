@@ -14,23 +14,29 @@
  */
 package net.rptools.mtscript.executor;
 
-import java.util.Set;
+import net.rptools.mtscript.types.MTSType;
 
-/** Interface for "memory" that is part of the {@link StackFrame}. */
-public interface StackMemory {
-
-  /**
-   * Returns the "memory" location associated with a symbol name.
-   *
-   * @param name th symbol name to get the "memory" location of.
-   * @return the "memory" location.
-   */
-  StackMemoryLocation getMemoryLocation(String name);
+/** Interface for a "memory" location in the stack frame. */
+public interface StackMemoryLocation {
 
   /**
-   * Returns the names of all of the "memory" locations.
+   * Returns the {@link MTSType} of the value held in the "memory" location.
    *
-   * @return the names of tall of the "memory" locations.
+   * @return the {@link MTSType} of the value held in the "memory" location.
    */
-  Set<String> getMemoryLocationNames();
+  MTSType getType();
+
+  /**
+   * Returns the value stored in the "memory" location.
+   *
+   * @return the value stored in the "memory" location.
+   */
+  Object getValue();
+
+  /**
+   * Sets the vale stored in the "memory" location.
+   *
+   * @param value the value to store in the "memory" location.
+   */
+  void setValue(Object value);
 }

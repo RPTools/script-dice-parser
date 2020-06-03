@@ -12,17 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.executor;
 
-/** Interface for factory class the can create a {@link SymbolTableEntry}. */
-public interface SymbolTableEntryFactory {
+import net.rptools.mtscript.types.MTSType;
+
+/** Interface for creating {@link StackMemoryLocation} objects. */
+public interface StackMemoryLocationFactory {
 
   /**
-   * Creates a new {@link SymbolTableEntry}.
+   * Creates a new {@link StackMemoryLocation}.
    *
-   * @param name the name of the {@link SymbolTableEntry}.
-   * @param symbolTable the {@link SymbolTable} that the {@link SymbolTableEntry} belongs to.
-   * @return the newly created {@link SymbolTableEntry}.
+   * @param type the {@link MTSType} of the memory location.
+   * @return the newly {@link StackMemoryLocation}.
    */
-  SymbolTableEntry create(String name, SymbolTable symbolTable);
+  StackMemoryLocation createMemoryLocation(MTSType type);
 }

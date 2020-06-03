@@ -22,6 +22,4 @@ public enum SymbolTableAttributeKey {
   CODE_AST,
   /** Attribute contains a {@link net.rptools.mtscript.symboltable.SymbolTable}. */
   SYMBOL_TABLE,
-  /** Attribute contains a Type. */
-  TYPE
 }

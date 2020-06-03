@@ -15,6 +15,7 @@
 package net.rptools.mtscript.symboltable;
 
 import java.util.Optional;
+import net.rptools.mtscript.types.MTSType;
 import net.rptools.mtscript.types.MTSTypeDefinition;
 
 /** Interface implemented by classes that store information in a {@link SymbolTable}. */
@@ -55,7 +56,7 @@ public interface SymbolTableEntry {
    *
    * @param key the key for the attribute to return.
    * @param clazz the class type to return the attribute as.
-   * @param <T> the type to return the attrubute as.
+   * @param <T> the type to return the attribute as.
    * @return the value set for the attribute.
    */
   <T> Optional<T> getAttribute(SymbolTableAttributeKey key, Class<T> clazz);
@@ -73,4 +74,18 @@ public interface SymbolTableEntry {
    * @param typeDefinition {@link MTSTypeDefinition} for this symbol.
    */
   void setTypeDefinition(MTSTypeDefinition typeDefinition);
+
+  /**
+   * Returns the {@link MTSType} of this symbol.
+   *
+   * @return the {@link MTSType} of this symbol.
+   */
+  MTSType getType();
+
+  /**
+   * Sets the {@link MTSType} of this symbol.
+   *
+   * @param type the {@link MTSType} of this symbol.
+   */
+  void setType(MTSType type);
 }

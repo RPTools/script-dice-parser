@@ -53,7 +53,7 @@ public interface SymbolTableStack {
   /**
    * Creates a new {@link SymbolTableEntry} in the local (top) scope.
    *
-   * @param name the name of the new {@link SymbolTableEntry} to create/
+   * @param name the name of the new {@link SymbolTableEntry} to create.
    * @return the {@link SymbolTableEntry} that was created.
    */
   SymbolTableEntry create(String name);

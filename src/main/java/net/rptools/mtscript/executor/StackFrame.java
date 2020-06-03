@@ -14,7 +14,7 @@
  */
 package net.rptools.mtscript.executor;
 
-import java.util.List;
+import java.util.Set;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
 /** Interface for Stack Frames in the execution engine. */
@@ -31,12 +31,12 @@ public interface StackFrame {
    * Returns the "memory" value for a given name.
    *
    * @param name the name of the symbol.
-   * @return the {@link StackMemory} for the symbol name.
+   * @return the {@link StackMemoryLocation} for the symbol name.
    */
-  StackMemory getMemory(String name);
+  StackMemoryLocation getMemoryLocation(String name);
 
   /** Returns the name of the "memory" locations. */
-  List<String> getMemoryNames();
+  Set<String> getMemoryLocationNames();
 
   /**
    * Returns the nesting level for the {@code StackFrame}.

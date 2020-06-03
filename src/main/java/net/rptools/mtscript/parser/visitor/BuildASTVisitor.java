@@ -85,9 +85,9 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
     for (PredefinedType pt : PredefinedType.values()) {
       Optional<SymbolTableEntry> entry = symbolTableStack.lookup(pt.getName());
       if (entry.isPresent()) {
-        Optional<MTSType> mtsType =
-            entry.get().getAttribute(SymbolTableAttributeKey.TYPE, MTSType.class);
-        mtsType.ifPresent(type -> predefinedTypesMap.put(pt, type));
+        MTSType mtsType = entry.get().getType();
+        predefinedTypesMap.put(pt, mtsType);
+        ;
       }
     }
   }

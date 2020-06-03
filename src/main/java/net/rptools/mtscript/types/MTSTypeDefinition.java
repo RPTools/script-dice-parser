@@ -18,6 +18,7 @@ package net.rptools.mtscript.types;
 public enum MTSTypeDefinition {
   TYPE,
   CONSTANT,
+  PARAMETER,
   VARIABLE,
   FUNCTION,
   PROCEDURE

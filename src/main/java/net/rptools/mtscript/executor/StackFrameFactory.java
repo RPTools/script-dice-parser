@@ -14,23 +14,21 @@
  */
 package net.rptools.mtscript.executor;
 
-import java.util.Set;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
-/** Interface for "memory" that is part of the {@link StackFrame}. */
-public interface StackMemory {
-
-  /**
-   * Returns the "memory" location associated with a symbol name.
-   *
-   * @param name th symbol name to get the "memory" location of.
-   * @return the "memory" location.
-   */
-  StackMemoryLocation getMemoryLocation(String name);
+/** Interface for creating {@link StackFrame} objects. */
+public interface StackFrameFactory {
 
   /**
-   * Returns the names of all of the "memory" locations.
+   * Creates a new {@link StackFrame} object.
    *
-   * @return the names of tall of the "memory" locations.
+   * @param symbolTableEntry The {@link SymbolTableEntry} for the stack frame.
+   * @param memFactory The factory used to create {@link StackMemory} objects.
+   * @param locFactory The Factory used to create {@link StackMemoryLocation} objects.
+   * @return the newly created {@link StackFrame}.
    */
-  Set<String> getMemoryLocationNames();
+  StackFrame createStackFrame(
+      SymbolTableEntry symbolTableEntry,
+      StackMemoryFactory memFactory,
+      StackMemoryLocationFactory locFactory);
 }
