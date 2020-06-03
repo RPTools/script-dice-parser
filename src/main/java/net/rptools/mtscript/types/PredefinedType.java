@@ -14,21 +14,28 @@
  */
 package net.rptools.mtscript.types;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 /** Temporary holder for Predefined Types */
 public enum PredefinedType {
-  NONE("@NONE@"),
-  INTEGER("integer"),
-  NUMBER("number"),
-  LIST("list"),
-  DICT("dict"),
-  ROLL("roll"),
-  STRING("string");
+  NONE("@NONE@", null),
+  INTEGER("integer", 0),
+  NUMBER("number", 0.0),
+  LIST("list", new JsonArray()),
+  DICT("dict", new JsonObject()),
+  ROLL("roll", null), // TODO
+  STRING("string", "");
 
   /** The name of the type. */
   private final String name;
 
-  PredefinedType(String name) {
+  /** The default "initialized" value for variables of this type. */
+  private final Object defaultValue;
+
+  PredefinedType(String name, Object defaultValue) {
     this.name = name;
+    this.defaultValue = defaultValue;
   }
 
   /**
@@ -38,5 +45,14 @@ public enum PredefinedType {
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * Returns the default "uninitialised" value for variables of this type.
+   *
+   * @return the default "uninitialised" value for variables of this type.
+   */
+  public Object getDefaultValue() {
+    return defaultValue;
   }
 }

@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.ast.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import net.rptools.mtscript.ast.ASTAttributeKey;
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.ast.ASTNodeType;
 import net.rptools.mtscript.types.MTSType;
 
 /** Class that represents nodes in our abstract syntax tree. */

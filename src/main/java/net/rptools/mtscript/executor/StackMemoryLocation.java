@@ -12,32 +12,31 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.executor;
 
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.types.MTSType;
 
-/** Interface for Map Toll Script types. */
-public interface MTSType {
-
-  /**
-   * Returns the {@link SymbolTableEntry} for this type.
-   *
-   * @return the {@link SymbolTableEntry} for this type.
-   */
-  SymbolTableEntry getSymbolTableEntry();
+/** Interface for a "memory" location in the stack frame. */
+public interface StackMemoryLocation {
 
   /**
-   * Returns the name of the type.
+   * Returns the {@link MTSType} of the value held in the "memory" location.
    *
-   * @return the name of the type.
+   * @return the {@link MTSType} of the value held in the "memory" location.
    */
-  String getName();
+  MTSType getType();
 
   /**
-   * Returns the default value for this type. This is the value that the variable will be set to if
-   * it is uninitialised.
+   * Returns the value stored in the "memory" location.
    *
-   * @return the default value for this type.
+   * @return the value stored in the "memory" location.
    */
-  Object getDefaultValue();
+  Object getValue();
+
+  /**
+   * Sets the vale stored in the "memory" location.
+   *
+   * @param value the value to store in the "memory" location.
+   */
+  void setValue(Object value);
 }

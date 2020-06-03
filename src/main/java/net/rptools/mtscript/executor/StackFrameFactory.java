@@ -12,32 +12,23 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.executor;
 
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
-/** Interface for Map Toll Script types. */
-public interface MTSType {
+/** Interface for creating {@link StackFrame} objects. */
+public interface StackFrameFactory {
 
   /**
-   * Returns the {@link SymbolTableEntry} for this type.
+   * Creates a new {@link StackFrame} object.
    *
-   * @return the {@link SymbolTableEntry} for this type.
+   * @param symbolTableEntry The {@link SymbolTableEntry} for the stack frame.
+   * @param memFactory The factory used to create {@link StackMemory} objects.
+   * @param locFactory The Factory used to create {@link StackMemoryLocation} objects.
+   * @return the newly created {@link StackFrame}.
    */
-  SymbolTableEntry getSymbolTableEntry();
-
-  /**
-   * Returns the name of the type.
-   *
-   * @return the name of the type.
-   */
-  String getName();
-
-  /**
-   * Returns the default value for this type. This is the value that the variable will be set to if
-   * it is uninitialised.
-   *
-   * @return the default value for this type.
-   */
-  Object getDefaultValue();
+  StackFrame createStackFrame(
+      SymbolTableEntry symbolTableEntry,
+      StackMemoryFactory memFactory,
+      StackMemoryLocationFactory locFactory);
 }

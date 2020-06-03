@@ -12,15 +12,25 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.executor;
 
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import java.util.Set;
 
-/** Factory class for creating {@link MTSType}s. */
-public class MTSTypeFactoryImpl implements MTSTypeFactory {
+/** Interface for "memory" that is part of the {@link StackFrame}. */
+public interface StackMemory {
 
-  @Override
-  public MTSType create(SymbolTableEntry symbolTableEntry) {
-    return new StandardMTSType(symbolTableEntry);
-  }
+  /**
+   * Returns the "memory" location associated with a symbol name.
+   *
+   * @param name th symbol name to get the "memory" location of.
+   * @return the "memory" location.
+   */
+  StackMemoryLocation getMemoryLocation(String name);
+
+  /**
+   * Returns the names of all of the "memory" locations.
+   *
+   * @return the names of tall of the "memory" locations.
+   */
+  Set<String> getMemoryLocationNames();
 }

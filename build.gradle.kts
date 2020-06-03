@@ -28,6 +28,8 @@ dependencies {
     implementation("org.apache.logging.log4j", "log4j-1.2-api", "2.11.0");
     implementation("com.google.inject:guice:4.2.3")
     implementation("commons-cli:commons-cli:1.4")
+    implementation("com.google.code.gson", "gson", "2.8.6");
+
 
 }
 

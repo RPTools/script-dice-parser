@@ -12,17 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.types.impl;
 
-/** Interface for factory class the can create a {@link SymbolTableEntry}. */
-public interface SymbolTableEntryFactory {
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeFactory;
 
-  /**
-   * Creates a new {@link SymbolTableEntry}.
-   *
-   * @param name the name of the {@link SymbolTableEntry}.
-   * @param symbolTable the {@link SymbolTable} that the {@link SymbolTableEntry} belongs to.
-   * @return the newly created {@link SymbolTableEntry}.
-   */
-  SymbolTableEntry create(String name, SymbolTable symbolTable);
+/** Factory class for creating {@link MTSType}s. */
+public class MTSTypeFactoryImpl implements MTSTypeFactory {
+
+  @Override
+  public MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue) {
+    return new StandardMTSType(symbolTableEntry, defaultValue);
+  }
 }

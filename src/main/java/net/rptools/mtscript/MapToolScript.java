@@ -22,7 +22,6 @@ import net.rptools.mtscript.injection.ScriptModule;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
-import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 import net.rptools.mtscript.types.MTSType;
@@ -89,8 +88,8 @@ public class MapToolScript {
     for (PredefinedType pt : PredefinedType.values()) {
       SymbolTableEntry entry = symbolTableStack.create(pt.getName());
       entry.setTypeDefinition(MTSTypeDefinition.TYPE);
-      MTSType mtsType = mtsTypeFactory.create(entry);
-      entry.setAttribute(SymbolTableAttributeKey.TYPE, mtsType);
+      MTSType mtsType = mtsTypeFactory.create(entry, pt.getDefaultValue());
+      entry.setType(mtsType);
     }
   }
 }

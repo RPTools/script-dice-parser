@@ -12,13 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.ast;
+package net.rptools.mtscript.executor;
 
-/** Factory class that creates {@link ASTNode}s. */
-public class ASTNodeFactoryImpl implements ASTNodeFactory {
+import net.rptools.mtscript.symboltable.SymbolTable;
 
-  @Override
-  public ASTNode create(ASTNodeType type) {
-    return new GenericASTNode(type);
-  }
+/** Interface for creating {@link StackMemory} objects. */
+public interface StackMemoryFactory {
+
+  /**
+   * Creates a new {@link StackMemory}.
+   *
+   * @return the newly created {@link StackMemory}.
+   */
+  StackMemory createMemory(StackMemoryLocationFactory locFactory, SymbolTable symbolTable);
 }

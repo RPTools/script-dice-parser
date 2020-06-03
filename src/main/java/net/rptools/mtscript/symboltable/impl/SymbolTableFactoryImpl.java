@@ -12,26 +12,23 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types;
+package net.rptools.mtscript.symboltable.impl;
 
+import net.rptools.mtscript.symboltable.SymbolTable;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTableEntryFactory;
+import net.rptools.mtscript.symboltable.SymbolTableFactory;
 
-/** Concrete class for MapTool Script Type */
-public class StandardMTSType implements MTSType {
+/** Factory class for creating implementations of the {@link SymbolTable} interface. */
+public class SymbolTableFactoryImpl implements SymbolTableFactory, SymbolTableEntryFactory {
 
-  private final SymbolTableEntry symbolTableEntry;
-
-  StandardMTSType(SymbolTableEntry entry) {
-    symbolTableEntry = entry;
+  @Override
+  public SymbolTable create(int scopeLevel) {
+    return new StandardSymbolTable(this, scopeLevel);
   }
 
   @Override
-  public SymbolTableEntry getSymbolTableEntry() {
-    return symbolTableEntry;
-  }
-
-  @Override
-  public String getName() {
-    return symbolTableEntry.getName();
+  public SymbolTableEntry create(String name, SymbolTable symbolTable) {
+    return new StandardSymbolTableEntry(name, symbolTable);
   }
 }
