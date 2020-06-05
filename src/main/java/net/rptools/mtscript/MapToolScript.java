@@ -18,6 +18,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.ast.ASTNodeFactory;
+import net.rptools.mtscript.executor.impl.ExecutorModule;
 import net.rptools.mtscript.injection.ScriptModule;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
@@ -44,7 +45,7 @@ public class MapToolScript {
   private final MTSTypeFactory mtsTypeFactory;
 
   public MapToolScript() {
-    injector = Guice.createInjector(new ScriptModule());
+    injector = Guice.createInjector(new ScriptModule(), new ExecutorModule());
     symbolTableStack = injector.getInstance(SymbolTableStack.class);
     constants = injector.getInstance(MTScriptConstants.class);
     mtsTypeFactory = injector.getInstance(MTSTypeFactory.class);

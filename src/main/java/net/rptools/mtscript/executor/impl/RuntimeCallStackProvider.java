@@ -12,18 +12,22 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.executor.impl;
 
-import net.rptools.mtscript.types.MTSType;
+import javax.inject.Provider;
+import net.rptools.mtscript.executor.RuntimeCallStack;
 
-/** Interface for creating {@link StackMemoryLocation} objects. */
-public interface StackMemoryLocationFactory {
+/**
+ * Provider class for {@link RuntimeCallStack} for Google guice.
+ */
+public class RuntimeCallStackProvider implements Provider<RuntimeCallStack> {
 
   /**
-   * Creates a new {@link StackMemoryLocation}.
-   *
-   * @param type the {@link MTSType} of the memory location.
-   * @return the newly {@link StackMemoryLocation}.
+   * Creates a new {@code RuntimeCallStack}.
+   * @return a new {@code RuntimeCallStack}.
    */
-  StackMemoryLocation create(MTSType type);
+  @Override
+  public RuntimeCallStack get() {
+    return new StandardRunTimeCallStack();
+  }
 }

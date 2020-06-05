@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.language;
+package net.rptools.mtscript.util.language;
 
 import java.text.MessageFormat;
 import java.util.Enumeration;

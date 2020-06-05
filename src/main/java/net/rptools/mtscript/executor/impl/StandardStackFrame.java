@@ -14,12 +14,13 @@
  */
 package net.rptools.mtscript.executor.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.Set;
 import net.rptools.mtscript.executor.StackFrame;
 import net.rptools.mtscript.executor.StackMemory;
 import net.rptools.mtscript.executor.StackMemoryFactory;
 import net.rptools.mtscript.executor.StackMemoryLocation;
-import net.rptools.mtscript.executor.StackMemoryLocationFactory;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
 /** Stack Frames in the execution engine. */
@@ -39,12 +40,10 @@ public class StandardStackFrame implements StackFrame {
    *
    * @param symbolTableEntry the {@link SymbolTableEntry} that this {@code StackFrame} is for.
    */
-  StandardStackFrame(
-      SymbolTableEntry symbolTableEntry,
-      StackMemoryFactory memFactory,
-      StackMemoryLocationFactory locFactory) {
+  @Inject
+  StandardStackFrame(@Assisted SymbolTableEntry symbolTableEntry, StackMemoryFactory memFactory) {
     this.symbolTableEntry = symbolTableEntry;
-    memory = memFactory.createMemory(locFactory, symbolTableEntry.getSymbolTable());
+    memory = memFactory.createMemory(symbolTableEntry.getSymbolTable());
   }
 
   @Override

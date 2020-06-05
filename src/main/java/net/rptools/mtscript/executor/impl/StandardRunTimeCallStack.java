@@ -12,18 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.executor.impl;
 
-import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.executor.RuntimeCallStack;
+import net.rptools.mtscript.executor.StackFrame;
 
-/** Interface for creating {@link StackMemoryLocation} objects. */
-public interface StackMemoryLocationFactory {
+public class StandardRunTimeCallStack implements RuntimeCallStack {
 
-  /**
-   * Creates a new {@link StackMemoryLocation}.
-   *
-   * @param type the {@link MTSType} of the memory location.
-   * @return the newly {@link StackMemoryLocation}.
-   */
-  StackMemoryLocation create(MTSType type);
+  @Override
+  public StackFrame getTopFrame(int level) {
+    return null;
+  }
+
+  @Override
+  public void push(int level, StackFrame frame) {}
+
+  @Override
+  public void pop(int level) {}
 }

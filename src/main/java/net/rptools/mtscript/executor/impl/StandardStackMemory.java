@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.executor.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,7 +42,8 @@ public class StandardStackMemory implements StackMemory {
    * @param symbolTable the {@link SymbolTable} associated with this "memory".
    * @param factory the {@link StackMemoryLocationFactory} factory for creating "memory" locations.
    */
-  StandardStackMemory(SymbolTable symbolTable, StackMemoryLocationFactory factory) {
+  @Inject
+  StandardStackMemory(@Assisted SymbolTable symbolTable, StackMemoryLocationFactory factory) {
     symbolTable.getEntries().stream()
         .sorted(Comparator.comparing(SymbolTableEntry::getName))
         .forEach(
@@ -51,8 +54,7 @@ public class StandardStackMemory implements StackMemory {
                   || typeDefinition == MTSTypeDefinition.VARIABLE) {
                 String name = e.getName();
                 MTSType type = e.getType();
-                factory.createMemoryLocation(type);
-                memoryMap.put(name, factory.createMemoryLocation(type));
+                memoryMap.put(name, factory.create(type));
               }
             });
   }
