@@ -65,14 +65,4 @@ public class StandardStackFrame implements StackFrame {
   public int getNestingLevel() {
     return symbolTableEntry.getSymbolTable().getLevel();
   }
-
-  @Override
-  public StackFrame getNext() {
-    return next;
-  }
-
-  @Override
-  public void setNext(StackFrame frame) {
-    next = frame;
-  }
 }

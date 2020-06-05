@@ -44,18 +44,4 @@ public interface StackFrame {
    * @return the nesting level for the {@code StackFrame}.
    */
   int getNestingLevel();
-
-  /**
-   * Returns the next {@code StackFrame}.
-   *
-   * @return the next {@code StackFrame}.
-   */
-  StackFrame getNext();
-
-  /**
-   * Sets the next {@code StackFrame}.
-   *
-   * @param frame the {@code StackFrame} to set as the next one.
-   */
-  void setNext(StackFrame frame);
 }

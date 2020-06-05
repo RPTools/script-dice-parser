@@ -25,7 +25,7 @@ package net.rptools.mtscript.executor;
  * traversing that stack backwards could become inefficient. So the intent of this interface is to
  * provide an optimised way to track stack frames by symbol scope level.
  */
-public interface RuntimeCallStack {
+public interface RuntimeScopeStack {
 
   /**
    * Returns the top {@link net.rptools.mtscript.executor.StackFrame} from the call stack for the
@@ -39,11 +39,10 @@ public interface RuntimeCallStack {
   /**
    * Pushes a {@link net.rptools.mtscript.executor.StackFrame} on top of the call stack for a scope.
    *
-   * @param level the scope level.
    * @param frame the {@link net.rptools.mtscript.executor.StackFrame} to push on the top of the
    *     stack.
    */
-  void push(int level, StackFrame frame);
+  void push(StackFrame frame);
 
   /**
    * Pops a {@link net.rptools.mtscript.executor.StackFrame} from the top of the call stack for a

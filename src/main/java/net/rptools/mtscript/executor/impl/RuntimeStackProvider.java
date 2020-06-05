@@ -16,25 +16,23 @@ package net.rptools.mtscript.executor.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import net.rptools.mtscript.executor.RuntimeScopeStack;
 import net.rptools.mtscript.executor.RuntimeStack;
 
 /** Provider class for {@link RuntimeStack} for Google guice. */
 class RuntimeStackProvider implements Provider<RuntimeStack> {
 
-  /**
-   * {@link RuntimeCallStackProvider} for creating new {@link
-   * net.rptools.mtscript.executor.RuntimeCallStack}s .
-   */
-  private final RuntimeCallStackProvider provider;
+  /** {@link RuntimeScopeStackProvider} for creating new {@link RuntimeScopeStack}s . */
+  private final RuntimeScopeStackProvider provider;
 
   /**
    * Creates a new {@code RuntimeStackProvider}.
    *
-   * @param runtimeCallStackProvider the {@link RuntimeCallStackProvider} used to create new {@link
-   *     net.rptools.mtscript.executor.RuntimeCallStack}s.
+   * @param runtimeCallStackProvider the {@link RuntimeScopeStackProvider} used to create new {@link
+   *     RuntimeScopeStack}s.
    */
   @Inject
-  RuntimeStackProvider(RuntimeCallStackProvider runtimeCallStackProvider) {
+  RuntimeStackProvider(RuntimeScopeStackProvider runtimeCallStackProvider) {
     provider = runtimeCallStackProvider;
   }
 
