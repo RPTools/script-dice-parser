@@ -12,10 +12,13 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+public interface MapToolScript {
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+  void parseModule(String script);
+
+  void parseScript(String script);
+
+  void printSymbolTable();
+}

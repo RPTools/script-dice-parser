@@ -12,10 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.types.impl;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeFactory;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Class for configuring dependency injection for google guice for script types. */
+public class TypesModule extends AbstractModule {
+
+  @Override
+  protected void configure() {
+    install(
+        new FactoryModuleBuilder()
+            .implement(MTSType.class, StandardMTSType.class)
+            .build(MTSTypeFactory.class));
+  }
+}

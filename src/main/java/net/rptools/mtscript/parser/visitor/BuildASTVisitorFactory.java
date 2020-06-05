@@ -14,8 +14,16 @@
  */
 package net.rptools.mtscript.parser.visitor;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Interface for factory class that creates {@link BuildASTVisitor} classes. */
+public interface BuildASTVisitorFactory {
+
+  /**
+   * Creates a new {@link BuildASTVisitor} object.
+   *
+   * @param symbolTableStack the {@link SymbolTableStack} used for the AST.
+   * @return new {@link BuildASTVisitor} object.
+   */
+  BuildASTVisitor create(SymbolTableStack symbolTableStack);
+}

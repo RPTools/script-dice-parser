@@ -12,10 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.executor;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.symboltable.SymbolTable;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Interface for creating {@link StackMemory} objects. */
+public interface StackMemoryFactory {
+
+  /**
+   * Creates a new {@link StackMemory}.
+   *
+   * @param symbolTable The {@link SymbolTable} to create the memory for.
+   * @return the newly created {@link StackMemory}.
+   */
+  StackMemory createMemory(SymbolTable symbolTable);
+}

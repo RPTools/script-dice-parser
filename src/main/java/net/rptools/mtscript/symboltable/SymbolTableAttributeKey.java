@@ -12,10 +12,14 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.symboltable;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
-
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Key values for attributes in the symbol table. */
+public enum SymbolTableAttributeKey {
+  /** Attribute contains a constant value. */
+  CONSTANT,
+  /** Attribute contains the root of an AST tree ({@link net.rptools.mtscript.ast.ASTNode)}. */
+  CODE_AST,
+  /** Attribute contains a {@link net.rptools.mtscript.symboltable.SymbolTable}. */
+  SYMBOL_TABLE,
+}

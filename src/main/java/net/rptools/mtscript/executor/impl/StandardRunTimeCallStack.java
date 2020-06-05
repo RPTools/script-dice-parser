@@ -12,10 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.executor.impl;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.executor.RuntimeCallStack;
+import net.rptools.mtscript.executor.StackFrame;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+public class StandardRunTimeCallStack implements RuntimeCallStack {
+
+  @Override
+  public StackFrame getTopFrame(int level) {
+    return null;
+  }
+
+  @Override
+  public void push(int level, StackFrame frame) {}
+
+  @Override
+  public void pop(int level) {}
+}

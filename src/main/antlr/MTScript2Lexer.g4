@@ -25,7 +25,7 @@ MODULE_DOT     : '.';
 MODULE_DASH    : '-';
 MODULE_PLUS    : '+';
 
-MODULE_WS    : [ \t\r\n\u000C]+  -> channel(HIDDEN);
+//MODULE_WS    : [ \t\r\n\u000C]+  -> channel(HIDDEN);
 MODULE_SEMI  : ';' -> pushMode(SCRIPT_MODE);
 
 mode SCRIPT_MODE;
@@ -43,7 +43,9 @@ KEYWORD_ELSE       : 'else';
 KEYWORD_FOR        : 'for';
 KEYWORD_FOREACH    : 'foreach';
 KEYWORD_FUNCTION   : 'function';
+KEYWORD_PROCEDURE  : 'procedure';
 KEYWORD_IF         : 'if';
+KEYWORD_RETURNS    : 'returns';
 KEYWORD_RETURN     : 'return';
 KEYWORD_SWITCH     : 'switch';
 KEYWORD_WHILE      : 'while';
@@ -69,7 +71,6 @@ KEYWORD_STRING     : 'string';
 KEYWORD_ROLL       : 'roll';
 KEYWORD_BOOLEAN    : 'bool';
 KEYWORD_DICT       : 'dict';
-KEYWORD_TOKEN      : 'token';
 
 KEYWORD_OPEN_OP_MODE : '[[' -> pushMode(SCRIPT_MODE);
 
@@ -128,7 +129,6 @@ OP_OR_ASSIGN  : '|=';
 OP_XOR_ASSIGN : '^=';
 OP_MOD_ASSIGN : '%=';
 
-EXT_PROP_PREFIX : '#';
 
 // Whitespace and comments
 WS           : [ \t\r\n\u000C]+  -> channel(HIDDEN);
@@ -139,8 +139,6 @@ LINE_COMMENT : '//' ~[\r\n]*     -> channel(HIDDEN);
 IDENTIFIER   : Letter LetterOrDigit* ;
 
 LOCAL_VAR_LEADER   : '$';
-GLOBAL_VAR_LEADER  : '$$';
-PROPERTY_VAR_LEADER: '@';
 
 // Fragment rules
 fragment EscapeSequence : '\\' [btnfr"'\\] ;

@@ -1,3 +1,46 @@
+Hello World!
 [[
   print("Hello world");
 ]]
+
+Hello World 2
+[[
+  print("Hello world 2")
+]]
+
+Hello World 3
+[[
+  {
+      print("Hello world 3");
+   }
+]]
+
+Hello World 4
+[[
+  {
+      print("Hello world 4");
+   }
+   {
+      print("Hello world 4");
+   }
+]]
+
+
+Hello World 5
+[[
+  {
+      print("Hello world 5");
+   }
+      print("Hello world 5");
+]]
+
+Hello World 6
+[[
+  {
+      print("Hello world 6"); ;
+      print("Hello world 6"); ; ; ; ; ; ;
+   }
+      print("Hello world 6");
+]]
+
+

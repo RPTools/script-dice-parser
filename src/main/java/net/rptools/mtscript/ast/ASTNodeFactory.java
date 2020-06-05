@@ -12,10 +12,16 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.ast;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+/** Interface for factory class that creates {@link ASTNode}s. */
+public interface ASTNodeFactory {
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+  /**
+   * Creates an {@link ASTNode} for a {@link ASTNodeType}.
+   *
+   * @param type the {@link ASTNodeType} to create an {@link ASTNode} for.
+   * @return the created {@link ASTNode}.
+   */
+  ASTNode create(ASTNodeType type);
+}

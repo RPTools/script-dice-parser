@@ -12,10 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.executor.impl;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import javax.inject.Provider;
+import net.rptools.mtscript.executor.RuntimeCallStack;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Provider class for {@link RuntimeCallStack} for Google guice. */
+public class RuntimeCallStackProvider implements Provider<RuntimeCallStack> {
+
+  /**
+   * Creates a new {@code RuntimeCallStack}.
+   *
+   * @return a new {@code RuntimeCallStack}.
+   */
+  @Override
+  public RuntimeCallStack get() {
+    return new StandardRunTimeCallStack();
+  }
+}

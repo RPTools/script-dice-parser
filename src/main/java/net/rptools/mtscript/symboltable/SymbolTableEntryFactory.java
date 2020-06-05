@@ -12,10 +12,17 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.symboltable;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+/** Interface for factory class the can create a {@link SymbolTableEntry}. */
+public interface SymbolTableEntryFactory {
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+  /**
+   * Creates a new {@link SymbolTableEntry}.
+   *
+   * @param name the name of the {@link SymbolTableEntry}.
+   * @param symbolTable the {@link SymbolTable} that the {@link SymbolTableEntry} belongs to.
+   * @return the newly created {@link SymbolTableEntry}.
+   */
+  SymbolTableEntry create(String name, SymbolTable symbolTable);
+}

@@ -12,10 +12,19 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.parser.visitor;
+package net.rptools.mtscript.types;
 
-import net.rptools.mtscript.ast.ASTNode;
-import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
-/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}
+/** Interface for factory to create {@link MTSType}s. */
+public interface MTSTypeFactory {
+
+  /**
+   * Creates a new {@link MTSType}.
+   *
+   * @param symbolTableEntry The {@link SymbolTableEntry} where the type is defined.
+   * @param defaultValue the default "initialized" value for variables of this type.
+   * @return the newly created {@link MTSType}.
+   */
+  MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue);
+}
