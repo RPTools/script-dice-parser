@@ -28,6 +28,7 @@ import net.rptools.mtscript.parser.MTScript2Parser.ScriptContext;
 import net.rptools.mtscript.parser.MTScript2Parser.TextContext;
 import net.rptools.mtscript.parser.MTScript2ParserBaseVisitor;
 import net.rptools.mtscript.parser.MTScript2ParserVisitor;
+import net.rptools.mtscript.symboltable.SymbolTable;
 import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
@@ -94,11 +95,14 @@ public class BuildASTVisitor extends MTScript2ParserBaseVisitor<ASTNode>
 
   @Override
   public ASTNode visitChat(ChatContext ctx) {
-    SymbolTableEntry symbolTableEntry = symbolTableStack.create(ENTRY_POINT_SYMBOL_NAME);
+    SymbolTableEntry chatSymbolTableEntry = symbolTableStack.create(ENTRY_POINT_SYMBOL_NAME);
     ASTNode astNode = astNodeFactory.create(ASTNodeType.CHAT);
     astNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
 
-    symbolTableEntry.setAttribute(SymbolTableAttributeKey.CODE_AST, astNode);
+    chatSymbolTableEntry.setAttribute(SymbolTableAttributeKey.CODE_AST, astNode);
+
+    SymbolTable chatScope = symbolTableStack.push();
+    chatSymbolTableEntry.setAttribute(SymbolTableAttributeKey.SYMBOL_TABLE, chatScope);
 
     ctx.children.forEach(c -> astNode.addChild(visit(c)));
 
