@@ -16,6 +16,7 @@ package net.rptools.mtscript.symboltable;
 
 import java.util.Optional;
 
+/** Interface implemented by classes that provide symbol stack functionality. */
 public interface SymbolTableStack {
 
   /**

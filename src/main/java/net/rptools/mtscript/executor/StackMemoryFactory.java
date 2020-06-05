@@ -22,7 +22,8 @@ public interface StackMemoryFactory {
   /**
    * Creates a new {@link StackMemory}.
    *
+   * @param symbolTable The {@link SymbolTable} to create the memory for.
    * @return the newly created {@link StackMemory}.
    */
-  StackMemory createMemory(StackMemoryLocationFactory locFactory, SymbolTable symbolTable);
+  StackMemory createMemory(SymbolTable symbolTable);
 }

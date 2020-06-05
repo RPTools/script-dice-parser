@@ -12,18 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.parser.visitor;
 
-import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/** Interface for creating {@link StackMemoryLocation} objects. */
-public interface StackMemoryLocationFactory {
+/** Interface for factory class that creates {@link BuildASTVisitor} classes. */
+public interface BuildASTVisitorFactory {
 
   /**
-   * Creates a new {@link StackMemoryLocation}.
+   * Creates a new {@link BuildASTVisitor} object.
    *
-   * @param type the {@link MTSType} of the memory location.
-   * @return the newly {@link StackMemoryLocation}.
+   * @param symbolTableStack the {@link SymbolTableStack} used for the AST.
+   * @return new {@link BuildASTVisitor} object.
    */
-  StackMemoryLocation create(MTSType type);
+  BuildASTVisitor create(SymbolTableStack symbolTableStack);
 }

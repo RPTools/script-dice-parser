@@ -12,6 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.executor.impl;
 
-public interface SymbolType {}
+import javax.inject.Provider;
+import net.rptools.mtscript.executor.RuntimeCallStack;
+
+/** Provider class for {@link RuntimeCallStack} for Google guice. */
+public class RuntimeCallStackProvider implements Provider<RuntimeCallStack> {
+
+  /**
+   * Creates a new {@code RuntimeCallStack}.
+   *
+   * @return a new {@code RuntimeCallStack}.
+   */
+  @Override
+  public RuntimeCallStack get() {
+    return new StandardRunTimeCallStack();
+  }
+}

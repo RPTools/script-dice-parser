@@ -14,6 +14,7 @@
  */
 package net.rptools.mtscript.util;
 
+/** Enumeration of ANSI Console escape sequences. */
 enum ANSIEscape {
   /** color reset */
   RESET("\033[0m"),

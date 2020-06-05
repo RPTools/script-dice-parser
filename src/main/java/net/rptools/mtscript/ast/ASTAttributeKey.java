@@ -14,6 +14,7 @@
  */
 package net.rptools.mtscript.ast;
 
+/** Attribute Keys for AST Nodes. */
 public enum ASTAttributeKey {
   VALUE
 }

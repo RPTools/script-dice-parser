@@ -14,15 +14,19 @@
  */
 package net.rptools.mtscript.types.impl;
 
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.types.MTSType;
 import net.rptools.mtscript.types.MTSTypeFactory;
 
-/** Factory class for creating {@link MTSType}s. */
-public class MTSTypeFactoryImpl implements MTSTypeFactory {
+/** Class for configuring dependency injection for google guice for script types. */
+public class TypesModule extends AbstractModule {
 
   @Override
-  public MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue) {
-    return new StandardMTSType(symbolTableEntry, defaultValue);
+  protected void configure() {
+    install(
+        new FactoryModuleBuilder()
+            .implement(MTSType.class, StandardMTSType.class)
+            .build(MTSTypeFactory.class));
   }
 }

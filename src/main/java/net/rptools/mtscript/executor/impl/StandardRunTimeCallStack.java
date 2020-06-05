@@ -12,6 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript;
+package net.rptools.mtscript.executor.impl;
 
-public class ExecutionContext {}
+import net.rptools.mtscript.executor.RuntimeCallStack;
+import net.rptools.mtscript.executor.StackFrame;
+
+public class StandardRunTimeCallStack implements RuntimeCallStack {
+
+  @Override
+  public StackFrame getTopFrame(int level) {
+    return null;
+  }
+
+  @Override
+  public void push(int level, StackFrame frame) {}
+
+  @Override
+  public void pop(int level) {}
+}

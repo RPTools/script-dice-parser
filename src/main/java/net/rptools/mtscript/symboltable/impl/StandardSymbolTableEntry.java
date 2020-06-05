@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.symboltable.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.HashMap;
 import java.util.Optional;
 import net.rptools.mtscript.symboltable.SymbolTable;
@@ -46,7 +48,8 @@ class StandardSymbolTableEntry implements SymbolTableEntry {
    * @param name the mame of the symbol.
    * @param parent the {@link SymbolTable} that this entry belongs to.
    */
-  StandardSymbolTableEntry(String name, SymbolTable parent) {
+  @Inject
+  StandardSymbolTableEntry(@Assisted String name, @Assisted SymbolTable parent) {
     this.name = name;
     symbolTable = parent;
   }

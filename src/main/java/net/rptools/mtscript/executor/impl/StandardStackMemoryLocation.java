@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.executor.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import net.rptools.mtscript.executor.StackMemoryLocation;
 import net.rptools.mtscript.types.MTSType;
 
@@ -31,7 +33,8 @@ public class StandardStackMemoryLocation implements StackMemoryLocation {
    *
    * @param type the {@link MTSType} of the memory location.
    */
-  StandardStackMemoryLocation(MTSType type) {
+  @Inject
+  StandardStackMemoryLocation(@Assisted MTSType type) {
     this.type = type;
     value = type.getDefaultValue();
   }

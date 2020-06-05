@@ -23,10 +23,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.0")
     implementation("org.reflections", "reflections", "0.9.11")
     implementation("org.apache.commons", "commons-text", "1.6")
+    implementation("org.apache.commons", "commons-text", "1.6")
     implementation("com.github.jknack:handlebars:4.1.2")
     implementation("org.apache.logging.log4j", "log4j-api", "2.11.0");
     implementation("org.apache.logging.log4j", "log4j-1.2-api", "2.11.0");
     implementation("com.google.inject:guice:4.2.3")
+    implementation("com.google.inject.extensions:guice-assistedinject:4.2.3")
     implementation("commons-cli:commons-cli:1.4")
     implementation("com.google.code.gson", "gson", "2.8.6");
 

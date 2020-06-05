@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.symboltable.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,7 +42,8 @@ class StandardSymbolTable implements SymbolTable {
    *
    * @param scopeLevel the scope level of the symbol table.
    */
-  public StandardSymbolTable(SymbolTableEntryFactory factory, int scopeLevel) {
+  @Inject
+  public StandardSymbolTable(SymbolTableEntryFactory factory, @Assisted int scopeLevel) {
     level = scopeLevel;
     symbolTableEntryFactory = factory;
   }

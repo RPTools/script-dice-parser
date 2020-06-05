@@ -12,23 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.injection;
+package net.rptools.mtscript.parser.visitor.impl;
 
 import com.google.inject.AbstractModule;
-import net.rptools.mtscript.MTScriptErrorStrategy;
-import net.rptools.mtscript.ast.ASTNodeFactory;
-import net.rptools.mtscript.ast.impl.ASTNodeFactoryImpl;
-import net.rptools.mtscript.util.MTScriptConstants;
-import net.rptools.mtscript.util.impl.MTScriptConstantsImpl;
-import org.antlr.v4.runtime.ANTLRErrorStrategy;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
+import net.rptools.mtscript.parser.visitor.BuildASTVisitorFactory;
 
-/** Module class for dependency injection. */
-public class ScriptModule extends AbstractModule {
+/** Class for configuring dependency injection for google guice for parser visitors. */
+public class ParserVisitorModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(ANTLRErrorStrategy.class).to(MTScriptErrorStrategy.class);
-    bind(MTScriptConstants.class).to(MTScriptConstantsImpl.class);
-    bind(ASTNodeFactory.class).to(ASTNodeFactoryImpl.class);
+    install(
+        new FactoryModuleBuilder()
+            .implement(BuildASTVisitor.class, BuildASTVisitorImpl.class)
+            .build(BuildASTVisitorFactory.class));
   }
 }
