@@ -14,6 +14,8 @@
  */
 package net.rptools.mtscript.types.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.types.MTSType;
 
@@ -23,6 +25,7 @@ public class StandardMTSType implements MTSType {
   /** The symbol table entry for the type. */
   private final SymbolTableEntry symbolTableEntry;
 
+  /** The default "uninitialised" value for this type. */
   private final Object defaultValue;
 
   /**
@@ -31,7 +34,8 @@ public class StandardMTSType implements MTSType {
    * @param entry the {@link SymbolTableEntry} for this type.
    * @param defaultValue the default "uninitialized" value for this type.
    */
-  StandardMTSType(SymbolTableEntry entry, Object defaultValue) {
+  @Inject
+  StandardMTSType(@Assisted SymbolTableEntry entry, @Assisted Object defaultValue) {
     symbolTableEntry = entry;
     this.defaultValue = defaultValue;
   }

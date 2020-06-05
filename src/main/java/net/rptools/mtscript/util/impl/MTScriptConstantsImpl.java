@@ -12,6 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.symboltable;
+package net.rptools.mtscript.util.impl;
 
-public interface SymbolType {}
+import net.rptools.mtscript.util.MTScriptConstants;
+
+/** Classes that provides constants used through out the parser and execution. */
+public class MTScriptConstantsImpl implements MTScriptConstants {
+
+  /** Prefix for internal symbols. */
+  private static final String INTERNAL_STRING_PREFIX = "@@";
+
+  @Override
+  public String getInternalSymbolPrefix() {
+    return INTERNAL_STRING_PREFIX;
+  }
+}

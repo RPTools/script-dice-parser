@@ -12,17 +12,23 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.types.impl;
+package net.rptools.mtscript.parser.visitor.impl;
 
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
-import net.rptools.mtscript.types.MTSType;
-import net.rptools.mtscript.types.MTSTypeFactory;
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
+import net.rptools.mtscript.parser.visitor.BuildASTVisitorFactory;
 
-/** Factory class for creating {@link MTSType}s. */
-public class MTSTypeFactoryImpl implements MTSTypeFactory {
+/**
+ * Class for configuring dependency injection for google guice for parser visitors.
+ */
+public class ParserVisitorModule extends AbstractModule {
 
   @Override
-  public MTSType create(SymbolTableEntry symbolTableEntry, Object defaultValue) {
-    return new StandardMTSType(symbolTableEntry, defaultValue);
+  protected void configure() {
+    install(
+        new FactoryModuleBuilder()
+            .implement(BuildASTVisitor.class, BuildASTVisitorImpl.class)
+            .build(BuildASTVisitorFactory.class));
   }
 }

@@ -19,12 +19,12 @@ import com.google.gson.JsonObject;
 
 /** Temporary holder for Predefined Types */
 public enum PredefinedType {
-  NONE("@NONE@", null),
+  NONE("@NONE@", ""),
   INTEGER("integer", 0),
   NUMBER("number", 0.0),
   LIST("list", new JsonArray()),
   DICT("dict", new JsonObject()),
-  ROLL("roll", null), // TODO
+  ROLL("roll", 0), // TODO
   STRING("string", "");
 
   /** The name of the type. */

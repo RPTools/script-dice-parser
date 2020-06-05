@@ -12,16 +12,23 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.util;
+package net.rptools.mtscript.types.impl;
 
-/** Classes that provides constants used through out the parser and execution. */
-public class MTScriptConstantsImpl implements MTScriptConstants {
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.types.MTSTypeFactory;
 
-  /** Prefix for internal symbols. */
-  private static final String INTERNAL_STRING_PREFIX = "@@";
+/**
+ * Class for configuring dependency injection for google guice for script types.
+ */
+public class TypesModule extends AbstractModule {
 
   @Override
-  public String getInternalSymbolPrefix() {
-    return INTERNAL_STRING_PREFIX;
+  protected void configure() {
+    install(
+        new FactoryModuleBuilder()
+            .implement(MTSType.class, StandardMTSType.class)
+            .build(MTSTypeFactory.class));
   }
 }

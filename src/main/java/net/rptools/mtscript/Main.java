@@ -14,9 +14,16 @@
  */
 package net.rptools.mtscript;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import net.rptools.mtscript.executor.impl.ExecutorModule;
+import net.rptools.mtscript.injection.ScriptModule;
+import net.rptools.mtscript.parser.visitor.impl.ParserVisitorModule;
+import net.rptools.mtscript.symboltable.impl.SymbolTableModule;
+import net.rptools.mtscript.types.impl.TypesModule;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -37,7 +44,14 @@ public class Main {
   private void run(String[] args) throws IOException, ParseException {
     parseArgs(args);
 
-    MapToolScript mapToolScript = new MapToolScript();
+    Injector injector =
+        Guice.createInjector(
+            new ScriptModule(),
+            new ExecutorModule(),
+            new SymbolTableModule(),
+            new ParserVisitorModule(),
+            new TypesModule());
+    MapToolScript mapToolScript = injector.getInstance(MapToolScriptImpl.class);
     String script = new String(Files.readAllBytes(Paths.get(filename)));
     if (module) {
       mapToolScript.parseModule(script);

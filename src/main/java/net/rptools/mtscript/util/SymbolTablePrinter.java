@@ -24,6 +24,9 @@ import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
+/**
+ * Utility class used for printing out the contents of a {@link SymbolTableStack}.
+ */
 public class SymbolTablePrinter {
 
   /**
@@ -74,6 +77,12 @@ public class SymbolTablePrinter {
     }
   }
 
+  /**
+   * Returns a formatted version of the value passed in.
+   * @param value The value to format.
+   * @param indentLevel the indentation level for the formatting.
+   * @return a formatted version of the value.
+   */
   private String formatValue(String value, int indentLevel) {
     String indent = " ".repeat(indentLevel);
     Pattern pattern = Pattern.compile("^", Pattern.MULTILINE);

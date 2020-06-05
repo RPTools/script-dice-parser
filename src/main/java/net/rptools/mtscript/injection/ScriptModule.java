@@ -18,10 +18,8 @@ import com.google.inject.AbstractModule;
 import net.rptools.mtscript.MTScriptErrorStrategy;
 import net.rptools.mtscript.ast.ASTNodeFactory;
 import net.rptools.mtscript.ast.impl.ASTNodeFactoryImpl;
-import net.rptools.mtscript.types.MTSTypeFactory;
-import net.rptools.mtscript.types.impl.MTSTypeFactoryImpl;
 import net.rptools.mtscript.util.MTScriptConstants;
-import net.rptools.mtscript.util.MTScriptConstantsImpl;
+import net.rptools.mtscript.util.impl.MTScriptConstantsImpl;
 import org.antlr.v4.runtime.ANTLRErrorStrategy;
 
 /** Module class for dependency injection. */
@@ -32,6 +30,5 @@ public class ScriptModule extends AbstractModule {
     bind(ANTLRErrorStrategy.class).to(MTScriptErrorStrategy.class);
     bind(MTScriptConstants.class).to(MTScriptConstantsImpl.class);
     bind(ASTNodeFactory.class).to(ASTNodeFactoryImpl.class);
-    bind(MTSTypeFactory.class).to(MTSTypeFactoryImpl.class);
   }
 }

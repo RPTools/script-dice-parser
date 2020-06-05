@@ -12,6 +12,19 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript;
+package net.rptools.mtscript.parser.visitor;
 
-public class ExecutionContext {}
+import net.rptools.mtscript.symboltable.SymbolTableStack;
+
+/**
+ * Interface for factory class that creates {@link BuildASTVisitor} classes.
+ */
+public interface BuildASTVisitorFactory {
+
+  /**
+   * Creates a new {@link BuildASTVisitor} object.
+   * @param symbolTableStack the {@link SymbolTableStack} used for the AST.
+   * @return new {@link BuildASTVisitor} object.
+   */
+  BuildASTVisitor create(SymbolTableStack symbolTableStack);
+}
