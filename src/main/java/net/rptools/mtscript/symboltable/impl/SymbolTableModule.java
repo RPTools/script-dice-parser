@@ -14,21 +14,27 @@
  */
 package net.rptools.mtscript.symboltable.impl;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.symboltable.SymbolTable;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableEntryFactory;
 import net.rptools.mtscript.symboltable.SymbolTableFactory;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/** Factory class for creating implementations of the {@link SymbolTable} interface. */
-public class SymbolTableFactoryImpl implements SymbolTableFactory, SymbolTableEntryFactory {
-
-  @Override
-  public SymbolTable create(int scopeLevel) {
-    return new StandardSymbolTable(this, scopeLevel);
-  }
+public class SymbolTableModule extends AbstractModule {
 
   @Override
-  public SymbolTableEntry create(String name, SymbolTable symbolTable) {
-    return new StandardSymbolTableEntry(name, symbolTable);
+  protected void configure() {
+    bind(SymbolTableStack.class).to(StandardSymbolTableStack.class);
+
+    install(
+        new FactoryModuleBuilder()
+            .implement(SymbolTableEntry.class, StandardSymbolTableEntry.class)
+            .build(SymbolTableEntryFactory.class));
+    install(
+        new FactoryModuleBuilder()
+            .implement(SymbolTable.class, StandardSymbolTable.class)
+            .build(SymbolTableFactory.class));
   }
 }

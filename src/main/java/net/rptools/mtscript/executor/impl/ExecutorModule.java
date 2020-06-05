@@ -25,7 +25,6 @@ import net.rptools.mtscript.executor.StackMemoryFactory;
 import net.rptools.mtscript.executor.StackMemoryLocation;
 import net.rptools.mtscript.executor.StackMemoryLocationFactory;
 
-
 /**
  * {@link com.google.inject.Module} used to define Google guice dependency injection for Script
  * execution.

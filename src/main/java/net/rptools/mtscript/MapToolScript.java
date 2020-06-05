@@ -25,6 +25,7 @@ import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
+import net.rptools.mtscript.symboltable.impl.SymbolTableModule;
 import net.rptools.mtscript.types.MTSType;
 import net.rptools.mtscript.types.MTSTypeDefinition;
 import net.rptools.mtscript.types.MTSTypeFactory;
@@ -45,7 +46,8 @@ public class MapToolScript {
   private final MTSTypeFactory mtsTypeFactory;
 
   public MapToolScript() {
-    injector = Guice.createInjector(new ScriptModule(), new ExecutorModule());
+    injector =
+        Guice.createInjector(new ScriptModule(), new ExecutorModule(), new SymbolTableModule());
     symbolTableStack = injector.getInstance(SymbolTableStack.class);
     constants = injector.getInstance(MTScriptConstants.class);
     mtsTypeFactory = injector.getInstance(MTSTypeFactory.class);

@@ -18,10 +18,6 @@ import com.google.inject.AbstractModule;
 import net.rptools.mtscript.MTScriptErrorStrategy;
 import net.rptools.mtscript.ast.ASTNodeFactory;
 import net.rptools.mtscript.ast.impl.ASTNodeFactoryImpl;
-import net.rptools.mtscript.symboltable.SymbolTableFactory;
-import net.rptools.mtscript.symboltable.SymbolTableStack;
-import net.rptools.mtscript.symboltable.impl.StandardSymbolTableStack;
-import net.rptools.mtscript.symboltable.impl.SymbolTableFactoryImpl;
 import net.rptools.mtscript.types.MTSTypeFactory;
 import net.rptools.mtscript.types.impl.MTSTypeFactoryImpl;
 import net.rptools.mtscript.util.MTScriptConstants;
@@ -34,8 +30,6 @@ public class ScriptModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(ANTLRErrorStrategy.class).to(MTScriptErrorStrategy.class);
-    bind(SymbolTableFactory.class).to(SymbolTableFactoryImpl.class);
-    bind(SymbolTableStack.class).to(StandardSymbolTableStack.class);
     bind(MTScriptConstants.class).to(MTScriptConstantsImpl.class);
     bind(ASTNodeFactory.class).to(ASTNodeFactoryImpl.class);
     bind(MTSTypeFactory.class).to(MTSTypeFactoryImpl.class);
