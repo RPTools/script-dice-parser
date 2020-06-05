@@ -22,9 +22,7 @@ import net.rptools.mtscript.symboltable.SymbolTableEntryFactory;
 import net.rptools.mtscript.symboltable.SymbolTableFactory;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/**
- * Class for configuring dependency injection for google guice for symbol tables.
- */
+/** Class for configuring dependency injection for google guice for symbol tables. */
 public class SymbolTableModule extends AbstractModule {
 
   @Override

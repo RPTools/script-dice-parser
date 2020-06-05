@@ -17,7 +17,6 @@ package net.rptools.mtscript.executor.impl;
 import net.rptools.mtscript.executor.RuntimeCallStack;
 import net.rptools.mtscript.executor.StackFrame;
 
-
 public class StandardRunTimeCallStack implements RuntimeCallStack {
 
   @Override

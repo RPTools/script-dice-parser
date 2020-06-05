@@ -65,8 +65,7 @@ public class StandardSymbolTableStack implements SymbolTableStack {
   @Override
   public SymbolTable pop() {
     SymbolTable symbolTable = stack.get(stackTop);
-    stackTop--;
-    stack.remove(stackTop);
+    stack.remove(stackTop--);
     return null;
   }
 

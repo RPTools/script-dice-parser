@@ -19,9 +19,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.types.MTSType;
 import net.rptools.mtscript.types.MTSTypeFactory;
 
-/**
- * Class for configuring dependency injection for google guice for script types.
- */
+/** Class for configuring dependency injection for google guice for script types. */
 public class TypesModule extends AbstractModule {
 
   @Override

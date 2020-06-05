@@ -24,9 +24,7 @@ import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/**
- * Utility class used for printing out the contents of a {@link SymbolTableStack}.
- */
+/** Utility class used for printing out the contents of a {@link SymbolTableStack}. */
 public class SymbolTablePrinter {
 
   /**
@@ -54,14 +52,13 @@ public class SymbolTablePrinter {
               Optional<Object> cnst = ste.getAttribute(SymbolTableAttributeKey.CONSTANT);
               cnst.ifPresent(c -> System.out.println(formatValue(c.toString(), indentLevel + 2)));
 
+              Optional<ASTNode> ast =
+                  ste.getAttribute(SymbolTableAttributeKey.CODE_AST, ASTNode.class);
+              ast.ifPresent(node -> new ASTPrinter().print(node, indentLevel + 2));
+
               Optional<SymbolTable> st =
                   ste.getAttribute(SymbolTableAttributeKey.SYMBOL_TABLE, SymbolTable.class);
               st.ifPresent(table -> printSymbolTable(table, indentLevel + 2));
-
-              Optional<ASTNode> ast =
-                  ste.getAttribute(SymbolTableAttributeKey.CODE_AST, ASTNode.class);
-
-              ast.ifPresent(node -> new ASTPrinter().print(node, indentLevel + 2));
             });
   }
 
@@ -71,7 +68,12 @@ public class SymbolTablePrinter {
    * @param stack the {@link SymbolTableStack} to print out the contents of.
    */
   public void printSymbolTableStack(SymbolTableStack stack) {
-    System.out.println(ANSIEscape.WHITE_BOLD_BRIGHT + "Symbol Table Stack" + ANSIEscape.RESET);
+    System.out.println(
+        ANSIEscape.WHITE_BOLD_BRIGHT
+            + "Symbol Table Stack (top = "
+            + stack.getNestingLevel()
+            + ")"
+            + ANSIEscape.RESET);
     for (int i = 0; i <= stack.getNestingLevel(); i++) {
       printSymbolTable(stack.getSymbolTable(i), 0);
     }
@@ -79,6 +81,7 @@ public class SymbolTablePrinter {
 
   /**
    * Returns a formatted version of the value passed in.
+   *
    * @param value The value to format.
    * @param indentLevel the indentation level for the formatting.
    * @return a formatted version of the value.

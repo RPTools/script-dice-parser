@@ -14,9 +14,7 @@
  */
 package net.rptools.mtscript.ast;
 
-/**
- * AST Node types.
- */
+/** AST Node types. */
 public enum ASTNodeType {
 
   // Top Level Entries

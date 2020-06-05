@@ -19,7 +19,8 @@ import com.google.gson.JsonObject;
 
 /** Temporary holder for Predefined Types */
 public enum PredefinedType {
-  NONE("@NONE@", ""),
+  NONE("@NONE", ""),
+  ANY("@ANY", ""), // Special type used for external procedures/functions that can accept any type.
   INTEGER("integer", 0),
   NUMBER("number", 0.0),
   LIST("list", new JsonArray()),

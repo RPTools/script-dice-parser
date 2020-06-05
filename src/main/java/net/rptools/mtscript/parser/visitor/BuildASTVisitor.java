@@ -17,8 +17,5 @@ package net.rptools.mtscript.parser.visitor;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.parser.MTScript2ParserVisitor;
 
-/**
- * Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree.
- */
-public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {
-}
+/** Interface implemented by classes that build trees of {@link ASTNode}s from the parse tree. */
+public interface BuildASTVisitor extends MTScript2ParserVisitor<ASTNode> {}

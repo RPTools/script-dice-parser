@@ -16,13 +16,12 @@ package net.rptools.mtscript.parser.visitor;
 
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/**
- * Interface for factory class that creates {@link BuildASTVisitor} classes.
- */
+/** Interface for factory class that creates {@link BuildASTVisitor} classes. */
 public interface BuildASTVisitorFactory {
 
   /**
    * Creates a new {@link BuildASTVisitor} object.
+   *
    * @param symbolTableStack the {@link SymbolTableStack} used for the AST.
    * @return new {@link BuildASTVisitor} object.
    */

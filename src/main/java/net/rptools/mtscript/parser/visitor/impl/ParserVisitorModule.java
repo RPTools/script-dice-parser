@@ -19,9 +19,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitorFactory;
 
-/**
- * Class for configuring dependency injection for google guice for parser visitors.
- */
+/** Class for configuring dependency injection for google guice for parser visitors. */
 public class ParserVisitorModule extends AbstractModule {
 
   @Override

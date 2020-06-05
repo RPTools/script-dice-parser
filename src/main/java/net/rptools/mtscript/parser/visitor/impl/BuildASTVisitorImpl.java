@@ -108,6 +108,7 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
 
     ctx.children.forEach(c -> astNode.addChild(visit(c)));
 
+    symbolTableStack.pop();
     return astNode;
   }
 

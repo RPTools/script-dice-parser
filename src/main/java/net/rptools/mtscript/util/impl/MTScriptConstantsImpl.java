@@ -20,7 +20,7 @@ import net.rptools.mtscript.util.MTScriptConstants;
 public class MTScriptConstantsImpl implements MTScriptConstants {
 
   /** Prefix for internal symbols. */
-  private static final String INTERNAL_STRING_PREFIX = "@@";
+  private static final String INTERNAL_STRING_PREFIX = "@";
 
   @Override
   public String getInternalSymbolPrefix() {
