@@ -34,6 +34,14 @@ public interface RuntimeStack {
   StackFrame getTopFrame();
 
   /**
+   * Returns the top {@link StackFrame} for the specified nested scope level.
+   *
+   * @param nestingLevel the specified nested scope level.
+   * @return the top {@link StackFrame}.
+   */
+  StackFrame getTopFrame(int nestingLevel);
+
+  /**
    * Returns the nesting level of the top of the run time stack.
    *
    * @returns level of the top of the run time stack.

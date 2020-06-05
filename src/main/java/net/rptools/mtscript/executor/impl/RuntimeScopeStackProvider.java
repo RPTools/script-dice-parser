@@ -15,10 +15,10 @@
 package net.rptools.mtscript.executor.impl;
 
 import javax.inject.Provider;
-import net.rptools.mtscript.executor.RuntimeCallStack;
+import net.rptools.mtscript.executor.RuntimeScopeStack;
 
-/** Provider class for {@link RuntimeCallStack} for Google guice. */
-public class RuntimeCallStackProvider implements Provider<RuntimeCallStack> {
+/** Provider class for {@link RuntimeScopeStack} for Google guice. */
+public class RuntimeScopeStackProvider implements Provider<RuntimeScopeStack> {
 
   /**
    * Creates a new {@code RuntimeCallStack}.
@@ -26,7 +26,7 @@ public class RuntimeCallStackProvider implements Provider<RuntimeCallStack> {
    * @return a new {@code RuntimeCallStack}.
    */
   @Override
-  public RuntimeCallStack get() {
-    return new StandardRunTimeCallStack();
+  public RuntimeScopeStack get() {
+    return new StandardRunTimeScopeStack();
   }
 }

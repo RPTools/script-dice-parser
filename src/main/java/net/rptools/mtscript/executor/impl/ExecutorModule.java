@@ -16,7 +16,7 @@ package net.rptools.mtscript.executor.impl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import net.rptools.mtscript.executor.RuntimeCallStack;
+import net.rptools.mtscript.executor.RuntimeScopeStack;
 import net.rptools.mtscript.executor.RuntimeStack;
 import net.rptools.mtscript.executor.StackFrame;
 import net.rptools.mtscript.executor.StackFrameFactory;
@@ -34,7 +34,7 @@ public class ExecutorModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(RuntimeStack.class).toProvider(RuntimeStackProvider.class);
-    bind(RuntimeCallStack.class).toProvider(RuntimeCallStackProvider.class);
+    bind(RuntimeScopeStack.class).toProvider(RuntimeScopeStackProvider.class);
 
     install(
         new FactoryModuleBuilder()
