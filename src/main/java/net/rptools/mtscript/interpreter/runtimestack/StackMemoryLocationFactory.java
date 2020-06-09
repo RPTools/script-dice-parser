@@ -12,25 +12,18 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.interpreter.runtimestack;
 
-import java.util.Set;
+import net.rptools.mtscript.types.MTSType;
 
-/** Interface for "memory" that is part of the {@link StackFrame}. */
-public interface StackMemory {
-
-  /**
-   * Returns the "memory" location associated with a symbol name.
-   *
-   * @param name th symbol name to get the "memory" location of.
-   * @return the "memory" location.
-   */
-  StackMemoryLocation getMemoryLocation(String name);
+/** Interface for creating {@link StackMemoryLocation} objects. */
+public interface StackMemoryLocationFactory {
 
   /**
-   * Returns the names of all of the "memory" locations.
+   * Creates a new {@link StackMemoryLocation}.
    *
-   * @return the names of tall of the "memory" locations.
+   * @param type the {@link MTSType} of the memory location.
+   * @return the newly {@link StackMemoryLocation}.
    */
-  Set<String> getMemoryLocationNames();
+  StackMemoryLocation create(MTSType type);
 }

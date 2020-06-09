@@ -12,15 +12,15 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Set;
-import net.rptools.mtscript.executor.StackFrame;
-import net.rptools.mtscript.executor.StackMemory;
-import net.rptools.mtscript.executor.StackMemoryFactory;
-import net.rptools.mtscript.executor.StackMemoryLocation;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryFactory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocation;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 
 /** Stack Frames in the execution engine. */
@@ -31,9 +31,6 @@ public class StandardStackFrame implements StackFrame {
 
   /** The "memory" for things on the stack. */
   private final StackMemory memory;
-
-  /** The next {@link StackFrame} in the chain. */
-  private StackFrame next;
 
   /**
    * Creates a new {@code StandardStackFrame} for a code block.

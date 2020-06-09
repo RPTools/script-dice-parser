@@ -18,7 +18,6 @@ package net.rptools.mtscript.ast;
 public enum ASTNodeType {
 
   // Top Level Entries
-  CHAT,
   SCRIPT,
   TEXT,
   MODULE,

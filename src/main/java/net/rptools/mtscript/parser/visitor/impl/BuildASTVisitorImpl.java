@@ -98,7 +98,7 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
   @Override
   public ASTNode visitChat(ChatContext ctx) {
     SymbolTableEntry chatSymbolTableEntry = symbolTableStack.create(ENTRY_POINT_SYMBOL_NAME);
-    ASTNode astNode = astNodeFactory.create(ASTNodeType.CHAT);
+    ASTNode astNode = astNodeFactory.create(ASTNodeType.BLOCK);
     astNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
 
     chatSymbolTableEntry.setAttribute(SymbolTableAttributeKey.CODE_AST, astNode);

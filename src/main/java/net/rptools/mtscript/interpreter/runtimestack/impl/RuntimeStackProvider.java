@@ -12,12 +12,12 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import net.rptools.mtscript.executor.RuntimeScopeStack;
-import net.rptools.mtscript.executor.RuntimeStack;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeScopeStack;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
 
 /** Provider class for {@link RuntimeStack} for Google guice. */
 class RuntimeStackProvider implements Provider<RuntimeStack> {

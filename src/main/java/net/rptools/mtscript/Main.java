@@ -19,8 +19,9 @@ import com.google.inject.Injector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import net.rptools.mtscript.executor.impl.ExecutorModule;
 import net.rptools.mtscript.injection.ScriptModule;
+import net.rptools.mtscript.interpreter.executor.impl.ExecutorModule;
+import net.rptools.mtscript.interpreter.runtimestack.impl.RuntimeStackModule;
 import net.rptools.mtscript.parser.visitor.impl.ParserVisitorModule;
 import net.rptools.mtscript.symboltable.impl.SymbolTableModule;
 import net.rptools.mtscript.types.impl.TypesModule;
@@ -47,6 +48,7 @@ public class Main {
     Injector injector =
         Guice.createInjector(
             new ScriptModule(),
+            new RuntimeStackModule(),
             new ExecutorModule(),
             new SymbolTableModule(),
             new ParserVisitorModule(),

@@ -12,11 +12,11 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import net.rptools.mtscript.executor.StackMemoryLocation;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocation;
 import net.rptools.mtscript.types.MTSType;
 
 /** "Memory" locations within the stack frame. */
