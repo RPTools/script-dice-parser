@@ -12,21 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.executor.impl;
 
-import javax.inject.Provider;
-import net.rptools.mtscript.executor.RuntimeScopeStack;
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import net.rptools.mtscript.interpreter.executor.InstructionExecutorFactory;
+import net.rptools.mtscript.interpreter.executor.Interpreter;
 
-/** Provider class for {@link RuntimeScopeStack} for Google guice. */
-public class RuntimeScopeStackProvider implements Provider<RuntimeScopeStack> {
+public class ExecutorModule extends AbstractModule {
 
-  /**
-   * Creates a new {@code RuntimeCallStack}.
-   *
-   * @return a new {@code RuntimeCallStack}.
-   */
   @Override
-  public RuntimeScopeStack get() {
-    return new StandardRunTimeScopeStack();
+  protected void configure() {
+    bind(InstructionExecutorFactory.class).to(InstructionExecutorFactoryImpl.class);
+    install(
+        new FactoryModuleBuilder()
+            .implement(Interpreter.class, StandardInterpreter.class)
+            .build(InterpreterFactory.class));
   }
 }

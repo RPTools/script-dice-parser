@@ -12,24 +12,24 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import net.rptools.mtscript.executor.RuntimeScopeStack;
-import net.rptools.mtscript.executor.RuntimeStack;
-import net.rptools.mtscript.executor.StackFrame;
-import net.rptools.mtscript.executor.StackFrameFactory;
-import net.rptools.mtscript.executor.StackMemory;
-import net.rptools.mtscript.executor.StackMemoryFactory;
-import net.rptools.mtscript.executor.StackMemoryLocation;
-import net.rptools.mtscript.executor.StackMemoryLocationFactory;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeScopeStack;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrameFactory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryFactory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocation;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocationFactory;
 
 /**
  * {@link com.google.inject.Module} used to define Google guice dependency injection for Script
  * execution.
  */
-public class ExecutorModule extends AbstractModule {
+public class RuntimeStackModule extends AbstractModule {
 
   @Override
   protected void configure() {

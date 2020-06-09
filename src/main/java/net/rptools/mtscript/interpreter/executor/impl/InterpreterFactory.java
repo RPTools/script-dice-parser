@@ -12,18 +12,12 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.interpreter.executor.impl;
 
-import net.rptools.mtscript.types.MTSType;
+import net.rptools.mtscript.interpreter.executor.Interpreter;
+import net.rptools.mtscript.symboltable.SymbolTableStack;
 
-/** Interface for creating {@link StackMemoryLocation} objects. */
-public interface StackMemoryLocationFactory {
+public interface InterpreterFactory {
 
-  /**
-   * Creates a new {@link StackMemoryLocation}.
-   *
-   * @param type the {@link MTSType} of the memory location.
-   * @return the newly {@link StackMemoryLocation}.
-   */
-  StackMemoryLocation create(MTSType type);
+  Interpreter create(SymbolTableStack symbolTableStack);
 }

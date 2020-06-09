@@ -12,7 +12,7 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor.impl;
+package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import net.rptools.mtscript.executor.StackFrame;
-import net.rptools.mtscript.executor.StackMemory;
-import net.rptools.mtscript.executor.StackMemoryLocation;
-import net.rptools.mtscript.executor.StackMemoryLocationFactory;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocation;
+import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocationFactory;
 import net.rptools.mtscript.symboltable.SymbolTable;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.types.MTSType;

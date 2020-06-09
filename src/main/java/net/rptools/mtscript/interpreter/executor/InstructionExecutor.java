@@ -12,18 +12,21 @@
  * <http://www.gnu.org/licenses/> and specifically the Affero license
  * text at <http://www.gnu.org/licenses/agpl.html>.
  */
-package net.rptools.mtscript.executor;
+package net.rptools.mtscript.interpreter.executor;
 
-import net.rptools.mtscript.symboltable.SymbolTable;
+import java.util.Optional;
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
 
-/** Interface for creating {@link StackMemory} objects. */
-public interface StackMemoryFactory {
+/** Interface for classes that execute instructions in {@link ASTNode}. */
+public interface InstructionExecutor {
 
   /**
-   * Creates a new {@link StackMemory}.
+   * Executes the instruction.
    *
-   * @param symbolTable The {@link SymbolTable} to create the memory for.
-   * @return the newly created {@link StackMemory}.
+   * @param node the {@link ASTNode} containing the instruction.
+   * @param runtimeStack the {@link RuntimeStack} which contains the execution context.j
+   * @return the result of executing the instruction.
    */
-  StackMemory createMemory(SymbolTable symbolTable);
+  Optional<Object> execute(ASTNode node, RuntimeStack runtimeStack);
 }

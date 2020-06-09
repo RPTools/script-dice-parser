@@ -16,6 +16,8 @@ package net.rptools.mtscript;
 
 import com.google.inject.Inject;
 import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.interpreter.executor.Interpreter;
+import net.rptools.mtscript.interpreter.executor.impl.InterpreterFactory;
 import net.rptools.mtscript.parser.MTScript2Lexer;
 import net.rptools.mtscript.parser.MTScript2Parser;
 import net.rptools.mtscript.parser.visitor.BuildASTVisitor;
@@ -41,6 +43,7 @@ public class MapToolScriptImpl implements MapToolScript {
   private final MTSTypeFactory mtsTypeFactory;
   private final BuildASTVisitorFactory visitorFactory;
   private final ANTLRErrorStrategy antlrErrorStrategy;
+  private final InterpreterFactory interpreterFactory;
 
   @Inject
   public MapToolScriptImpl(
@@ -48,12 +51,14 @@ public class MapToolScriptImpl implements MapToolScript {
       MTScriptConstants constants,
       MTSTypeFactory mtsTypeFactory,
       BuildASTVisitorFactory visitorFactory,
-      ANTLRErrorStrategy errorStrategy) {
+      ANTLRErrorStrategy errorStrategy,
+      InterpreterFactory interpreterFactory) {
     this.symbolTableStack = symbolTableStack;
     this.constants = constants;
     this.mtsTypeFactory = mtsTypeFactory;
     this.visitorFactory = visitorFactory;
     this.antlrErrorStrategy = errorStrategy;
+    this.interpreterFactory = interpreterFactory;
   }
 
   public void parseScript(String script) {
@@ -73,6 +78,9 @@ public class MapToolScriptImpl implements MapToolScript {
     ParseTree parseTree = parser.chat();
 
     ASTNode root = parseTree.accept(visitor);
+
+    Interpreter interpreter = interpreterFactory.create(symbolTableStack);
+    interpreter.execute("@entry point");
   }
 
   private MTScript2Parser createParser(String script, boolean parsingModule) {
