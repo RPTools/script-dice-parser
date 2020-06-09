@@ -49,7 +49,7 @@ public class InstructionExecutorFactoryImpl implements InstructionExecutorFactor
 
         // Statements
       case BLOCK:
-        return new BlockExecutor(stackFrameFactory);
+        return new BlockExecutor(stackFrameFactory, this);
       case ASSERT:
       case IF:
       case FOR:
@@ -100,6 +100,6 @@ public class InstructionExecutorFactoryImpl implements InstructionExecutorFactor
       case PARAMETERS:
     }
 
-    return null; // TODO
+    return new NoOperationExecutor(); // TODO, this is only temporary until above is completed
   }
 }
