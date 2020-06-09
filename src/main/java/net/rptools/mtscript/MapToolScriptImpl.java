@@ -79,7 +79,7 @@ public class MapToolScriptImpl implements MapToolScript {
     ASTNode root = parseTree.accept(visitor);
 
     Interpreter interpreter = interpreterFactory.create(symbolTableStack);
-    interpreter.execute("@entry point");
+    interpreter.execute(constants.getEntryPointSymbolName());
   }
 
   private MTScript2Parser createParser(String script, boolean parsingModule) {

@@ -19,6 +19,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.interpreter.executor.InstructionExecutorFactory;
 import net.rptools.mtscript.interpreter.executor.Interpreter;
 
+/** Binding definitions for Google guice for executor classes */
 public class ExecutorModule extends AbstractModule {
 
   @Override

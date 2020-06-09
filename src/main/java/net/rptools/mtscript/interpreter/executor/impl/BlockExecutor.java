@@ -29,6 +29,11 @@ public class BlockExecutor implements InstructionExecutor {
   /** Factory object used for creating {@link StackFrame}s. */
   private final StackFrameFactory stackFrameFactory;
 
+  /**
+   * Creates a new {@link BlockExecutor}.
+   *
+   * @param stackFrameFactory
+   */
   public BlockExecutor(StackFrameFactory stackFrameFactory) {
     this.stackFrameFactory = stackFrameFactory;
   }

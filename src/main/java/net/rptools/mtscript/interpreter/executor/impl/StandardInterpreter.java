@@ -26,6 +26,7 @@ import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
 import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
+/** Class that implements the standard MapToolScript 2 interpreter. */
 public class StandardInterpreter implements Interpreter {
 
   /** The {@link SymbolTableStack}. used for execution. */

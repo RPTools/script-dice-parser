@@ -22,8 +22,16 @@ public class MTScriptConstantsImpl implements MTScriptConstants {
   /** Prefix for internal symbols. */
   private static final String INTERNAL_STRING_PREFIX = "@";
 
+  /** */
+  private static final String ENTRY_POINT_SYMBOL_NAME = "entry point";
+
   @Override
   public String getInternalSymbolPrefix() {
     return INTERNAL_STRING_PREFIX;
+  }
+
+  @Override
+  public String getEntryPointSymbolName() {
+    return INTERNAL_STRING_PREFIX + ENTRY_POINT_SYMBOL_NAME;
   }
 }
