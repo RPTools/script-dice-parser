@@ -33,7 +33,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Main {
 
-  private boolean dumpSymbolTable = true; // false;
+  private boolean dumpSymbolTable = false; // false;
   private boolean module = false;
   private String filename;
 
