@@ -16,10 +16,14 @@ package net.rptools.mtscript.interpreter.executor.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.interpreter.executor.InstructionExecutorFactory;
 import net.rptools.mtscript.interpreter.executor.Interpreter;
 import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrameFactory;
+import net.rptools.mtscript.symboltable.SymbolTableAttributeKey;
+import net.rptools.mtscript.symboltable.SymbolTableEntry;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
 public class StandardInterpreter implements Interpreter {
@@ -28,7 +32,9 @@ public class StandardInterpreter implements Interpreter {
   private final SymbolTableStack symbolTableStack;
 
   /** */
-  private final InstructionExecutorFactory factory;
+  private final InstructionExecutorFactory instructionExecutorFactory;
+
+  private final StackFrameFactory stackFrameFactory;
 
   private final RuntimeStack runtimeStack;
 
@@ -36,10 +42,14 @@ public class StandardInterpreter implements Interpreter {
   StandardInterpreter(
       @Assisted SymbolTableStack symbolTableStack,
       RuntimeStack runtimeStack,
-      InstructionExecutorFactory factory) {
+      InstructionExecutorFactory instructionExecutorFactor,
+      StackFrameFactory stackFrameFactory) {
     this.symbolTableStack = symbolTableStack;
     this.runtimeStack = runtimeStack;
-    this.factory = factory;
+    this.instructionExecutorFactory = instructionExecutorFactor;
+    this.stackFrameFactory = stackFrameFactory;
+
+    runtimeStack.push(stackFrameFactory.createStackFrame(symbolTableStack.getLocalSymbolTable()));
   }
 
   @Override
@@ -48,11 +58,25 @@ public class StandardInterpreter implements Interpreter {
   }
 
   @Override
-  public void execute(String symbolName) {}
+  public void execute(String symbolName) {
+    Optional<SymbolTableEntry> symbol = symbolTableStack.lookup(symbolName);
+    if (symbol.isEmpty()) {
+      throw new IllegalStateException("Unknown Symbol Name " + symbolName);
+    }
+
+    Optional<ASTNode> ast =
+        symbol.get().getAttribute(SymbolTableAttributeKey.CODE_AST, ASTNode.class);
+    if (ast.isEmpty()) {
+      throw new IllegalStateException(
+          "Symbol " + symbolName + " does not contain executable code.");
+    }
+
+    execute(ast.get());
+  }
 
   @Override
   public void execute(ASTNode ast) {
-    var executor = factory.get(ast.getType());
+    var executor = instructionExecutorFactory.get(ast.getType());
     executor.execute(ast, runtimeStack);
   }
 }

@@ -14,11 +14,23 @@
  */
 package net.rptools.mtscript.interpreter.executor.impl;
 
+import com.google.inject.Inject;
 import net.rptools.mtscript.ast.ASTNodeType;
 import net.rptools.mtscript.interpreter.executor.InstructionExecutor;
 import net.rptools.mtscript.interpreter.executor.InstructionExecutorFactory;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrameFactory;
 
+/** Factory class for creating {@link InstructionExecutor}s. */
 public class InstructionExecutorFactoryImpl implements InstructionExecutorFactory {
+
+  /** Factory object used for creating {@link StackFrame}s. */
+  private final StackFrameFactory stackFrameFactory;
+
+  @Inject
+  private InstructionExecutorFactoryImpl(StackFrameFactory stackFrameFactory) {
+    this.stackFrameFactory = stackFrameFactory;
+  }
 
   @Override
   public InstructionExecutor get(ASTNodeType nodeType) {
@@ -37,7 +49,7 @@ public class InstructionExecutorFactoryImpl implements InstructionExecutorFactor
 
         // Statements
       case BLOCK:
-        return new BlockExecutor();
+        return new BlockExecutor(stackFrameFactory);
       case ASSERT:
       case IF:
       case FOR:

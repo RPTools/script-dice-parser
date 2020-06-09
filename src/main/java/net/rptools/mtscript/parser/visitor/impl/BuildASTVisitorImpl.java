@@ -106,6 +106,8 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
     SymbolTable chatScope = symbolTableStack.push();
     chatSymbolTableEntry.setAttribute(SymbolTableAttributeKey.SYMBOL_TABLE, chatScope);
 
+    astNode.setAttribute(ASTAttributeKey.SYMBOL_TABLE, chatScope);
+
     ctx.children.forEach(c -> astNode.addChild(visit(c)));
 
     symbolTableStack.pop();

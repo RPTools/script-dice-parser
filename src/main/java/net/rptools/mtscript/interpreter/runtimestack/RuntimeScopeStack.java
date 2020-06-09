@@ -18,18 +18,17 @@ package net.rptools.mtscript.interpreter.runtimestack;
  * Interface for classes used to keep track of multiple calls of functions / procedures / blocks at
  * same scope level.
  *
- * <p>This is used from within {@link net.rptools.mtscript.interpreter.executor.RuntimeStack} to
- * help tracking stack frames. While the variable memory management could all be handled by a stack
- * only it would mean that searching for a symbol of the correct scoping level would require
- * traversing the stack backwards until you hit that scope level and as recursive calls can add
- * multiple stack frames traversing that stack backwards could become inefficient. So the intent of
- * this interface is to provide an optimised way to track stack frames by symbol scope level.
+ * <p>This is used from within {@link RuntimeStack} to help tracking stack frames. While the
+ * variable memory management could all be handled by a stack only it would mean that searching for
+ * a symbol of the correct scoping level would require traversing the stack backwards until you hit
+ * that scope level and as recursive calls can add multiple stack frames traversing that stack
+ * backwards could become inefficient. So the intent of this interface is to provide an optimised
+ * way to track stack frames by symbol scope level.
  */
 public interface RuntimeScopeStack {
 
   /**
-   * Returns the top {@link net.rptools.mtscript.interpreter.executor.StackFrame} from the call
-   * stack for the specified scope level.
+   * Returns the top {@link StackFrame} from the call stack for the specified scope level.
    *
    * @param level the scope level to get the top stack frame for.
    * @return the top {@link java.util.Stack} from the call stack.
@@ -37,17 +36,14 @@ public interface RuntimeScopeStack {
   StackFrame getTopFrame(int level);
 
   /**
-   * Pushes a {@link net.rptools.mtscript.interpreter.executor.StackFrame} on top of the call stack
-   * for a scope.
+   * Pushes a {@link StackFrame} on top of the call stack for a scope.
    *
-   * @param frame the {@link net.rptools.mtscript.interpreter.executor.StackFrame} to push on the
-   *     top of the stack.
+   * @param frame the {@link StackFrame} to push on the top of the stack.
    */
   void push(StackFrame frame);
 
   /**
-   * Pops a {@link net.rptools.mtscript.interpreter.executor.StackFrame} from the top of the call
-   * stack for a scope.
+   * Pops a {@link StackFrame} from the top of the call stack for a scope.
    *
    * @param level the scope level.
    */

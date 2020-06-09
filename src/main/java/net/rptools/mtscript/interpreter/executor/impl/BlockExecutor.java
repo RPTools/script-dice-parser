@@ -15,15 +15,33 @@
 package net.rptools.mtscript.interpreter.executor.impl;
 
 import java.util.Optional;
+import net.rptools.mtscript.ast.ASTAttributeKey;
 import net.rptools.mtscript.ast.ASTNode;
 import net.rptools.mtscript.interpreter.executor.InstructionExecutor;
 import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
+import net.rptools.mtscript.interpreter.runtimestack.StackFrameFactory;
+import net.rptools.mtscript.symboltable.SymbolTable;
 
+/** Class used for executing "block" AST instructions. */
 public class BlockExecutor implements InstructionExecutor {
+
+  /** Factory object used for creating {@link StackFrame}s. */
+  private final StackFrameFactory stackFrameFactory;
+
+  public BlockExecutor(StackFrameFactory stackFrameFactory) {
+    this.stackFrameFactory = stackFrameFactory;
+  }
 
   @Override
   public Optional<Object> execute(ASTNode node, RuntimeStack runtimeStack) {
-    System.out.println("Here in block land.");
+    System.out.println("=====================>  In block world");
+    Optional<SymbolTable> symbolTable =
+        node.getAttribute(ASTAttributeKey.SYMBOL_TABLE, SymbolTable.class);
+    symbolTable.ifPresent(
+        st -> {
+          runtimeStack.push(stackFrameFactory.createStackFrame(st));
+        });
     return Optional.empty();
   }
 }

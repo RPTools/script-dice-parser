@@ -71,7 +71,6 @@ public class MapToolScriptImpl implements MapToolScript {
 
   private void parse(String script, boolean isModule) {
     createPredefinedTypes(symbolTableStack);
-    symbolTableStack.push();
 
     BuildASTVisitor visitor = visitorFactory.create(symbolTableStack);
     MTScript2Parser parser = createParser(script, isModule);

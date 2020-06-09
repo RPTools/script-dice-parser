@@ -18,7 +18,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import net.rptools.mtscript.interpreter.runtimestack.RuntimeScopeStack;
 import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
-import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
 import net.rptools.mtscript.interpreter.runtimestack.StackFrameFactory;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemoryFactory;
@@ -35,15 +34,12 @@ public class RuntimeStackModule extends AbstractModule {
   protected void configure() {
     bind(RuntimeStack.class).toProvider(RuntimeStackProvider.class);
     bind(RuntimeScopeStack.class).toProvider(RuntimeScopeStackProvider.class);
+    bind(StackFrameFactory.class).to(StackFrameFactoryImpl.class);
 
     install(
         new FactoryModuleBuilder()
             .implement(StackMemory.class, StandardStackMemory.class)
             .build(StackMemoryFactory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(StackFrame.class, StandardStackFrame.class)
-            .build(StackFrameFactory.class));
     install(
         new FactoryModuleBuilder()
             .implement(StackMemoryLocation.class, StandardStackMemoryLocation.class)
