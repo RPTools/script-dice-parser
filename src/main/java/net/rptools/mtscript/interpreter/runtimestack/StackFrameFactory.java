@@ -14,7 +14,7 @@
  */
 package net.rptools.mtscript.interpreter.runtimestack;
 
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTable;
 
 /** Interface for creating {@link StackFrame} objects. */
 public interface StackFrameFactory {
@@ -22,13 +22,8 @@ public interface StackFrameFactory {
   /**
    * Creates a new {@link StackFrame} object.
    *
-   * @param symbolTableEntry The {@link SymbolTableEntry} for the stack frame.
-   * @param memFactory The factory used to create {@link StackMemory} objects.
-   * @param locFactory The Factory used to create {@link StackMemoryLocation} objects.
+   * @param symbolTable The {@link SymbolTable} for the stack frame.
    * @return the newly created {@link StackFrame}.
    */
-  StackFrame createStackFrame(
-      SymbolTableEntry symbolTableEntry,
-      StackMemoryFactory memFactory,
-      StackMemoryLocationFactory locFactory);
+  StackFrame createStackFrame(SymbolTable symbolTable);
 }

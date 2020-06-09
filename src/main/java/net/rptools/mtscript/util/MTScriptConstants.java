@@ -24,4 +24,13 @@ public interface MTScriptConstants {
    * @return a prefix that can be used for internal symbols.
    */
   String getInternalSymbolPrefix();
+
+  /**
+   * The name of the symbol in the {@link net.rptools.mtscript.symboltable.SymbolTable} that holds
+   * the script entry point.
+   *
+   * @return The name of the symbol in the {@link net.rptools.mtscript.symboltable.SymbolTable} that
+   *     hold the script entry point.
+   */
+  String getEntryPointSymbolName();
 }

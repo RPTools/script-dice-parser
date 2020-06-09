@@ -14,20 +14,17 @@
  */
 package net.rptools.mtscript.interpreter.executor.impl;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
-import net.rptools.mtscript.interpreter.executor.InstructionExecutorFactory;
-import net.rptools.mtscript.interpreter.executor.Interpreter;
+import java.util.Optional;
+import net.rptools.mtscript.ast.ASTNode;
+import net.rptools.mtscript.interpreter.executor.InstructionExecutor;
+import net.rptools.mtscript.interpreter.runtimestack.RuntimeStack;
 
-/** Binding definitions for Google guice for executor classes */
-public class ExecutorModule extends AbstractModule {
+/** Executor object for NOOP instruction. */
+public class NoOperationExecutor implements InstructionExecutor {
 
   @Override
-  protected void configure() {
-    bind(InstructionExecutorFactory.class).to(InstructionExecutorFactoryImpl.class);
-    install(
-        new FactoryModuleBuilder()
-            .implement(Interpreter.class, StandardInterpreter.class)
-            .build(InterpreterFactory.class));
+  public Optional<Object> execute(ASTNode node, RuntimeStack runtimeStack) {
+    // So simple :-)
+    return Optional.empty();
   }
 }

@@ -60,11 +60,6 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
   /** Cached map of {@link PredefinedType} to {@link SymbolTableEntry} for performance, */
   private final Map<PredefinedType, MTSType> predefinedTypesMap = new HashMap<>();
 
-  /** The name excluding prefix of the symbol used to hold the entry point. */
-  private final String ENTRY_POINT_SYMBOL_NAME_PART = "entry point";
-  /** The name including prefix of the symbol used to hold the entry point. */
-  private final String ENTRY_POINT_SYMBOL_NAME;
-
   /**
    * Creates a new {@code BuildASTVisitor}.
    *
@@ -84,8 +79,6 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
     this.mtsTypeFactory = mtsTypeFactory;
     this.constants = constants;
 
-    ENTRY_POINT_SYMBOL_NAME = constants.getInternalSymbolPrefix() + ENTRY_POINT_SYMBOL_NAME_PART;
-
     for (PredefinedType pt : PredefinedType.values()) {
       Optional<SymbolTableEntry> entry = symbolTableStack.lookup(pt.getName());
       if (entry.isPresent()) {
@@ -97,7 +90,8 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
 
   @Override
   public ASTNode visitChat(ChatContext ctx) {
-    SymbolTableEntry chatSymbolTableEntry = symbolTableStack.create(ENTRY_POINT_SYMBOL_NAME);
+    SymbolTableEntry chatSymbolTableEntry =
+        symbolTableStack.create(constants.getEntryPointSymbolName());
     ASTNode astNode = astNodeFactory.create(ASTNodeType.BLOCK);
     astNode.setMTSType(predefinedTypesMap.get(PredefinedType.NONE));
 
@@ -105,6 +99,8 @@ public class BuildASTVisitorImpl extends MTScript2ParserBaseVisitor<ASTNode>
 
     SymbolTable chatScope = symbolTableStack.push();
     chatSymbolTableEntry.setAttribute(SymbolTableAttributeKey.SYMBOL_TABLE, chatScope);
+
+    astNode.setAttribute(ASTAttributeKey.SYMBOL_TABLE, chatScope);
 
     ctx.children.forEach(c -> astNode.addChild(visit(c)));
 

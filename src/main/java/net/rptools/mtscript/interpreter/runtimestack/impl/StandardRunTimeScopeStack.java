@@ -43,6 +43,9 @@ public class StandardRunTimeScopeStack implements RuntimeScopeStack {
       existing = null;
     }
     StackFrameLink link = new StackFrameLink(frame, existing);
+    if (scopeStack.size() <= level) {
+      scopeStack.add(null); // Hit a new high for
+    }
     scopeStack.set(level, link);
   }
 

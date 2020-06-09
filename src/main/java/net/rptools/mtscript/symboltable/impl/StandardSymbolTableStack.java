@@ -40,8 +40,8 @@ public class StandardSymbolTableStack implements SymbolTableStack {
   @Inject
   private StandardSymbolTableStack(SymbolTableFactory factory) {
     symbolTableFactory = factory;
-    stackTop = 0;
-    stack.add(factory.create(stackTop));
+    stackTop = -1;
+    push();
   }
 
   @Override

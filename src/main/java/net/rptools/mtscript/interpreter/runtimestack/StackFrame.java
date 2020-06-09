@@ -15,17 +15,17 @@
 package net.rptools.mtscript.interpreter.runtimestack;
 
 import java.util.Set;
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTable;
 
 /** Interface for Stack Frames in the execution engine. */
 public interface StackFrame {
 
   /**
-   * Returns the {@link SymbolTableEntry} that represents the code block this stack frame is for.
+   * Returns the {@link SymbolTable} that represents the code block this stack frame is for.
    *
-   * @return the {@link SymbolTableEntry} that represents the code block this stack frame is for.
+   * @return the {@link SymbolTable} that represents the code block this stack frame is for.
    */
-  SymbolTableEntry getSymbolTableEntry();
+  SymbolTable getSymbolTable();
 
   /**
    * Returns the "memory" value for a given name.

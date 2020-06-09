@@ -15,19 +15,18 @@
 package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.util.Set;
 import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemoryFactory;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemoryLocation;
-import net.rptools.mtscript.symboltable.SymbolTableEntry;
+import net.rptools.mtscript.symboltable.SymbolTable;
 
 /** Stack Frames in the execution engine. */
 public class StandardStackFrame implements StackFrame {
 
-  /** The {@link SymbolTableEntry} of the code block that this {@code StackFrame} is for. */
-  private final SymbolTableEntry symbolTableEntry;
+  /** The {@link SymbolTable} of the code block that this {@code StackFrame} is for. */
+  private final SymbolTable symbolTable;
 
   /** The "memory" for things on the stack. */
   private final StackMemory memory;
@@ -35,17 +34,17 @@ public class StandardStackFrame implements StackFrame {
   /**
    * Creates a new {@code StandardStackFrame} for a code block.
    *
-   * @param symbolTableEntry the {@link SymbolTableEntry} that this {@code StackFrame} is for.
+   * @param symbolTable the {@link SymbolTable} that this {@code StackFrame} is for.
    */
   @Inject
-  StandardStackFrame(@Assisted SymbolTableEntry symbolTableEntry, StackMemoryFactory memFactory) {
-    this.symbolTableEntry = symbolTableEntry;
-    memory = memFactory.createMemory(symbolTableEntry.getSymbolTable());
+  StandardStackFrame(SymbolTable symbolTable, StackMemoryFactory memFactory) {
+    this.symbolTable = symbolTable;
+    memory = memFactory.createMemory(symbolTable);
   }
 
   @Override
-  public SymbolTableEntry getSymbolTableEntry() {
-    return symbolTableEntry;
+  public SymbolTable getSymbolTable() {
+    return symbolTable;
   }
 
   @Override
@@ -60,6 +59,6 @@ public class StandardStackFrame implements StackFrame {
 
   @Override
   public int getNestingLevel() {
-    return symbolTableEntry.getSymbolTable().getLevel();
+    return getSymbolTable().getLevel();
   }
 }

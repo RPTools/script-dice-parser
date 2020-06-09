@@ -17,7 +17,14 @@ package net.rptools.mtscript.interpreter.executor.impl;
 import net.rptools.mtscript.interpreter.executor.Interpreter;
 import net.rptools.mtscript.symboltable.SymbolTableStack;
 
+/** Interface for factory classes that create an {@link Interpreter}. */
 public interface InterpreterFactory {
 
+  /**
+   * Creates a new {@link Interpreter}.
+   *
+   * @param symbolTableStack the {@link SymbolTableStack} for the {@link Interpreter}.
+   * @return the new {@link Interpreter}.
+   */
   Interpreter create(SymbolTableStack symbolTableStack);
 }
