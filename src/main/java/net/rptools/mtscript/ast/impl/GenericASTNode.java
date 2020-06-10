@@ -91,7 +91,11 @@ public class GenericASTNode implements ASTNode {
 
   @Override
   public <T> Optional<T> getAttribute(ASTAttributeKey key, Class<T> clazz) {
-    return Optional.ofNullable(clazz.cast(attributeMap.get(key)));
+    if (attributeMap.containsKey(key)) {
+      return Optional.ofNullable(clazz.cast(attributeMap.get(key)));
+    } else {
+      return Optional.empty();
+    }
   }
 
   @Override

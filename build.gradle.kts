@@ -31,7 +31,7 @@ dependencies {
     implementation("com.google.inject.extensions:guice-assistedinject:4.2.3")
     implementation("commons-cli:commons-cli:1.4")
     implementation("com.google.code.gson", "gson", "2.8.6");
-
+    testCompile("org.mockito:mockito-core:3.3.3");
 
 }
 

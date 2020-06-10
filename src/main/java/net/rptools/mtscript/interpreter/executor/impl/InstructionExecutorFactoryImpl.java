@@ -28,7 +28,7 @@ public class InstructionExecutorFactoryImpl implements InstructionExecutorFactor
   private final StackFrameFactory stackFrameFactory;
 
   @Inject
-  private InstructionExecutorFactoryImpl(StackFrameFactory stackFrameFactory) {
+  InstructionExecutorFactoryImpl(StackFrameFactory stackFrameFactory) {
     this.stackFrameFactory = stackFrameFactory;
   }
 
@@ -37,67 +37,111 @@ public class InstructionExecutorFactoryImpl implements InstructionExecutorFactor
     // Top Level Entries
     switch (nodeType) {
       case SCRIPT:
+        break;
       case TEXT:
+        break;
       case MODULE:
+        break;
 
         // Top Level Module Entries
       case FIELD:
+        break;
       case FUNCTION:
+        break;
       case PROCEDURE:
+        break;
       case IMPORT:
+        break;
       case EXPORT:
+        break;
 
         // Statements
       case BLOCK:
         return new BlockExecutor(stackFrameFactory, this);
       case ASSERT:
+        break;
       case IF:
+        break;
       case FOR:
+        break;
       case WHILE:
+        break;
       case DO:
+        break;
       case TRY:
+        break;
       case SWITCH:
+        break;
       case RETURN:
+        break;
       case THROW:
+        break;
       case BREAK:
+        break;
       case NO_OP:
+        break;
 
         // Relational
       case EQUAL:
+        break;
       case NOT_EQUAL:
+        break;
       case GREATER_THAN:
+        break;
       case GREATER_THAN_EQUAL:
+        break;
       case LESS_THAN_EQUAL:
+        break;
       case INSTANCE_OF:
+        break;
 
         // Boolean operations
       case AND:
+        break;
       case OR:
+        break;
       case NOT:
+        break;
 
         // Bitwise operations
       case BIT_OR:
+        break;
       case BIT_AND:
+        break;
       case BIT_XOR:
+        break;
       case BIT_NOT:
+        break;
 
         // operations
       case ADD:
+        break;
       case SUBTRACT:
+        break;
       case MULTIPLY:
+        break;
       case DIVIDE:
+        break;
       case MODULUS:
+        break;
 
         // Expressions
       case VARIABLE:
+        break;
       case POST_FIX_INCREMENT:
+        break;
       case POST_FIX_DECREMENT:
+        break;
       case CALL_FUNCTION:
+        break;
       case CALL_PROCEDURE:
+        break;
       case LITERAL:
+        break;
 
         // Others
       case PARAMETERS:
+        break;
     }
 
     return new NoOperationExecutor(); // TODO, this is only temporary until above is completed
