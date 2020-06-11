@@ -57,7 +57,7 @@ public class StandardRunTimeStack implements RuntimeStack {
 
   @Override
   public int getNestingLevel() {
-    if (stackTop > -0) {
+    if (stackTop >= 0) {
       return stack.get(stackTop).getNestingLevel();
     } else {
       return -1;

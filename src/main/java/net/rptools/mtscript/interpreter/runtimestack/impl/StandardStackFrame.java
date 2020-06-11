@@ -15,6 +15,7 @@
 package net.rptools.mtscript.interpreter.runtimestack.impl;
 
 import com.google.inject.Inject;
+import java.util.Optional;
 import java.util.Set;
 import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
@@ -48,8 +49,8 @@ public class StandardStackFrame implements StackFrame {
   }
 
   @Override
-  public StackMemoryLocation getMemoryLocation(String name) {
-    return memory.getMemoryLocation(name);
+  public Optional<StackMemoryLocation> getMemoryLocation(String name) {
+    return Optional.ofNullable(memory.getMemoryLocation(name));
   }
 
   @Override
