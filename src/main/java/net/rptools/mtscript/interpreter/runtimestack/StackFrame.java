@@ -14,6 +14,7 @@
  */
 package net.rptools.mtscript.interpreter.runtimestack;
 
+import java.util.Optional;
 import java.util.Set;
 import net.rptools.mtscript.symboltable.SymbolTable;
 
@@ -33,7 +34,7 @@ public interface StackFrame {
    * @param name the name of the symbol.
    * @return the {@link StackMemoryLocation} for the symbol name.
    */
-  StackMemoryLocation getMemoryLocation(String name);
+  Optional<StackMemoryLocation> getMemoryLocation(String name);
 
   /** Returns the name of the "memory" locations. */
   Set<String> getMemoryLocationNames();
