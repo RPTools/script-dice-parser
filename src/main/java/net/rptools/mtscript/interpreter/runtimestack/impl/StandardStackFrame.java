@@ -50,7 +50,7 @@ public class StandardStackFrame implements StackFrame {
 
   @Override
   public Optional<StackMemoryLocation> getMemoryLocation(String name) {
-    return Optional.ofNullable(memory.getMemoryLocation(name));
+    return memory.getMemoryLocation(name);
   }
 
   @Override

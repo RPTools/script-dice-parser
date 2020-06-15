@@ -14,6 +14,7 @@
  */
 package net.rptools.mtscript.interpreter.runtimestack;
 
+import java.util.Optional;
 import java.util.Set;
 
 /** Interface for "memory" that is part of the {@link StackFrame}. */
@@ -25,7 +26,7 @@ public interface StackMemory {
    * @param name th symbol name to get the "memory" location of.
    * @return the "memory" location.
    */
-  StackMemoryLocation getMemoryLocation(String name);
+  Optional<StackMemoryLocation> getMemoryLocation(String name);
 
   /**
    * Returns the names of all of the "memory" locations.

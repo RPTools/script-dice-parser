@@ -193,7 +193,9 @@ class InstructionExecutorFactoryImplTest {
   public void greaterThanEqual() {
     assertEquals(
         NoOperationExecutor.class,
-        factory.get(ASTNodeType.GREATER_THAN).getClass()); // TODO update when factory is updated
+        factory
+            .get(ASTNodeType.GREATER_THAN_EQUAL)
+            .getClass()); // TODO update when factory is updated
   }
 
   @Test
@@ -306,7 +308,7 @@ class InstructionExecutorFactoryImplTest {
     assertEquals(
         NoOperationExecutor.class,
         factory
-            .get(ASTNodeType.POST_FIX_DECREMENT)
+            .get(ASTNodeType.POST_FIX_INCREMENT)
             .getClass()); // TODO update when factory is updated
   }
 

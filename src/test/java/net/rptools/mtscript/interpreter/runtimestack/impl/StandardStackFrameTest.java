@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
@@ -55,8 +56,8 @@ class StandardStackFrameTest {
     StackMemoryLocation mem1 = mock(StackMemoryLocation.class);
     StackMemoryLocation mem2 = mock(StackMemoryLocation.class);
 
-    when(stackMemory.getMemoryLocation("no1")).thenReturn(mem1);
-    when(stackMemory.getMemoryLocation("no2")).thenReturn(mem2);
+    when(stackMemory.getMemoryLocation("no1")).thenReturn(Optional.of(mem1));
+    when(stackMemory.getMemoryLocation("no2")).thenReturn(Optional.of(mem2));
     when(stackMemory.getMemoryLocationNames()).thenReturn(Set.of("no1", "no2"));
 
     assertTrue(standardStackFrame.getMemoryLocation("no1").isPresent());
@@ -69,6 +70,7 @@ class StandardStackFrameTest {
     assertEquals(2, standardStackFrame.getMemoryLocationNames().size());
     assertTrue(standardStackFrame.getMemoryLocationNames().contains("no1"));
     assertTrue(standardStackFrame.getMemoryLocationNames().contains("no2"));
+    assertFalse(standardStackFrame.getMemoryLocationNames().contains("blah"));
   }
 
   @Test

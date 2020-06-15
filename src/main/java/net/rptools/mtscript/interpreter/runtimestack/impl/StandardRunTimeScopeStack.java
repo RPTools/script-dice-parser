@@ -23,7 +23,8 @@ import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
 public class StandardRunTimeScopeStack implements RuntimeScopeStack {
 
   /** Record used to hold the {@link StackFrame} and next. */
-  private static record StackFrameLink(StackFrame frame, StackFrameLink next) {};
+  private static record StackFrameLink(StackFrame frame, StackFrameLink next) {}
+  ;
 
   /** The List of stacks. */
   private final List<StackFrameLink> scopeStack = new ArrayList<>();

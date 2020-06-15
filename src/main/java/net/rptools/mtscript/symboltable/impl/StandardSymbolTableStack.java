@@ -38,7 +38,7 @@ public class StandardSymbolTableStack implements SymbolTableStack {
   private final SymbolTableFactory symbolTableFactory;
 
   @Inject
-  private StandardSymbolTableStack(SymbolTableFactory factory) {
+  StandardSymbolTableStack(SymbolTableFactory factory) {
     symbolTableFactory = factory;
     stackTop = -1;
     push();
@@ -66,7 +66,10 @@ public class StandardSymbolTableStack implements SymbolTableStack {
   public SymbolTable pop() {
     SymbolTable symbolTable = stack.get(stackTop);
     stack.remove(stackTop--);
-    return null;
+    if (stackTop < 0) {
+      throw new IllegalStateException("Nothing to Pop from Stack");
+    }
+    return symbolTable;
   }
 
   @Override

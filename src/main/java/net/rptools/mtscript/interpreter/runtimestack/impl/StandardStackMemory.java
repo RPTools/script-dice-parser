@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import net.rptools.mtscript.interpreter.runtimestack.StackFrame;
 import net.rptools.mtscript.interpreter.runtimestack.StackMemory;
@@ -60,8 +61,8 @@ public class StandardStackMemory implements StackMemory {
   }
 
   @Override
-  public StackMemoryLocation getMemoryLocation(String name) {
-    return memoryMap.get(name);
+  public Optional<StackMemoryLocation> getMemoryLocation(String name) {
+    return Optional.ofNullable(memoryMap.get(name));
   }
 
   @Override
