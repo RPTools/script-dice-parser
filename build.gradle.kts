@@ -7,7 +7,7 @@ plugins {
     eclipse
     jacoco
     application
-    id("com.diffplug.gradle.spotless") version "3.28.0"
+    id("com.diffplug.gradle.spotless") version "4.3.0"
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
@@ -53,9 +53,8 @@ spotless {
         target("src/**/*.java")
         targetExclude("src/main/gen/*", "src/main/antlr/gen/*")
         licenseHeaderFile(file("build-resources/spotless.license.java"))
-        googleJavaFormat()
+        googleJavaFormat("1.8")
         // https://github.com/diffplug/spotless/blob/master/PADDEDCELL.md
-        paddedCell()
     }
 
     format("misc") {
@@ -66,7 +65,6 @@ spotless {
         // or spaces. Takes an integer argument if you don't like 4
         indentWithSpaces(4)
         // https://github.com/diffplug/spotless/blob/master/PADDEDCELL.md
-        paddedCell()
     }
 }
 

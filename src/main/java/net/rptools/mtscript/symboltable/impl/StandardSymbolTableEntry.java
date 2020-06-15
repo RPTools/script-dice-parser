@@ -98,4 +98,5 @@ class StandardSymbolTableEntry implements SymbolTableEntry {
   public void setType(MTSType type) {
     this.type = type;
   }
-};
+}
+;

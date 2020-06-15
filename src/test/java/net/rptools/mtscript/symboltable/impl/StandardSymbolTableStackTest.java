@@ -1,9 +1,22 @@
+/*
+ * This software Copyright by the RPTools.net development team, and
+ * licensed under the Affero GPL Version 3 or, at your option, any later
+ * version.
+ *
+ * RPTools Source Code is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License * along with this source Code.  If not, please visit
+ * <http://www.gnu.org/licenses/> and specifically the Affero license
+ * text at <http://www.gnu.org/licenses/agpl.html>.
+ */
 package net.rptools.mtscript.symboltable.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,26 +33,24 @@ class StandardSymbolTableStackTest {
   private SymbolTableFactory symbolTableFactory;
   private SymbolTable[] symbolTables;
 
-
-
   @BeforeEach
   public void setup() {
     symbolTableFactory = mock(SymbolTableFactory.class);
 
-    symbolTables = new SymbolTable[] {
-        mock(SymbolTable.class),
-        mock(SymbolTable.class),
-        mock(SymbolTable.class),
-        mock(SymbolTable.class),
-        mock(SymbolTable.class)
-    };
+    symbolTables =
+        new SymbolTable[] {
+          mock(SymbolTable.class),
+          mock(SymbolTable.class),
+          mock(SymbolTable.class),
+          mock(SymbolTable.class),
+          mock(SymbolTable.class)
+        };
 
     for (int i = 0; i < symbolTables.length; i++) {
       when(symbolTableFactory.create(i)).thenReturn(symbolTables[i]);
       when(symbolTables[i].getLevel()).thenReturn(i);
     }
   }
-
 
   @Test
   public void nestingLevel() {
@@ -88,9 +99,7 @@ class StandardSymbolTableStackTest {
     assertThrows(IllegalStateException.class, stableStack::pop);
 
     assertThrows(IllegalStateException.class, () -> stableStack.getSymbolTable(10));
-
   }
-
 
   @Test
   public void create() {
@@ -119,9 +128,7 @@ class StandardSymbolTableStackTest {
 
     verify(symbolTables[0], times(1)).create("test testing");
     verify(symbolTables[0], times(3)).create(any(String.class));
-
   }
-
 
   @Test
   public void lookupLocal() {
@@ -174,6 +181,4 @@ class StandardSymbolTableStackTest {
     assertEquals(level0Test2, stableStack.lookup("test2").get());
     assertTrue(stableStack.lookup("not test2").isEmpty());
   }
-
-
 }
