@@ -14,11 +14,13 @@ scriptModule                : OPEN_MODULE scriptModuleDefinition scriptImports* 
 
 script                      : OPEN_SCRIPT_MODE scriptBody CLOSE_SCRIPT_MODE;
 
-text                        : TEXT+;
+text                        : passThroughText
+                            ;
 
-variable                    : scope=LOCAL_VAR_LEADER IDENTIFIER
-                            | scope=GLOBAL_VAR_LEADER IDENTIFIER
-                            | scope=PROPERTY_VAR_LEADER IDENTIFIER
+passThroughText             : TEXT+
+                            ;
+
+variable                    : scope=LOCAL_VAR_LEADER varName=IDENTIFIER
                             ;
 
 group                       : LPAREN val=expression RPAREN                          # parenGroup
@@ -63,7 +65,7 @@ scriptModuleDefinition      : name=moduleName version=semverVersion desc=MODULE_
 scriptImports               :  KEYWORD_USE name=IDENTIFIER semverVersion (KEYWORD_AS as=IDENTIFIER)? SEMI;
 
 scriptModuleBody            : constantDeclaration
-                            | fieldDeclaration
+                            | variableDeclaration
                             | methodDeclaration
                             ;
 
@@ -71,7 +73,7 @@ moduleName                  : MODULE_LETTER (MODULE_LETTER | MODULE_DIGIT)*;
 
 scriptExports               : KEYWORD_EXPORT LBRACE (exported (COMMA exported)*) RBRACE;
 
-exported                    : (IDENTIFIER | externalProperty) (KEYWORD_AS IDENTIFIER)? (LBRACK exportDest RBRACK)?;
+exported                    : IDENTIFIER (KEYWORD_AS IDENTIFIER)? (LBRACK exportDest RBRACK)?;
 
 exportDest                  : KEYWORD_INTERNAL
                             | KEYWORD_CHAT (LPAREN perm=(KEYWORD_GM | KEYWORD_TRUSTED) RPAREN)?
@@ -79,7 +81,8 @@ exportDest                  : KEYWORD_INTERNAL
                               KEYWORD_ROLL OP_ASSIGN rollName=IDENTIFIER
                             ;
 
-scriptBody                  : (statement | fieldDeclaration | constantDeclaration)* ;
+scriptBody                  : stmt=statement
+                            | stmtList=statements;
 
 literal                     : integerLiteral    # literalInteger
                             | NUMBER_LITERAL    # literalNumber
@@ -92,7 +95,9 @@ integerLiteral              : DECIMAL_LITERAL
                             | HEX_LITERAL
                             ;
 
-methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters block ;
+methodDeclaration           : KEYWORD_FUNCTION IDENTIFIER formalParameters KEYWORD_RETURNS returnType=type block
+                            | KEYWORD_PROCEDURE IDENTIFIER formalParameters block
+                            ;
 
 formalParameters            : LPAREN formalParameterList? RPAREN ;
 
@@ -100,28 +105,27 @@ formalParameterList         : formalParameter (COMMA formalParameter)* ;
 
 formalParameter             : type variableDeclaratorId;
 
-block                       : LBRACE blockStatement* RBRACE ;
+block                       : LBRACE statements* RBRACE ;
 
-blockStatement              : localVariableDeclaration SEMI
-                            | statement
-                            ;
 
-localVariableDeclaration    : type variableDeclarators ;
-
-statement                   : blockLabel=block                                              # stmtBlock
-                            | KEYWORD_ASSERT expression (OP_COLON expression)? SEMI         # stmtAssert
+statement                   : KEYWORD_ASSERT expression (OP_COLON expression)?              # stmtAssert
                             | KEYWORD_IF parExpression block (KEYWORD_ELSE KEYWORD_IF parExpression block)* (KEYWORD_ELSE block)?   # stmtIf
                             | KEYWORD_FOR LPAREN forControl RPAREN block                    # stmtFor
                             | KEYWORD_WHILE parExpression block                             # stmtWhile
-                            | KEYWORD_DO block KEYWORD_WHILE parExpression SEMI             # stmtDoWhile
-                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock) # stmtTry
+                            | KEYWORD_DO block KEYWORD_WHILE parExpression                  # stmtDoWhile
+                            | KEYWORD_TRY block (catchClause+ finallyBlock? | finallyBlock)   # stmtTry
                             | KEYWORD_SWITCH parExpression LBRACE switchBlockStatementGroup* switchLabel* RBRACE # stmtSwitch
-                            | KEYWORD_RETURN expression? SEMI                               # stmtReturn
-                            | KEYWORD_THROW expression SEMI                                 # stmtThrow
-                            | KEYWORD_BREAK SEMI                                            # stmtBreak
-                            | KEYWORD_CONTINUE SEMI                                         # stmtContinue
-                            | SEMI                                                          # stmtSemi
-                            | statementExpression=expression SEMI                           # stmtExpr
+                            | KEYWORD_RETURN expression?                                    # stmtReturn
+                            | KEYWORD_THROW expression                                      # stmtThrow
+                            | KEYWORD_BREAK                                                 # stmtBreak
+                            | KEYWORD_CONTINUE                                              # stmtContinue
+                            //| SEMI                                                          # stmtSemi
+                            | variableDeclaration                                           # stmtVariable
+                            | constantDeclaration                                           # stmtConstant
+                            | statementExpression=expression                                # stmtExpr
+                            ;
+
+ statements                 : ( block | statement SEMI+ ) ( block | statement SEMI+)*
                             ;
 
 
@@ -130,7 +134,7 @@ catchClause                 : KEYWORD_CATCH LPAREN IDENTIFIER RPAREN block ;
 
 finallyBlock                : KEYWORD_FINALLY block ;
 
-switchBlockStatementGroup   : switchLabel+ blockStatement+ ;
+switchBlockStatementGroup   : switchLabel+ statements ;
 
 switchLabel                 : KEYWORD_CASE constantExpression=expression OP_COLON
                             | KEYWORD_DEFAULT OP_COLON
@@ -140,7 +144,7 @@ forControl                  : type variableDeclaratorId ':' expression          
                             | forInit? SEMI expression? SEMI forUpdate=expressionList?  # forControlBasic
                             ;
 
-forInit                     : localVariableDeclaration
+forInit                     : variableDeclaration
                             | expressionList
                             ;
 
@@ -173,25 +177,24 @@ expression                  : LPAREN expression RPAREN
                             | expression bop=OP_QUESTION expression ':' expression
                             | expression postfix=(OP_INC | OP_DEC)
                             | <assoc=right> expression bop=(OP_ASSIGN | OP_ADD_ASSIGN | OP_SUB_ASSIGN | OP_MUL_ASSIGN | OP_DIV_ASSIGN | OP_AND_ASSIGN | OP_OR_ASSIGN | OP_XOR_ASSIGN | OP_MOD_ASSIGN ) expression
-                            | externalProperty
                             ;
 
-externalProperty            : EXT_PROP_PREFIX externalPropertyName;
 
-externalPropertyName        : (IDENTIFIER DOT)* IDENTIFIER
+variableDeclaration         : type variableDeclarationAssign (COMMA variableDeclarationAssign )* SEMI
                             ;
 
-fieldDeclaration            : type variableDeclarators SEMI;
+variableDeclarationAssign   : variable ( OP_ASSIGN expression )?
+                            ;
 
-constantDeclaration         : KEYWORD_CONST type constantDeclarator (COMMA constantDeclarator)* SEMI;
+constantDeclaration         : KEYWORD_CONST type constantDeclarationAssign ( COMMA constantDeclarationAssign )* SEMI
+                            ;
 
-constantDeclarator          : IDENTIFIER (LBRACK RBRACK)* OP_ASSIGN variableInitializer ;
-
-variableDeclarators         : variableDeclarator (COMMA variableDeclarator)* ;
+constantDeclarationAssign   : IDENTIFIER OP_ASSIGN expression
+                            ;
 
 variableDeclarator          : variableDeclaratorId (OP_ASSIGN variableInitializer)? ;
 
-variableDeclaratorId        : scope=(GLOBAL_VAR_LEADER | LOCAL_VAR_LEADER | PROPERTY_VAR_LEADER) IDENTIFIER ( LBRACK RBRACK )* ;
+variableDeclaratorId        : scope=LOCAL_VAR_LEADER IDENTIFIER ( LBRACK RBRACK )* ;
 
 variableInitializer         : arrayInitializer
                             | expression
@@ -203,13 +206,16 @@ arrayInitializer            : LBRACE (variableInitializer ( COMMA variableInitia
 
 arguments                   : LPAREN expressionList? RPAREN ;
 
-type                        : t=KEYWORD_BOOLEAN
-                            | t=KEYWORD_INTEGER
-                            | t=KEYWORD_NUMBER
-                            | t=KEYWORD_STRING
-                            | t=KEYWORD_ROLL
-                            | t=KEYWORD_DICT
-                            | t=KEYWORD_TOKEN
+listTypeDecl                : LBRACK RBRACK
+                            ;
+
+type                        : KEYWORD_INTEGER listTypeDecl?
+                            | KEYWORD_NUMBER listTypeDecl?
+                            | KEYWORD_STRING listTypeDecl?
+                            | KEYWORD_ROLL listTypeDecl?
+                            | KEYWORD_BOOLEAN listTypeDecl?
+                            | KEYWORD_DICT listTypeDecl?
+                            | IDENTIFIER listTypeDecl?
                             ;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,9 +236,6 @@ semverPrereleaseId          : (MODULE_LETTER | MODULE_DIGIT)+
                             ;
 
 semverBuildId               : semverAlphaDigits
-                            ;
-
-semverDigits                : MODULE_DIGIT+
                             ;
 
 semverAlphaDigits           : (MODULE_LETTER | MODULE_DIGIT)+
