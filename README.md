@@ -2,7 +2,7 @@ MapTool Script and Dice Roll Parser
 ===================================
 |Branch|Status|
 |:---|:---:|
-|Master | ![Master Branch](https://github.com/RPTools/script-dice-parser/workflows/Build%20Verification/badge.svg) |
+|Main    | ![Master Branch](https://github.com/RPTools/script-dice-parser/workflows/Build%20Verification/badge.svg) |
 |Develop | ![Develop Branch](https://github.com/RPTools/script-dice-parser/workflows/Build%20Verification/badge.svg?branch=develop) |
 
 Script and Dice Parser
